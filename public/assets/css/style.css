@@ -1,0 +1,420 @@
+/*-----------------------------------------------------------------------*/
+/*----						General elements						 ----*/
+/*-----------------------------------------------------------------------*/
+
+html {
+	height: 100%;
+}
+/* --    Wrapper    -- */
+/* ------------------- */
+body {
+    width: 74%;
+	max-width: 960px;
+	min-width: 760px;
+	margin: 0 auto;
+	background: #FFF;
+	color: #444;
+	font-family: Helvetica, 'Lucida Grande', Arial, sans-serif;
+    font: normal 75%;
+	line-height: 1.5;
+	text-align: left;
+}
+
+/* --    Headings   -- */
+/* ------------------- */
+h1,h2,h3,h4,h5,h6 {
+	color: #444;
+	font-weight: normal;
+	line-height: 1;
+}
+h4,h5,h6 {font-weight: bold;}
+h1 {font-size: 2.6em;}
+h2 {font-size: 2em;}
+h3 {font-size: 1.5em;}
+h4 {font-size: 1.25em;}
+h5 {font-size: 1.1em;}
+h6 {font-size: 1em;}
+
+/* --      Links    -- */
+/* ------------------- */
+a, a:visited {
+	color: #456;
+	text-decoration: none;
+}
+a:hover, a:focus {
+    color: #039;
+    text-decoration: underline;
+}
+
+/* -- Text elements -- */
+/* ------------------- */
+p {
+	/* margin: 10px 30px;
+    padding: 0px 6px 0px 6px; */
+}
+
+em, dfn, blockquote, address {font-style: italic;}
+strong, dfn {font-weight: bold;}
+sup, sub {line-height: 0;}
+
+pre {
+	margin: 10px 36px;
+    padding: 0px 6px 0px 6px;
+	white-space: pre;
+    background: none repeat scroll 0 0 #FFFFF6;
+    border: 1px solid #EEEEDD;
+    display: block;
+    overflow: auto;
+}
+pre, code, tt {
+	font-family: monospace;
+}
+
+/* --     Lists     -- */
+/* ------------------- */
+li ul, li ol {margin-left: 1.5em;}
+ul, ol {margin: 0 0 1.5em 1.5em;}
+
+ul {list-style-type: disc;}
+ol {
+	list-style-type: decimal;
+	margin-left: 1.9em;
+}
+
+dl {margin: 0 0 1.5em 0;}
+dl dt {font-weight: bold;}
+dd {margin-left: 1.5em;}
+
+
+/* --    Tables     -- */
+/* ------------------- */
+table {
+	margin-bottom: 1.4em;
+	width: 100%;
+	border: 1px solid #ccc;
+	border-collapse: separate;
+	
+}
+
+table tbody tr td, table thead tr th {
+	padding: 5px;
+	text-align: left;
+}
+
+table thead tr th {
+    background: #eee;	/* #C3D9FF; */
+	font-weight: bold;
+    border-top: 1px solid #fff;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+table tbody tr td {
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+table tbody tr td:first-child {
+	background: #fff;
+}
+
+table tbody tr td:last-child, table thead tr th:last-child {
+	border-right:  none;
+}
+
+table tbody tr:last-child td {
+	border-bottom: none;
+}
+table tfoot {
+	font-style: italic;
+}
+
+caption {
+	padding: 4px 10px 4px 5px;
+	background: #EEE;
+}
+
+/*-----------------------------------------------------------------------*/
+/*----			Page Layout & Content specific styles				 ----*/
+/*-----------------------------------------------------------------------*/
+
+/* --    Header    -- */
+/* ------------------ */
+.header {
+	background-color: white;
+	padding: 0px 20px 10px 20px;
+	overflow: hidden;
+    border-bottom: 1px solid #DDD;
+}
+
+	.header .logo > img {
+		width: 120px;
+		height: 96px;
+		padding: 10px 40px 10px 0;
+		margin-right: 40px;
+    	float: left;
+		border-right: 1px solid #DDD;
+		/* background: #ccc; */
+	}
+
+    /* --  Navigation  -- */
+	/* ------------------ */
+	
+	
+		
+/* --    Splash    -- */
+/* ------------------- */	
+#splash {
+	background: green;          /*FIXME*/
+	/* padding-top: 32px; */
+	padding-top: 2px;
+	overflow: hidden;
+}
+        
+/* --    Content    -- */
+/* ------------------- */
+.content {
+	background: url('../img/edge_grad.gif') repeat-y left top;
+	overflow: hidden;
+    
+    /*
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    margin-top: 10px;
+    */
+}        
+    /* --     Main      -- */
+	/* ------------------- */
+	.content div#main {
+		width: 68%;
+		/* width: 650px; */
+		margin: 20px 30px;
+		float: left;
+		display: inline;
+	}
+		.content div#main h2 {
+			padding: 6px 10px 6px 10px;
+			border-left: 4px solid #FA8F6F;
+		}
+	
+	/* --    Sidebar    -- */
+	/* ------------------- */	
+	.content div#sidebar {
+		width: 25%;
+		/* width: 230px; */
+        border: 1px solid black;
+		float: right;
+		display: inline;
+	}	
+	
+	.content div#sidebar .widget {
+		border: 1px dashed #ddd;
+		background-color: #00e; /*FIXME*/
+	}
+
+/* --     Footer    -- */
+/* ------------------- */
+.footer {
+    margin: 6px auto;
+    padding: 10px 0px;
+	border-top: 1px solid #6311CF;
+	overflow: hidden;
+}
+
+.footer > .stats {
+    float: right;
+    padding-right: 10px;
+}
+.footer > .copyright {
+    float: left;
+    padding-left: 10px;
+}
+
+/* --    Messages   -- */
+/* ------------------- */
+.messages {
+	padding: 10px 20px;
+	margin: 4px 2%;
+}
+
+.message {
+	width: 96%;
+	min-height: 34px; 
+    padding: 8px 0px 0px 50px;
+	margin : 4px 0;
+	background-position: 6px center;
+	background-repeat: no-repeat;
+	float: left;
+	display: block;
+	-moz-border-radius: 4x;
+	-webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+.notice {
+	background-image: url(../img/icons/info.png);
+	background-color: #fafae9;
+	border: 1px solid #e4dfc6;
+}
+
+.warning {
+	background-image: url(../img/icons/warning.png);
+	background-color: #ffffa6;
+	border: 1px solid #FAD084; /* #E7BD72; */
+}
+
+.error {
+	background-image: url(../img/icons/error.png);
+	background-color: #FFD0D0; /*FAAFAF*/
+	border: 1px solid #FFACAD;
+}
+
+.success {
+	background-image: url(../img/icons/check.gif);
+	background-color: #CBFFBB;
+	border: 1px solid #A9E996; /* #9BCC54; */
+}
+
+.add {
+	background-image: url(../img/icons/add.png);
+	background-color: #e9faeb;
+	border: 1px solid #BFDFEE;/* #6ABCE2; */
+}
+
+.user {
+	background-image: url(../img/icons/user.gif);
+	background-color: #F3E9F6;
+	border: 1px solid #CECECE; /*#A8A8A8;*/
+}
+
+/* --     Forms     -- */
+/* ------------------- */
+
+/* ------------------ FIXME */
+
+.content div#main form {
+    width: 80%;
+    margin: 10px 30px;
+}
+fieldset {
+    margin: 20px 0;
+    padding: 10px 20px;
+    background: #f8f8f8;
+    border : 1px solid #eee;
+}
+
+fieldset:hover {
+    border : 1px solid #ccc; 
+}
+
+legend {
+    font-weight: bold; 
+}
+
+label {
+    display: block;
+    cursor: pointer;
+    margin: 8px 2px 0px 2px;
+} 
+
+textarea {
+    width: 100%;
+    height: 10em;
+}
+textarea:focus {
+    background: #ffffe1;
+    border-top: 1px solid #888;
+    border-left: 1px solid #888;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+
+input[type="text"], input[type="password"] {
+    width: 20em;
+    border: 1px solid #ddd;
+    margin-bottom: 2px;
+}
+input[type="text"]:focus, input[type="password"]:focus {
+    background: #ffc;
+    border-top: 1px solid #888;
+    border-left: 1px solid #888;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+} 
+
+input[type="submit"][disabled]:active, input[type="submit"][disabled] {
+	padding: 5px 10px;
+	font-size: 13px;
+	font-weight: bold;
+	text-decoration: none;
+	background-color: #024033;
+	border: 1px solid #ddd;
+	border-color: #028433;
+	cursor: pointer;
+}
+
+em.validation-info, em.validation-note {
+    font-size: 0.75em;
+}
+em.validation-info {
+    color:#760000;
+}
+
+/* --------------------------------- FIXME */
+
+/*-----------------------------------------------------------------------*/
+/*----			Additional styles for drag and drop					 ----*/
+/*-----------------------------------------------------------------------*/
+
+.handle {
+	cursor: move;
+	margin-bottom: 0.2em;
+	padding-left: 10px;
+}
+.sortable-list {
+	margin: 0;
+	padding: 0;
+}
+#splash .sortable-list {
+	display: inline;
+}
+
+.sortable-item, .placeholder {
+	list-style: none;
+}
+.sortable-item {
+	background-color: #FFF;
+}
+
+#splash .sortable-item, #splash .placeholder  {
+	width: 32%;
+	margin: 0 0.7%;
+	float:left;
+}
+#splash .sortable-item:first-child {margin-left: 0;}
+#splash .sortable-item:last-child {margin-right: 0;}
+
+
+/* Place holder */
+.placeholder {
+	background-color: #FFB;
+}
+
+#splash .placeholder:first-child {margin-left: 0;}
+#splash .placeholder:last-child {margin-right: 0;}
+
+.content #sidebar .placeholder {
+	/*margin-bottom: 24px;*/
+}
+
+/* Loader */
+.loader {
+	display: block;
+	background: #FFF url('../img/spinner.gif') no-repeat center center;
+}
+#splash .loader, #splash .placeholder {
+	height: 220px;
+}
+.content #sidebar .loader {
+	height: 170px;
+}

@@ -1,0 +1,1 @@
+<h2>Dashboard</h2><p>Welcome to your personnal area.</p><p>You can now add new notes, and link them to concepts.</p> 
