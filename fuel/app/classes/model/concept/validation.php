@@ -83,13 +83,13 @@ class Model_Concept_Validation
     {
 		if($updated_id)
 		{
-			$same = Model_User::find()->where($field, '=', $value)->get_one();
+			$same = Model_Concept::find()->where($field, '=', $value)->get_one();
 			//FIXME test this method call
 			return ($same->id == $updated_id);
 		}
 		else
 		{
-			$count = Model_User::find()->where($field, '=', $value)->count();
+			$count = Model_Concept::find()->where($field, '=', $value)->count();
 			return ($count == 0);
 		}
     }
