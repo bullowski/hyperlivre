@@ -45,7 +45,7 @@ Use git to clone the HyperLivre project, and obtain regular updates from our Git
 
 You can use git to clone the HyperLivre repository :
 
-    git clone git://github.com/dream4ge/HyperLivre.git
+    git clone git://github.com/bullowski/hyperlivre.git
 	
 ## Cloning Fuel
 
