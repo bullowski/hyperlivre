@@ -103,7 +103,7 @@ class Model_User_Validation
 
 		$form->add('submit', null,
 				array(	'type' => 'submit',
-						'value' => 'Sign Up'));
+						'value' => 'Create'));
 
 	}
 

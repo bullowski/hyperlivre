@@ -31,28 +31,7 @@ class Controller_Admin_Books extends Controller_Admin
 	
 	public function action_add()
 	{
-		$form = Model_Book_Validation::add();
-        if ($form->validation()->run())
-        {
-            if (Auth::instance()
-					->create_book(	$form->validated('username'),
-									$form->validated('password'),
-									$form->validated('email'),
-									$form->validated('group')))
-			{
-				Session::set_flash('success', 'User successfully added.');
-				Response::redirect('admin/books');
-			}
-			else
-			{
-				Session::set_flash('error', 'Something went wrong, please try again!');
-			}
-
-			Response::redirect('admin/users/add');
-		}
-
-		$this->title = 'Add User';
-		$this->data['form'] = $form;
+		// TODO
 	}
 	
 	public function action_edit($id)
@@ -60,7 +39,7 @@ class Controller_Admin_Books extends Controller_Admin
 		//TODO
 	}
 	
-	publiC function action_delete($id = null)
+	public function action_delete($id = null)
 	{
 		//TODO
 	}
