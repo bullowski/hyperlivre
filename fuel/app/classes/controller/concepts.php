@@ -15,7 +15,59 @@ class Controller_Concepts extends Controller_Template {
 		$this->template->content = View::factory('concepts/view', $data);
 	}
 	
+	public function action_create($id = null)
+	{
+		if ($this->user_groups &&
+				!Auth::acl()->has_access(
+						array('concepts', array('create')),
+						$this->user_groups[0]))
+		{
+			Response::redirect('/');
+		}
+		
+		
+		
+	}
 	
+	public function action_edit($id = null)
+	{
+		if ($this->user_groups &&
+				!Auth::acl()->has_access(
+						array('concepts', array('update')),
+						$this->user_groups[0]))
+		{
+			Response::redirect('/');
+		}
+		
+		
+	}
+	
+	//TODO archive notes?
+	public function action_delete($id = null)
+	{
+		if ($this->user_groups &&
+				!Auth::acl()->has_access(
+						array('concepts', array('delete')),
+						$this->user_groups[0]))
+		{
+			Response::redirect('/');
+		}
+	
+		if ($concepts = Model_Concept::find($id))
+		{
+			$concepts->delete();
+			
+			Session::set_flash('notice', 'Deleted concept #' . $id);
+		}
+
+		else
+		{
+			Session::set_flash('error', 'Could not delete concept #' . $id);
+		}
+
+		Response::redirect('concepts');
+	}
+}
 	
 }
 

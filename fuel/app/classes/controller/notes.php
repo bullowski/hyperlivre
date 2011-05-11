@@ -2,6 +2,31 @@
 
 class Controller_Notes extends Controller_User {
 	
+	/*
+	public function action_edit($id = null)
+	{
+		//TODO
+	}
+	
+	//TODO archive notes?
+	public function action_delete($id = null)
+	{
+		if ($concepts = Model_Note::find($id))
+		{
+			$concepts->delete();
+			
+			Session::set_flash('notice', 'Deleted note #' . $id);
+		}
+
+		else
+		{
+			Session::set_flash('error', 'Could not delete note #' . $id);
+		}
+
+		Response::redirect('concepts');
+	}
+	*/
+	
 	public function before()
 	{
     	parent::before();
