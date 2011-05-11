@@ -10,9 +10,10 @@
             <!-- Menu -->
             <ul class="menu">
 				<li><?php echo Html::anchor('admin/dashboard', 'Dashboard'); ?></li>
-				<li><?php echo Html::anchor('admin/notes', 'Notes'); ?></li>
-				<li><?php echo Html::anchor('admin/concepts', 'Concepts'); ?></li>
+                <li><?php echo Html::anchor('admin/books', 'Books'); ?></li>
 				<li><?php echo Html::anchor('admin/users', 'Users'); ?></li>
+                <li><?php echo Html::anchor('notes', 'Notes'); ?></li>
+				<li><?php echo Html::anchor('concepts', 'Concepts'); ?></li>
 				<li><?php echo Html::anchor('home/logout', 'Logout'); ?></li>
             </ul>
 

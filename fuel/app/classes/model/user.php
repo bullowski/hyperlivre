@@ -3,7 +3,7 @@
 class Model_User extends Orm\Model
 {
 	protected static $_table_name = 'users';
-//	protected static $_belongs_to	= array('notes');
+	protected static $_belongs_to = array('book');
 //	protected static $_has_many 	= array('notes', 'teams');
 	protected static $_properties = array('id', 'username', 'password',
 		'email', 'profile_fields',
