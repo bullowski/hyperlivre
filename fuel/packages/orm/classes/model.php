@@ -1,7 +1,5 @@
 <?php
 /**
- * Fuel
- *
  * Fuel is a fast, lightweight, community driven PHP5 framework.
  *
  * @package		Fuel
@@ -353,13 +351,12 @@ class Model implements \ArrayAccess, \Iterator {
 	}
 
 	/**
-	 * Find one or more entries
+	 * Count entries, optionally only those matching the $options
 	 *
-	 * @param   mixed
 	 * @param   array
-	 * @return  object|array
+	 * @return  int
 	 */
-	public static function count($id = null, array $options = array())
+	public static function count(array $options = array())
 	{
 		return Query::factory(get_called_class(), $options)->count();
 	}
@@ -513,10 +510,28 @@ class Model implements \ArrayAccess, \Iterator {
 	 */
 	public function __construct(array $data = array(), $new = true)
 	{
-		$this->_update_original($data);
-		foreach ($data as $key => $val)
+		if ($new)
 		{
-			$this->{$key} = $val;
+			$properties = $this->properties();
+			foreach ($properties as $prop => $settings)
+			{
+				if (array_key_exists($prop, $data))
+				{
+					$this->{$prop} = $data[$prop];
+				}
+				elseif (array_key_exists('default', $settings))
+				{
+					$this->{$prop} = $settings['default'];
+				}
+			}
+		}
+		else
+		{
+			$this->_update_original($data);
+			foreach ($data as $key => $val)
+			{
+				$this->{$key} = $val;
+			}
 		}
 
 		if ($new === false)
@@ -1096,7 +1111,7 @@ class Model implements \ArrayAccess, \Iterator {
 
 	public function rewind()
 	{
-		$this->_iterable = $this->to_array();
+		$this->_iterable = array_merge($this->_data, $this->_data_relations);
 		reset($this->_iterable);
 	}
 
