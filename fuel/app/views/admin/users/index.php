@@ -35,7 +35,7 @@
 		<td><?php echo $user->id; ?></td>
         <td><?php echo Html::anchor('admin/users/edit/'.$user->id, $user->username); ?></td>
         <td><?php echo $user->email; ?></td>
-        <td><?php echo $user->group; ?></td>
+        <td><?php echo Auth::group()->get_name($user->group); ?></td>
         <td width="11%">
      		<?php echo Html::anchor('admin/users/delete/'.$user->id, 'delete'); ?>
 		</td>

@@ -41,7 +41,7 @@
         <td><?php echo Model_User::find($book->user_id)->username; ?></td>
         <td><?php echo $book->title; ?></td>
         <td><?php echo $book->description; ?></td>
-        <td><?php echo $book->published; ?></td>
+        <td><?php echo Model_Book::$status[$book->published]; ?></td>
         <td><?php echo $book->created_at; ?></td>
         <td><?php echo $book->updated_at; ?></td>
         <td width="11%">

@@ -2,6 +2,8 @@
 
 class Model_Book extends Orm\Model
 {
+	public static $status = array(-1 => 'archive', 0 => 'hidden', 1 => 'published_open', 2 => 'published_closed');
+	
 	protected static $_table_name = 'books';
 	protected static $_has_one = array('creator' => array(
 											'key_from' => 'id',
@@ -41,10 +43,15 @@ class Model_Book extends Orm\Model
 	
 	public static function get_status($filter = 'all')
 	{
-		$status = array('hidden'=>0,'published_open'=>1,'published_closed'=>2,'archive'=>-1);
 		if ($filter !== 'all')
 		{
-			return $status[$filter];
+			foreach(static::$status as $key => $value)
+			{
+				if ($value === $filter)
+				{
+					return $key;
+				}
+			}
 		}
 		
 		return 'all';
