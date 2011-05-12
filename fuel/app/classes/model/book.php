@@ -3,15 +3,20 @@
 class Model_Book extends Orm\Model
 {
 	public static $status = array(-1 => 'archive', 0 => 'hidden', 1 => 'published_open', 2 => 'published_closed');
-	
+
 	protected static $_table_name = 'books';
-	protected static $_has_one = array('creator' => array(
-											'key_from' => 'id',
-											'model_to' => 'Model_User',
-											'key_to' => 'user_id'));
-	//protected static $_has_one = array('user');
+//	protected static $_has_one = array('creator' => array(
+//											'key_from' => 'id',
+//											'model_to' => 'Model_User',
+//											'key_to' => 'creator_id'));
+	protected static $_has_many = array('users');
 	protected static $_properties = array('id', 'user_id', 'title', 'description', 'published', 'created_at', 'updated_at');
 	protected static $_primary_key = array('id');
+
+	protected static $_observers = array(
+		'Orm\Observer_CreatedAt' => array('before_insert'),
+		'Orm\Observer_UpdatedAt' => array('before_save'),
+	);
 
 	public static function count_books($published = null)
 	{
@@ -40,7 +45,7 @@ class Model_Book extends Orm\Model
 
 		return Model_Book::find('all', $options);
 	}
-	
+
 	public static function get_status($filter = 'all')
 	{
 		if ($filter !== 'all')
@@ -53,7 +58,7 @@ class Model_Book extends Orm\Model
 				}
 			}
 		}
-		
+
 		return 'all';
 	}
 
