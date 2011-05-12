@@ -58,10 +58,10 @@ class Model_Book_Validation
 
 	}
 
-	public static function edit($concept)
+	public static function edit($book)
 	{
 		return Fieldset::factory('edit_book')
-				->add_model('Model_Book_Validation', $book, 'set_add_form')
+				->add_model('Model_Book_Validation', $book, 'set_edit_form')
 				->repopulate();
 	}
 

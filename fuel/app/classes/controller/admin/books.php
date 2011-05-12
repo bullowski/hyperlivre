@@ -46,7 +46,7 @@ class Controller_Admin_Books extends Controller_Admin
 			{
 				Session::set_flash('success', 'Book successfully added with status '.
 						Model_Book::$status[$book->published]);
-				Response::redirect('admin/users');
+				Response::redirect('admin/books');
 			}
 			else
 			{
@@ -62,7 +62,35 @@ class Controller_Admin_Books extends Controller_Admin
 
 	public function action_edit($id)
 	{
-		//TODO
+		if (empty($id) || !$book= Model_Book::find($id))
+		{
+			Response::redirect('admin/books');
+		}
+
+		$form = Model_Book_Validation::edit($book);
+        if ($form->validation()->run())
+        {
+			$book->title = $form->validated('title');
+			$book->description = $form->validated('description');
+			$book->published = $form->validated('published');
+
+            if ($book->save())
+			{
+				Session::set_flash('success', 'Book successfully added with status '.
+						Model_Book::$status[$book->published]);
+				Response::redirect('admin/books');
+			}
+			else
+			{
+				Session::set_flash('error', 'Something went wrong, please try again!');
+			}
+
+			Response::redirect('admin/books/edit/'.$user->id);
+		}
+
+		$this->title = 'Edit Book - '.$book->title;
+		$this->data['book'] = $book;
+		$this->data['form'] = $form;
 	}
 
 	public function action_delete($id = null)

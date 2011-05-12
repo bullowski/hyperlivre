@@ -34,16 +34,16 @@
 	</tr>
 </thead>
 <tbody>
-	<?php	
+	<?php
 	foreach ($books as $book): ?>
 	<tr>
 		<td><?php echo $book->id; ?></td>
         <td><?php echo $book->creator->username; ?></td>
-        <td><?php echo $book->title; ?></td>
+        <td><?php echo Html::anchor('admin/books/edit/'.$book->id, $book->title) ?></td>
         <td><?php echo $book->description; ?></td>
         <td><?php echo Model_Book::$status[$book->published]; ?></td>
-        <td><?php echo $book->created_at; ?></td>
-        <td><?php echo $book->updated_at; ?></td>
+        <td><?php echo Date::factory($book->created_at); ?></td>
+        <td><?php echo Date::factory($book->updated_at); ?></td>
         <td width="11%">
      		<?php echo Html::anchor('admin/books/delete/'.$book->id, 'delete'); ?>
 		</td>
@@ -57,10 +57,10 @@
 <?php else: ?>
 <div class="message" id="notice">
 	<?php if (!$filter): ?>
-	<span>There are no books at all, which is quite outstanding because you should use one! Right? 
+	<span>There are no books at all, which is quite outstanding because you should use one! Right?
 	<?php echo Html::anchor('admin/books/add', 'Add a new Book'); ?>.</span>
 	<?php else: ?>
-	<span>There are no <?php echo $filter; ?>. 
+	<span>There are no <?php echo $filter; ?>.
 		<?php echo Html::anchor('admin/books/add', 'Add a new Book'); ?>.</span>
 	<?php endif; ?>
 </div>
