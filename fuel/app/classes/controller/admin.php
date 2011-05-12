@@ -14,7 +14,7 @@ abstract class Controller_Admin extends Controller_Template
 		$user_groups = Auth::get_groups();
 		if ($user_groups &&
 				Auth::acl()->has_access(
-						array('admin', array('create', 'read', 'update', 'delete')),
+						array('admin', array('view', 'add', 'edit', 'delete')),
 						$user_groups[0]))
 		{
 			$user = Auth::instance()->get_user_id();
