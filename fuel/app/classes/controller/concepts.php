@@ -2,16 +2,56 @@
 
 class Controller_Concepts extends Controller_Template
 {
-	protected static $user_group = null;
+	protected $user_group = null;
+	protected $user_id = null;
 
-	public  function before()
+	public function router($method = 'index', $args = null)
 	{
-		parent::before();
-		$user_groups = Auth::get_groups();
-		if($user_groups !== null)
+		$full_method = 'action_'.$method;
+		if ( ! method_exists($this, $full_method))
+		{
+			Response::redirect('home/404');
+		}
+
+		$class_array = explode('_', get_class($this));
+		unset($class_array[0]);
+		$class_array = array_map("strtolower", $class_array);
+
+		$this->page_id = implode('_', $class_array);
+		$this->content = implode(DS, $class_array).DS.$method;
+		
+		// control the access permission
+		$user_groups = Auth::instance()->get_groups();
+		if (!$user_groups)
+		{
+			Response::redirect('home/404');
+		}
+		
+		if($user_groups && $user_groups !== null)
 		{
 			$this->user_group = $user_groups[0];
+			$user_id_driver = Auth::instance()->get_user_id();
+			$this->user_id = $user_id_driver[1];
 		}
+		
+		Log::debug('user_groups: '.var_export($user_groups,true));
+		Log::debug('user_group: '.var_export($this->user_group,true));
+		Log::debug('user_id: '.$this->user_id);
+		
+		if ($this->user_group &&
+				!Auth::acl()->has_access(
+						array($this->page_id, array($method)), $this->user_group))
+		{
+			return $this->action_404();
+		}
+		
+		return call_user_func_array(array($this, $full_method), $args);
+	}
+	
+	public  function before()
+	{		
+		$this->template = 'admin/template';
+		parent::before();
 	}
 
 	public function action_index()
@@ -22,7 +62,7 @@ class Controller_Concepts extends Controller_Template
 
 	public function action_view($id = null)
 	{
-		$data['concepts'] = Model_Concepts::find($id);
+		$data['concepts'] = Model_Concept::find($id);
 
 		$this->template->title = "Concepts";
 		$this->template->content = View::factory('concepts/view', $data);
@@ -36,7 +76,7 @@ class Controller_Concepts extends Controller_Template
 		{
 			Response::redirect('/');
 		}
-
+		
 		$form = Model_Concept_Validation::add();
 		if ($form->validation()->run())
 		{
@@ -77,7 +117,7 @@ class Controller_Concepts extends Controller_Template
 			Response::redirect('concepts');
 		}
 
-		$form = Model_Book_Validation::edit($concept);
+		$form = Model_Concept_Validation::edit($concept);
         if ($form->validation()->run())
         {
 			$concept->title = $form->validated('title');
