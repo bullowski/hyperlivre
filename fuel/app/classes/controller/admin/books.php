@@ -85,7 +85,7 @@ class Controller_Admin_Books extends Controller_Admin
 				Session::set_flash('error', 'Something went wrong, please try again!');
 			}
 
-			Response::redirect('admin/books/edit/'.$user->id);
+			Response::redirect('admin/books/edit/'.$book->id);
 		}
 
 		$this->title = 'Edit Book - '.$book->title;

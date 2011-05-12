@@ -3,13 +3,20 @@
 class Model_User extends Orm\Model
 {
 	protected static $_table_name = 'users';
-	protected static $_belongs_to = array(
-		'book' => array(
+	protected static $_has_many = array(
+		'added_books' => array(
 			'key_from' => 'id',
 			'model_to' => 'Model_Book',
 			'key_to' => 'creator_id',
 			'cascade_save' => true,
-			'cascade_delete' => false));
+			'cascade_delete' => false),
+		'added_concepts' => array(
+			'key_from' => 'id',
+			'model_to' => 'Model_Concept',
+			'key_to' => 'creator_id',
+			'cascade_save' => true,
+			'cascade_delete' => false),
+		);
 
 //	protected static $_has_many = array('books');//'notes', 'teams');
 	protected static $_properties = array('id', 'username', 'password',
