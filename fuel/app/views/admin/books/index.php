@@ -38,7 +38,7 @@
 	foreach ($books as $book): ?>
 	<tr>
 		<td><?php echo $book->id; ?></td>
-        <td><?php echo Model_User::find($book->user_id)->username; ?></td>
+        <td><?php echo $book->creator->username; ?></td>
         <td><?php echo $book->title; ?></td>
         <td><?php echo $book->description; ?></td>
         <td><?php echo Model_Book::$status[$book->published]; ?></td>

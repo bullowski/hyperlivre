@@ -1,9 +1,10 @@
 <?php
 
-class Controller_Admin_Books extends Controller_Admin 
+class Controller_Admin_Books extends Controller_Admin
 {
 
-	public function before() {
+	public function before()
+	{
 		parent::before();
 	}
 
@@ -28,19 +29,45 @@ class Controller_Admin_Books extends Controller_Admin
 				Model_Book::get_books_by_published(
 						$published, Pagination::$offset, Pagination::$per_page);
 	}
-	
+
 	public function action_add()
 	{
-		// TODO
+		$form = Model_Book_Validation::add();
+		if ($form->validation()->run())
+		{
+			$book = new Model_Book(array(
+						'title' => $form->validated('title'),
+						'description' => $form->validated('description'),
+						'published' => $form->validated('published'),
+						'creator_id' => $this->user_id,
+				));
+
+			if ($book->save())
+			{
+				Session::set_flash('success', 'Book successfully added with status '.
+						Model_Book::$status[$book->published]);
+				Response::redirect('admin/users');
+			}
+			else
+			{
+				Session::set_flash('error', 'Something went wrong, please try again!');
+			}
+
+			Response::redirect('admin/books/add');
+		}
+
+		$this->title = 'Add Book';
+		$this->data['form'] = $form;
 	}
-	
+
 	public function action_edit($id)
 	{
 		//TODO
 	}
-	
+
 	public function action_delete($id = null)
 	{
 		//TODO
 	}
+
 }

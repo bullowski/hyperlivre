@@ -5,12 +5,15 @@ class Model_Book extends Orm\Model
 	public static $status = array(-1 => 'archive', 0 => 'hidden', 1 => 'published_open', 2 => 'published_closed');
 
 	protected static $_table_name = 'books';
-//	protected static $_has_one = array('creator' => array(
-//											'key_from' => 'id',
-//											'model_to' => 'Model_User',
-//											'key_to' => 'creator_id'));
-	protected static $_has_many = array('users');
-	protected static $_properties = array('id', 'user_id', 'title', 'description', 'published', 'created_at', 'updated_at');
+	protected static $_has_one = array(
+		'creator' => array( 'key_from' => 'creator_id',
+							'model_to' => 'Model_User',
+							'key_to' => 'id',
+							'cascade_save' => true,
+							'cascade_delete' => false));
+
+//	protected static $_has_many = array('users');
+	protected static $_properties = array('id', 'creator_id', 'title', 'description', 'published', 'created_at', 'updated_at');
 	protected static $_primary_key = array('id');
 
 	protected static $_observers = array(

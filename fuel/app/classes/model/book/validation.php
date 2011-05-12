@@ -1,6 +1,6 @@
 <?php
 
-class Model_Concept_Validation
+class Model_Book_Validation
 {
 	protected static $_common_rules = array(
 		'title' => array(
@@ -45,7 +45,7 @@ class Model_Concept_Validation
 						'type' => 'textarea',
 						'value' => !empty($book) ? $book->description : ''),
 				static::get_common_rules('description'));
-		
+
 		$form->add('published', 'Status',
 				array(	'type' => 'select',
 						'options' => Model_Book::$status,
@@ -81,13 +81,13 @@ class Model_Concept_Validation
 						'type' => 'textarea',
 						'value' => !empty($book) ? $book->description : ''),
 				static::get_common_rules('description'));
-		
+
 		$form->add('published', 'Status',
 				array(	'type' => 'select',
 						'options' => Model_Book::$status,
 						'value' => !empty($book) ? $book->published : null),
 				static::get_common_rules('published'));
-				
+
 		$form->add('submit', null,
 				array(	'type' => 'submit',
 						'value' => 'Edit'));
@@ -109,17 +109,17 @@ class Model_Concept_Validation
 			return ($count == 0);
 		}
     }
-	
+
 	//TODO
 	public function _validation_unique_update($value, $field, $updated_id = false)
     {
 		return true;
 	}
-	
+
 	// Check if the status is in the possible status
 	public function _validation_valid_published($value)
     {
 		 return (Model_Book::$status[$value] !== null);
 	}
-	
+
 }
