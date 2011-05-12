@@ -21,21 +21,21 @@ return array(
 	 * Roles as name => array(location => rights)
 	 */
 	'roles' => array(
-		'#'          => array('website' => array('read')), // default rights
+		'#'          => array('website' => array('view')), // default rights
 		'banned'     => false,
 		'user'       => array(
-			'notes'	   => array('read', 'create', 'update', 'delete'),
-			'comments' => array('read'),
-			'concepts' => array('read'),
-			'books'	   => array('read'),
+			'notes'	   => array('view', 'add', 'edit', 'delete'),
+			'comments' => array('view'),
+			'concepts' => array('view'),
+			'books'	   => array('view'),
 		),
 		'moderator'  => array(
-			'comments' => array('create', 'update', 'delete'),
-			'concepts' => array('create', 'update', 'delete'),
+			'comments' => array('add', 'edit', 'delete'),
+			'concepts' => array('add', 'edit', 'delete'),
 		),
 		'admin'      => array(
-			'website'  => array('create', 'update', 'delete'),
-			'admin'    => array('create', 'read', 'update', 'delete'),
+			'website'  => array('add', 'edit', 'delete'),
+			'admin'    => array('view', 'add', 'edit', 'delete'),
 		),
 		'super'      => true,
 	),
