@@ -11,8 +11,21 @@ class Model_Book extends Orm\Model
 							'key_to' => 'id',
 							'cascade_save' => true,
 							'cascade_delete' => false));
+	
+	protected static $_many_many = array(
+	    'users' => array(
+	        'key_from' => 'id',
+	        'key_through_from' => 'book_id', // column 1 from the table in between, should match a book.id
+	        'table_through' => 'books_users', // both models plural without prefix in alphabetical order
+	        'key_through_to' => 'user_id', // column 2 from the table in between, should match a users.id
+	        'model_to' => 'Model_User',
+	        'key_to' => 'id',
+	        'cascade_save' => true,
+	        'cascade_delete' => false,
+	    )
+	);
 
-//	protected static $_has_many = array('users');
+	protected static $_has_many = array('users');
 	protected static $_properties = array('id', 'creator_id', 'title', 'description', 'published', 'created_at', 'updated_at');
 	protected static $_primary_key = array('id');
 

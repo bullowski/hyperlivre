@@ -34,18 +34,29 @@ class Controller_Home extends Controller_Template {
 		$form = Model_User_Validation::signup();
         if ($form->validation()->run())
         {
-            if (Auth::instance()
+            if ($user_id = Auth::instance()
 					->create_user(	$form->validated('username'),
 									$form->validated('password'),
 									$form->validated('email'),
 									Auth::group()->get_group('Users')))
             {
-                Session::set_flash('success', 'Thanks for registering!');
-                Response::redirect('/');
+            	$user = Model_User::find($user_id);
+            	$user->books[] = Model_Book::find($form->validated('book'));
+            	if ($user->save()) 
+            	{
+	                Session::set_flash('success', 'Thanks for registering!');
+	                Response::redirect('/');
+            	} 
+            	else
+            	{
+            		Session::set_flash('error', 'An error has occured. Try again later.');
+					Response::redirect('home');
+            	}
             }
             else
             {
-                throw new Exception('An unexpected error occurred. Please try again.');
+                Session::set_flash('error', 'An error has occured. Try again later.');
+				Response::redirect('home');
             }
         }
 

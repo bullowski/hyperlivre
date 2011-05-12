@@ -28,6 +28,10 @@ class Model_User_Validation
 			array('required'),
 			array('trim'),
 			array('valid_group'),
+		),
+		'book' => array(
+			array('required'),
+			array('trim'),
 		)
 	);
 
@@ -124,7 +128,6 @@ class Model_User_Validation
 						static::get_common_rules('username'),
 						array(array('unique', 'username'))));
 
-
 		$form->add('password', '* Password <em class="validation-info">(3 to 20 caracters long)</em>',
 				array(	'id' => 'password',
 						'type' => 'password',
@@ -138,6 +141,20 @@ class Model_User_Validation
 				array_merge(
 						static::get_common_rules('email'),
 						array(array('unique', 'email'))));
+		
+		$open_books = Model_Book::get_books_by_published(1);
+		$books_select = array();
+		foreach ($open_books as $book)
+		{
+			$books_select[$book->id] = $book->title;
+		}
+		$form->add('book', '* Open Book(s)',
+				array(	'type' => 'select',
+						'options' => $books_select,
+						'value' => null),
+				array_merge(
+					static::get_common_rules('book'),
+					array(array('valid_book', $books_select))));
 
 		$form->add('submit', null,
 				array(	'type' => 'submit',
@@ -197,6 +214,12 @@ class Model_User_Validation
 	public function _validation_valid_group($value)
     {
 		 return (Auth::group()->get_name($value) !== null);
+	}
+	
+	//FIXME check book published status
+	public function _validation_valid_book($value, $select_book)
+    {
+		 return ($select_book[$value] !== null);
 	}
 
 }

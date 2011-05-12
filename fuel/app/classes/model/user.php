@@ -17,6 +17,26 @@ class Model_User extends Orm\Model
 			'cascade_save' => true,
 			'cascade_delete' => false),
 		);
+	protected static $_many_many = array(
+	    'books' => array(
+	        'key_from' => 'id',
+	        'key_through_from' => 'user_id', // column 1 from the table in between, should match a users.id
+	        'table_through' => 'books_users', // both models plural without prefix in alphabetical order
+	        'key_through_to' => 'book_id', // column 2 from the table in between, should match a book.id
+	        'model_to' => 'Model_Book',
+	        'key_to' => 'id',
+	        'cascade_save' => true,
+	        'cascade_delete' => false,
+	    )
+	);
+	
+	
+//	protected static $_belongs_to = array(
+//		'added_concept' => array('key_from' => 'id',
+//			'model_to' => 'Model_Concept',
+//			'key_to' => 'creator_id',
+//			'cascade_save' => false,
+//			'cascade_delete' => false));
 
 //	protected static $_has_many = array('books');//'notes', 'teams');
 	protected static $_properties = array('id', 'username', 'password',
@@ -52,7 +72,6 @@ class Model_User extends Orm\Model
 
 		return Model_User::find('all', $options);
 	}
-
 }
 
 /* End of file user.php */
