@@ -83,7 +83,8 @@ class Model_Book_Validation
 				static::get_common_rules('description'));
 
 		$form->add('published', 'Status',
-				array(	'type' => 'select',
+				array(	'id' => 'published',
+						'type' => 'select',
 						'options' => Model_Book::$status,
 						'value' => !empty($book) ? $book->published : null),
 				static::get_common_rules('published'));

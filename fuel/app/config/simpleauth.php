@@ -11,8 +11,7 @@ return array(
 	 * Groups as id => array(name => <string>, roles => <array>)
 	 */
 	'groups' => array(
-		-1	=> array('name' => 'Banned', 'roles' => array('banned')),
-		0	=> array('name' => 'Guests', 'roles' => array()),
+		0	=> array('name' => 'Banned', 'roles' => array('banned')),
 		1	=> array('name' => 'Users', 'roles' => array('user')),
 		50	=> array('name' => 'Moderators', 'roles' => array('user', 'moderator')),
 		100	=> array('name' => 'Administrators', 'roles' => array('user', 'moderator', 'admin')),
@@ -24,8 +23,16 @@ return array(
 	'roles' => array(
 		'#'          => array('website' => array('read')), // default rights
 		'banned'     => false,
-		'user'       => array('comments' => array('read')),
-		'moderator'  => array('comments' => array('create', 'update', 'delete')),
+		'user'       => array(
+			'notes'	   => array('read', 'create', 'update', 'delete'),
+			'comments' => array('read'),
+			'concepts' => array('read'),
+			'books'	   => array('read'),
+		),
+		'moderator'  => array(
+			'comments' => array('create', 'update', 'delete'),
+			'concepts' => array('create', 'update', 'delete'),
+		),
 		'admin'      => array(
 			'website'  => array('create', 'update', 'delete'),
 			'admin'    => array('create', 'read', 'update', 'delete'),

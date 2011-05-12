@@ -2,7 +2,7 @@
 
 class Model_Book extends Orm\Model
 {
-	public static $status = array(-1 => 'archive', 0 => 'hidden', 1 => 'published_open', 2 => 'published_closed');
+	public static $status = array('hidden', 'published_open', 'published_closed', 'archive');
 
 	protected static $_table_name = 'books';
 	protected static $_has_one = array(
@@ -64,7 +64,6 @@ class Model_Book extends Orm\Model
 
 		return 'all';
 	}
-
 }
 
 /* End of file book.php */

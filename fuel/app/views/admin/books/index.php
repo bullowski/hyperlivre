@@ -40,7 +40,7 @@
 		<td><?php echo $book->id; ?></td>
         <td><?php echo $book->creator->username; ?></td>
         <td><?php echo Html::anchor('admin/books/edit/'.$book->id, $book->title) ?></td>
-        <td><?php echo $book->description; ?></td>
+        <td><?php echo Str::truncate($book->description,30);?></td>
         <td><?php echo Model_Book::$status[$book->published]; ?></td>
         <td><?php echo Date::factory($book->created_at); ?></td>
         <td><?php echo Date::factory($book->updated_at); ?></td>
