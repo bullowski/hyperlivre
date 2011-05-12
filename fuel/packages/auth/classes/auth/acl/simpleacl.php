@@ -77,6 +77,47 @@ class Auth_Acl_SimpleAcl extends \Auth_Acl_Driver {
 		// all necessary rights were found, return true
 		return true;
 	}
+
+
+
+	public function get_rights($area, Array $current_roles) //$condition, Array $entity)
+	{
+		$current_rights = array();
+		if (is_array($current_roles))
+		{
+			$roles = \Config::get('simpleauth.roles', array());
+			array_key_exists('#', $roles) && array_unshift($current_roles, '#');
+			foreach ($current_roles as $r_role)
+			{
+				// continue if the role wasn't found
+				if ( ! array_key_exists($r_role, $roles))
+				{
+					continue;
+				}
+				$r_rights = $roles[$r_role];
+
+				// if one of the roles has a negative wildcard (false) return it
+				if ($r_rights === false)
+				{
+					return false;
+				}
+				// if one of the roles has a positive wildecard (true) return it
+				elseif ($r_rights === true)
+				{
+					return true;
+				}
+				// if there are roles for the current area, merge them with earlier fetched roles
+				elseif (array_key_exists($area, $r_rights))
+				{
+					$current_rights = array_unique(array_merge($current_rights, $r_rights[$area]));
+				}
+			}
+		}
+
+		return $current_rights;
+	}
+
+
 }
 
 /* end of file simpleacl.php */

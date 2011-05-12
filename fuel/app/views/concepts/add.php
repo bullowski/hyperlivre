@@ -5,5 +5,5 @@
 <?php echo $form->validation()->show_errors(); ?>
 <fieldset>
 <legend>Concepts details</legend>
-<?php echo $form->build('concepts/create');?>
+<?php echo $form->build('concepts/add');?>
 </fieldset>

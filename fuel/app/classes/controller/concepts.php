@@ -4,6 +4,8 @@ class Controller_Concepts extends Controller_Template
 {
 	protected $user_group = null;
 	protected $user_id = null;
+	protected $user_roles = null;
+	protected $user_rights = null;
 
 	public function router($method = 'index', $args = null)
 	{
@@ -32,18 +34,17 @@ class Controller_Concepts extends Controller_Template
 		$this->page_id = implode('_', $class_array);
 		$this->content = implode(DS, $class_array).DS.$method;
 
-		//logs
-		Log::debug('user_group: '.var_export($this->user_group,true));
-		Log::debug('user_id: '.$this->user_id);
-
-
-		$permission = ($method === 'index') ? 'view' : $method;
+		$right = ($method === 'index') ? 'view' : $method;
 		if ($this->user_group &&
 				!Auth::acl()->has_access(
-						array($this->page_id, array($permission)), $this->user_group))
+						array($this->page_id, array($right)), $this->user_group))
 		{
 			Response::redirect('home/404');
 		}
+
+		$this->user_roles = Auth::group()->get_roles($this->user_group[1]);
+
+		$this->user_rights = Auth::acl()->get_rights($this->page_id, $this->user_roles);
 
 		//change the template if the user is an admin
 		if (Auth::acl()->has_access(
@@ -61,6 +62,9 @@ class Controller_Concepts extends Controller_Template
 	{
 		$this->title = "Concepts";
 		$this->data['concepts'] = Model_Concept::find('all');
+		$this->data['user_roles'] = $this->user_roles;
+		$this->data['user_group'] = $this->user_group;
+		$this->data['user_rights'] = $this->user_rights;
 	}
 
 	public function action_view($id = null)
@@ -101,13 +105,6 @@ class Controller_Concepts extends Controller_Template
 
 	public function action_edit($id = null)
 	{
-		if ($this->user_group &&
-				!Auth::acl()->has_access(
-						array('concepts', array('update')), $this->user_group))
-		{
-			Response::redirect('/');
-		}
-
 		if (empty($id) || !$concept = Model_Concept::find($id))
 		{
 			Response::redirect('concepts');
@@ -141,13 +138,6 @@ class Controller_Concepts extends Controller_Template
 	//TODO archive notes?
 	public function action_delete($id = null)
 	{
-		if ($this->user_group &&
-				!Auth::acl()->has_access(
-						array('concepts', array('delete')), $this->user_group))
-		{
-			Response::redirect('/');
-		}
-
 		$concept = Model_Concept::find($id);
 		if ($concept && $concept->delete())
 		{
