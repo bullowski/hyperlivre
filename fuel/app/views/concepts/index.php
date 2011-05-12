@@ -23,4 +23,4 @@
 
 <br />
 
-<?php echo Html::anchor('concepts/create', 'Add new Concepts'); ?>
+<?php echo Html::anchor('concepts/add', 'Add new Concepts'); ?>
