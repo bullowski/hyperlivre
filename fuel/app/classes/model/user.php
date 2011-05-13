@@ -10,12 +10,12 @@ class Model_User extends Orm\Model
 			'key_to' => 'creator_id',
 			'cascade_save' => true,
 			'cascade_delete' => false),
-		'added_concepts' => array(
+		'concepts' => array(
 			'key_from' => 'id',
 			'model_to' => 'Model_Concept',
 			'key_to' => 'creator_id',
 			'cascade_save' => true,
-			'cascade_delete' => false),
+			'cascade_delete' => false)
 		);
 	protected static $_many_many = array(
 	    'books' => array(
@@ -29,8 +29,8 @@ class Model_User extends Orm\Model
 	        'cascade_delete' => false,
 	    )
 	);
-	
-	
+
+
 //	protected static $_belongs_to = array(
 //		'added_concept' => array('key_from' => 'id',
 //			'model_to' => 'Model_Concept',

@@ -93,9 +93,20 @@ class Controller_Admin_Books extends Controller_Admin
 		$this->data['form'] = $form;
 	}
 
+	//TODO archive notes?
 	public function action_delete($id = null)
 	{
-		//TODO
+		$book = Model_Book::find($id);
+		if ($book && $book->delete())
+		{
+			Session::set_flash('notice', 'Deleted book #'.$id);
+		}
+		else
+		{
+			Session::set_flash('error', 'Could not delete book #'.$id);
+		}
+
+		Response::redirect('admin/books');
 	}
 
 }

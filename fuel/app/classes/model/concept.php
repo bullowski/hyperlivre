@@ -5,11 +5,12 @@ class Model_Concept extends Orm\Model
 	protected static $_table_name = 'concepts';
 
 //	protected static $_has_many = array('books')
-	protected static $_has_one = array(
-		'creator' => array('key_from' => 'creator_id',
+	protected static $_belongs_to = array(
+		'creator' => array(
+			'key_from' => 'creator_id',
 			'model_to' => 'Model_User',
 			'key_to' => 'id',
-			'cascade_save' => true,
+			'cascade_save' => false,
 			'cascade_delete' => false));
 
 	protected static $_properties = array(
