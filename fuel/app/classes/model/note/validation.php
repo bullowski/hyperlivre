@@ -1,6 +1,6 @@
 <?php
 
-class Model_Book_Validation
+class Model_Note_Validation
 {
 	protected static $_common_rules = array(
 		'title' => array(
@@ -8,13 +8,13 @@ class Model_Book_Validation
 			array('min_length', 2),
 			array('max_length', 128)
 		),
-		'description' => array(
+		'body' => array(
 			array('required'),
 			array('min_length', 3)
 		),
-		'published' => array(
+		'status' => array(
 			array('required'),
-			array('valid_published')
+			array('valid_status')
 		)
 	);
 
@@ -25,8 +25,8 @@ class Model_Book_Validation
 
 	public static function add()
 	{
-		return Fieldset::factory('add_book')
-				->add_model('Model_Book_Validation', null, 'set_add_form')
+		return Fieldset::factory('add_note')
+				->add_model('Model_Note_Validation', null, 'set_add_form')
 				->repopulate();
 	}
 
@@ -35,63 +35,55 @@ class Model_Book_Validation
 		$form->add('title', '* Title <em class="validation-info">(2 to 128 caracters long)</em>',
 				array(	'id' => 'title',
 						'type' => 'text',
-						'value' => !empty($book) ? $book->title : ''),
+						'value' => !empty($note) ? $note->title : ''),
 				array_merge(
 						static::get_common_rules('title'),
 						array(array('unique', 'title'))));
 
-		$form->add('description', '* Description',
-				array(	'id' => 'description',
+		$form->add('body', '* Body',
+				array(	'id' => 'body',
 						'type' => 'textarea',
-						'value' => !empty($book) ? $book->description : ''),
-				static::get_common_rules('description'));
+						'value' => !empty($note) ? $note->body : ''),
+				static::get_common_rules('body'));
 
-		$form->add('published', 'Status',
-				array(	'type' => 'select',
-						'options' => Model_Book::$status,
-						'value' => !empty($book) ? $book->published : null),
-				static::get_common_rules('published'));
-
-		$form->add('submit', null,
+		$form->add('draft', null,
 				array(	'type' => 'submit',
-						'value' => 'Add'));
-
+						'value' => 'draft'));
+		$form->add('publish', null,
+				array(	'type' => 'submit',
+						'value' => 'publish'));
 	}
 
-	public static function edit($book)
+	public static function edit($note)
 	{
-		return Fieldset::factory('edit_book')
-				->add_model('Model_Book_Validation', $book, 'set_edit_form')
+		return Fieldset::factory('edit_note')
+				->add_model('Model_Note_Validation', $note, 'set_edit_form')
 				->repopulate();
 	}
 
 	//FIXME ckeck unique_update rule
-	public static function set_edit_form(Fieldset $form, $book = null)
+	public static function set_edit_form(Fieldset $form, $note = null)
 	{
 		$form->add('title', '* Title <em class="validation-info">(2 to 128 caracters long)</em>',
 				array(	'id' => 'title',
 						'type' => 'text',
-						'value' => !empty($book) ? $book->title : ''),
+						'value' => !empty($note) ? $note->title : ''),
 				array_merge(
 						static::get_common_rules('title'),
 						array(array('unique_update', 'title'))));
 
-		$form->add('description', '* Description',
-				array(	'id' => 'description',
+		$form->add('body', '* Body',
+				array(	'id' => 'body',
 						'type' => 'textarea',
-						'value' => !empty($book) ? $book->description : ''),
-				static::get_common_rules('description'));
+						'value' => !empty($note) ? $note->body : ''),
+				static::get_common_rules('body'));
 
-		$form->add('published', 'Status',
-				array(	'id' => 'published',
-						'type' => 'select',
-						'options' => Model_Book::$status,
-						'value' => !empty($book) ? $book->published : null),
-				static::get_common_rules('published'));
-
-		$form->add('submit', null,
+		$form->add('draft', null,
 				array(	'type' => 'submit',
-						'value' => 'Edit'));
+						'value' => 'draft'));
+		$form->add('publish', null,
+				array(	'type' => 'submit',
+						'value' => 'publish'));
 
 	}
 
@@ -118,9 +110,9 @@ class Model_Book_Validation
 	}
 
 	// Check if the status is in the possible status
-	public function _validation_valid_published($value)
+	public function _validation_valid_status($value)
     {
-		 return (Model_Book::$status[$value] !== null);
+		 return (Model_Note::$status_values[$value] !== null);
 	}
 
 }

@@ -4,5 +4,5 @@
 <?php echo $form->validation()->show_errors(); ?>
 <fieldset>
 <legend>Note</legend>
-<?php echo $form->build('note/add');?>
+<?php echo $form->build('notes/add');?>
 </fieldset>

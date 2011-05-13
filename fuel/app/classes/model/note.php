@@ -17,6 +17,10 @@ class Model_Note extends Orm\Model {
 
 	public static $status_values = array('draft' => 0, 'published' => 1, 'archive' => 2);
 
+	protected static $_observers = array(
+		'Orm\Observer_CreatedAt' => array('before_insert'),
+		'Orm\Observer_UpdatedAt' => array('before_save'),
+	);
 
 	public static function status_names()
 	{

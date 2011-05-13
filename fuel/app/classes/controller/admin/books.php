@@ -62,7 +62,7 @@ class Controller_Admin_Books extends Controller_Admin
 
 	public function action_edit($id)
 	{
-		if (empty($id) || !$book= Model_Book::find($id))
+		if (empty($id) || !$book = Model_Book::find($id))
 		{
 			Response::redirect('admin/books');
 		}

@@ -12,7 +12,8 @@ class Controller_Notes extends Controller_Access
 			$filter = $status[$filter];
 		}
 		//redirect if the filter value is not valid
-		if ($filter === null || Model_Note::$status_values[$filter] === null) {
+		if ($filter === null ||
+				($filter !== 'all' && Model_Note::$status_values[$filter] === null)) {
 			\Response::redirect('home/404');
 		}
 
@@ -50,9 +51,9 @@ class Controller_Notes extends Controller_Access
 
 			$note = new Model_Note(array(
 						'creator_id' => $this->user_id,
-						'title' => $val->validated('title'),
-						'body' => $val->validated('body'),
-						'status' => $status,
+						'title' => $form->validated('title'),
+						'body' => $form->validated('body'),
+						'status' => Model_Note::$status_values[$status],
 					));
 
 			if ($note->save())
@@ -79,14 +80,7 @@ class Controller_Notes extends Controller_Access
 		$this->data['form'] = $form;
 		$this->data['concepts'] = Model_Concept::find('all');
 
-
-		//////////////
-//
-//        $val->add('concept_id', 'Concept');
-//        $val->add('title', 'Title')->add_rule('required');
-//        $val->add('body', 'Body')->add_rule('required');
-
-
+//TODO add concepts lik
 //
 //			if (!$val->input('concept_id'))
 //			{
@@ -101,51 +95,73 @@ class Controller_Notes extends Controller_Access
 
     public function action_edit($id)
     {
-        $note = Model_Note::find_by_id_and_user_id($id, $this->user_id);
 
-       	$val = Validation::factory('edit_note');
-        $val->add('concept_id');
-        $val->add('title')->add_rule('required');
-        $val->add('body')->add_rule('required');
+		if (empty($id) ||
+				!$note =  Model_Note::find_by_id_and_creator_id($id, $this->user_id))
+		{
+			Response::redirect('notes');
+		}
 
-        if ($val->run())
+		$form = Model_Note_Validation::edit($note);
+        if ($form->validation()->run())
         {
-			if (!$val->input('concept_id'))
-			{
-				$concept_id = null;
-			}
-			else
-			{
-				$concept_id = $val->validated('concept_id');
-			}
+			$note->title = $form->validated('title');
+            $note->body = $form->validated('body');
 
-            $note->concept_id = $concept_id;
-            $note->title = $val->validated('title');
-            $note->body = $val->validated('body');
+			if (Input::post('draft'))
+            {
+                 $note->status = Model_Note::$status_values['draft'];
+            }
+            else
+            {
+                $note->status = Model_Note::$status_values['published'];
+            }
+
 
 			if ($note->save())
 			{
-				Session::set_flash('success', 'Note successfully updated.');
+				if ($status === 'draft')
+				{
+					Session::set_flash('success', 'Note successfully added.');
+				}
+				else
+				{
+					Session::set_flash('success', 'Note was saved as draft.');
+				}
+				Response::redirect('notes');
 			}
 			else
 			{
 				Session::set_flash('error', 'Something went wrong, please try again!');
 			}
 
-            Response::redirect('notes/edit/'.$note->id);
-        }
+			Response::redirect('notes/edit/'.$note->id);
+		}
 
-        $this->template->title = 'Edit Note - '.$note->title;
-        $this->template->content = View::factory('notes/edit')
-			->set('concepts', Model_Concept::find('all'), false)
-			->set('note', $note, false)
-			->set('val', Validation::instance('edit_note'), false);
+		$this->title = 'Edit Note - '.$note->title;
+		$this->data['note'] = $note;
+		$this->data['form'] = $form;
+		$this->data['concepts'] = Model_Concept::find('all');
+
+///////////
+//
+//TODO add concepts links
+//
+//        if (!$val->input('concept_id'))
+//			{
+//				$concept_id = null;
+//			}
+//			else
+//			{
+//				$concept_id = $val->validated('concept_id');
+//			}
+
     }
 
     public function action_publish($id)
     {
-        $note = Model_Note::find_by_id_and_user_id($id, $this->user_id);
-        $note->published = 1;
+        $note = Model_Note::find_by_id_and_creator_id($id, $this->user_id);
+        $note->status = Model_Note::$status_values['published'];
         $note->save();
 
         Response::redirect('notes');
@@ -153,7 +169,7 @@ class Controller_Notes extends Controller_Access
 
     public function action_delete($id)
     {
-        Model_Note::find_by_id_and_user_id($id, $this->user_id)->delete();
+        Model_Note::find_by_id_and_creator_id($id, $this->user_id)->delete();
 
         Response::redirect('notes');
     }
