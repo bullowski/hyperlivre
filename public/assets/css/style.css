@@ -195,7 +195,7 @@ caption {
 	}
 		.content div#main h2 {
 			padding: 6px 10px 6px 10px;
-			border-left: 4px solid #FA8F6F;
+			border-left: 4px solid #014164;
 		}
 	
 	/* --    Sidebar    -- */
@@ -218,7 +218,7 @@ caption {
 .footer {
     margin: 6px auto;
     padding: 10px 0px;
-	border-top: 1px solid #6311CF;
+	border-top: 1px solid #014164;
 	overflow: hidden;
 }
 

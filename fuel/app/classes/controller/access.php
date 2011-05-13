@@ -57,6 +57,9 @@ class Controller_Access extends Controller_Template
 		
 		// change the config if there is a cookie for the language
 		Config::set('language', Cookie::get('language', 'fr'));
+		
+		// load the language file
+		Lang::load($this->content);
 
 		return call_user_func_array(array($this, $full_method), $args);
 	}

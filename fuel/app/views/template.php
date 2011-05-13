@@ -1,3 +1,5 @@
+<?php Lang::load('template'); ?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -10,12 +12,12 @@
             <!-- Menu -->
             <ul class="menu">
 				<?php if (Auth::check()): ?>
-					<li><?php echo Html::anchor('user/notes', 'My Notes'); ?></li>
-					<li><?php echo Html::anchor('home/logout', 'Logout'); ?></li>
+					<li><?php echo Html::anchor('user/notes', __('notes')); ?></li>
+					<li><?php echo Html::anchor('home/logout', __('logout')); ?></li>
 				<?php else: ?>
-					<li><div class="wrap"><?php echo Html::anchor('home', 'Home'); ?></div></li>
-					<li><div class="wrap"><?php echo Html::anchor('home/login', 'Login'); ?></div></li>
-					<li><div class="wrap"><?php echo Html::anchor('home/signup', 'Sign Up'); ?></div></li>
+					<li><div class="wrap"><?php echo Html::anchor('home', __('home')); ?></div></li>
+					<li><div class="wrap"><?php echo Html::anchor('home/login', __('login')); ?></div></li>
+					<li><div class="wrap"><?php echo Html::anchor('home/signup', __('signup')); ?></div></li>
 				<?php endif; ?>
             </ul>
 
@@ -60,15 +62,15 @@
 
         <div class="footer">
             <div class="copyright">
-				Made possible with <a href="http://fuelphp.com/">FuelPHP</a>
+				<?php echo __('possible'); ?><a href="http://fuelphp.com/">FuelPHP</a>
                 <br/>
-				Developed by Alex Bulla &amp; Michael Gumowski.
+				<?php echo __('author'); ?>
             </div>
-            <div class="stats">Page renedered in {exec_time}s &middot; Memory Usage {mem_usage}MB</div>
+            <div class="stats">
+            	<?php echo __('render'); ?>{exec_time}s &middot; <?php echo __('memory'); ?>{mem_usage}MB
+            	<br/>
+            	<?php echo Html::anchor(Uri::string().'/lang/fr/', __('french')).' '.Html::anchor(Uri::string().'/lang/en/', __('english')); ?>
+            </div>
         </div>
-        
-        <p><?php print_r('language='.Config::get('language')); ?></p>
-		<p><?php echo Html::anchor(Uri::string().'/lang/fr/', 'French').' '.Html::anchor(Uri::string().'/lang/en/', 'English'); ?></p>
-
     </body>
 </html>

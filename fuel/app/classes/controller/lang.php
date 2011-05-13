@@ -18,8 +18,13 @@ class Controller_Lang extends Controller
 		Response::redirect($redirection);
 	}
 	
-	protected static function change_language($language = 'fr')
-	{			
+	protected static function change_language($language = null)
+	{	
+		if ($language === null) 
+		{
+			$language = Config::get('language');
+		}
+		
 		$current_language = Cookie::get('language', false);
 		
 		if ((!$current_language) || ($current_language !== $language))
