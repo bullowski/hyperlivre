@@ -1,6 +1,8 @@
 <?php
 	return array(
-		'notes' => 'Mes notes',
+		'books' => 'Livres',
+		'concepts' => 'Concepts',
+		'notes' => 'Notes',
 		'logout' => 'D&eacute;connexion',
 		'home' => 'Accueil',
 		'login' => 'Connexion',
@@ -8,7 +10,7 @@
 		'possible' => 'Rendu possible par ',
 		'author' => 'Developp&eacute; par Alex Bulla &amp; Michael Gumowski.',
 		'render' => 'Page g&eacute;n&eacute;r&eacute;e en ',
-		'memory' => 'Usage m&eacute;moire',
+		'memory' => 'Usage m&eacute;moire ',
 		'french' => 'Fran&ccedil;ais',
 		'english' => 'Anglais',
 	);

@@ -31,7 +31,7 @@ class Model_User_Validation
 		),
 		'book' => array(
 			array('required'),
-			array('trim'),
+			//array('trim'),
 		)
 	);
 
@@ -54,7 +54,6 @@ class Model_User_Validation
 						'type' => 'text',
 						'value' => !empty($user) ? $user->username : ''),
 				static::get_common_rules('username'));
-
 
 		$form->add('password', 'Password',
 				array(	'id' => 'password',
@@ -148,13 +147,14 @@ class Model_User_Validation
 		{
 			$books_select[$book->id] = $book->title;
 		}
-		$form->add('book', '* Open Book(s)',
-				array(	'type' => 'select',
-						'options' => $books_select,
-						'value' => null),
+		$form->add('book', 'Open Book(s)',
+				array(	'type' => 'checkboxes',
+						'name' => $books_select,
+						'options' => $books_select),
 				array_merge(
 					static::get_common_rules('book'),
 					array(array('valid_book', $books_select))));
+
 
 		$form->add('submit', null,
 				array(	'type' => 'submit',
@@ -217,9 +217,16 @@ class Model_User_Validation
 	}
 	
 	//FIXME check book published status
-	public function _validation_valid_book($value, $select_book)
+	public function _validation_valid_book(Array $values, $select_book)
     {
-		 return ($select_book[$value] !== null);
+    	foreach ($values as $value)
+    	{
+    		if ($select_book[$value] === null)
+    		{
+    			return false;
+    		}
+    	}
+		
+    	return true;
 	}
-
 }

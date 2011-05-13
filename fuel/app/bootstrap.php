@@ -19,6 +19,7 @@ Autoloader::add_classes(array(
 	// Example: 'View' => APPPATH.'classes/view.php',
 	'Controller_Template' => APPPATH.'classes/core/controller/template.php',
 	'Fieldset' => APPPATH.'classes/core/fieldset.php',
+	//'Form' => APPPATH.'classes/core/form.php',
 ));
 
 // Register the autoloader

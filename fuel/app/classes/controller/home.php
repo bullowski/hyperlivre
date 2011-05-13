@@ -41,7 +41,11 @@ class Controller_Home extends Controller_Template {
 									Auth::group()->get_group('Users')))
             {
             	$user = Model_User::find($user_id);
-            	$user->books[] = Model_Book::find($form->validated('book'));
+            	$books = $form->validated('book');
+            	foreach ($books as $book_id)
+            	{
+            		$user->books[] = Model_Book::find($book_id);
+            	}
             	if ($user->save()) 
             	{
 	                Session::set_flash('success', 'Thanks for registering!');

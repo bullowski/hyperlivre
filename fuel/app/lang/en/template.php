@@ -1,6 +1,8 @@
 <?php
 	return array(
-		'notes' => 'My notes',
+		'books' => 'Books',
+		'concepts' => 'Concepts',
+		'notes' => 'Notes',
 		'logout' => 'Logout',
 		'home' => 'Home',
 		'login' => 'Login',
