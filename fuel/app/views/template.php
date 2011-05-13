@@ -12,7 +12,9 @@
             <!-- Menu -->
             <ul class="menu">
 				<?php if (Auth::check()): ?>
-					<li><?php echo Html::anchor('user/notes', __('notes')); ?></li>
+					<li><?php echo Html::anchor('books', __('books')); ?></li>
+					<li><?php echo Html::anchor('concepts', __('concepts')); ?></li>
+					<li><?php echo Html::anchor('notes', __('notes')); ?></li>
 					<li><?php echo Html::anchor('home/logout', __('logout')); ?></li>
 				<?php else: ?>
 					<li><div class="wrap"><?php echo Html::anchor('home', __('home')); ?></div></li>
