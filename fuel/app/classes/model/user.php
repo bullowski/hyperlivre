@@ -15,7 +15,13 @@ class Model_User extends Orm\Model
 			'model_to' => 'Model_Concept',
 			'key_to' => 'creator_id',
 			'cascade_save' => true,
-			'cascade_delete' => false)
+			'cascade_delete' => false),
+		'notes' => array(
+			'key_from' => 'id',
+			'model_to' => 'Model_Note',
+			'key_to' => 'creator_id',
+			'cascade_save' => true,
+			'cascade_delete' => false),
 		);
 	protected static $_many_many = array(
 	    'books' => array(

@@ -7,8 +7,6 @@ class Controller_Concepts extends Controller_Access
 	{
 		$this->title = "Concepts";
 		$this->data['concepts'] = Model_Concept::find('all');
-		$this->data['user_roles'] = $this->user_roles;
-		$this->data['user_group'] = $this->user_group;
 		$this->data['user_rights'] = $this->user_rights;
 	}
 

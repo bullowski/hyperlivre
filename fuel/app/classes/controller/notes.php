@@ -1,142 +1,113 @@
 <?php
 
-class Controller_Notes extends Controller_User {
-	
-	/*
-	public function action_edit($id = null)
+class Controller_Notes extends Controller_Access
+{
+
+	public function action_index($filter = 'published', $current_page = 0)
 	{
-		//TODO
-	}
-	
-	//TODO archive notes?
-	public function action_delete($id = null)
-	{
-		if ($concepts = Model_Note::find($id))
+		//convert filter index to its correct string representation
+		if (is_int($filter))
 		{
-			$concepts->delete();
-			
-			Session::set_flash('notice', 'Deleted note #' . $id);
+			$status = Model_Note::status_names();
+			$filter = $status[$filter];
+		}
+		//redirect if the filter value is not valid
+		if ($filter === null || Model_Note::$status_values[$filter] === null) {
+			\Response::redirect('home/404');
 		}
 
-		else
-		{
-			Session::set_flash('error', 'Could not delete note #' . $id);
-		}
+		$total_notes = Model_Note::count_filtered_notes_by_author($this->user_id);
 
-		Response::redirect('concepts');
-	}
-	*/
-	
-	public function before()
-	{
-    	parent::before();
-	}
-	
-	public function action_index($filter = 'published')
-	{
-		if ($filter === 'draft')
-		{
-			$published = 0;
-		}
-		else if ($filter === 'archive')
-		{
-			$published = -1;
-		} 
-		else
-		{
-			$published = 1;
-		}
-		
-		$total_notes = Model_Note::count_user_notes($this->user_id);
-		
 		Pagination::set_config(array(
 			'pagination_url' => 'notes/index/'.$filter.'/',
 			'per_page' => 10,
 			'total_items' => $total_notes,
 			'num_links' => 3,
-			'uri_segment' => 4,
+			'current_page' => $current_page,
         ));
 
-		$notes = Model_Note::find('all', array(
-			'offset' => Pagination::$offset,
-			'limit' => Pagination::$per_page,
-			'include' => 'concept',
-			'where' => array(
-				array('user_id', '=', $this->user_id),
-				array('published', '=', $published),
-			),
-		));
-        
-        $this->template->title = 'Notes';
-        $this->template->content = View::factory('notes/index')
-			->set('total_notes', $total_notes)
-			->set('notes', $notes, false)
-			->set('filter', $filter);
+		$this->title = 'My Notes';
+		$this->data['filter'] = $filter;
+		$this->data['notes'] =  Model_Note::get_filtered_notes_by_author(
+				$this->user_id, $filter,
+				Pagination::$offset, Pagination::$per_page);;
+		$this->data['user_rights'] = $this->user_rights;
     }
-    
-    public function action_new()
+
+    public function action_add()
     {
-        $val = Validation::factory('add_note');
-        $val->add('concept_id', 'Concept');
-        $val->add('title', 'Title')->add_rule('required');
-        $val->add('body', 'Body')->add_rule('required');
-        
-        if ($val->run())
-        {
-            if (Input::post('save_draft'))
+		$form = Model_Note_Validation::add();
+		if ($form->validation()->run())
+		{
+			if (Input::post('draft'))
             {
-                $status = 0;
+                $status = 'draft';
             }
             else
             {
-                $status = 1;
+                $status = 'published';
             }
-            
-			if (!$val->input('concept_id'))
-			{
-				$concept_id = null;
-			}
-			else
-			{
-				$concept_id = $val->validated('concept_id');
-			}
-			
-            $note = new Model_Note(array(
-				'user_id' => $this->user_id,
-                'concept_id' => $concept_id,
-                'title' => $val->validated('title'),
-                'body' => $val->validated('body'),
-                'created_at' => Date::factory()->get_timestamp(),
-                'published' => $status,
-            ));
 
-            if ($note->save())
+			$note = new Model_Note(array(
+						'creator_id' => $this->user_id,
+						'title' => $val->validated('title'),
+						'body' => $val->validated('body'),
+						'status' => $status,
+					));
+
+			if ($note->save())
 			{
-				Session::set_flash('success', 'Note successfully added.');
+				if ($status === 'draft')
+				{
+					Session::set_flash('success', 'Note successfully added.');
+				}
+				else
+				{
+					Session::set_flash('success', 'Note was saved as draft.');
+				}
+				Response::redirect('notes');
 			}
 			else
 			{
 				Session::set_flash('error', 'Something went wrong, please try again!');
 			}
-            
-            Response::redirect('notes/add');
-        }
-        
-        $this->template->title = 'Add Note';
-        $this->template->content = View::factory('notes/add')
-			->set('concepts', Model_Concept::find('all'), false)
-			->set('val', Validation::instance('add_note'), false);
+
+			Response::redirect('notes/add');
+		}
+
+		$this->title = 'Add Note';
+		$this->data['form'] = $form;
+		$this->data['concepts'] = Model_Concept::find('all');
+
+
+		//////////////
+//
+//        $val->add('concept_id', 'Concept');
+//        $val->add('title', 'Title')->add_rule('required');
+//        $val->add('body', 'Body')->add_rule('required');
+
+
+//
+//			if (!$val->input('concept_id'))
+//			{
+//				$concept_id = null;
+//			}
+//			else
+//			{
+//				$concept_id = $val->validated('concept_id');
+//			}
+
     }
-    
+
     public function action_edit($id)
     {
         $note = Model_Note::find_by_id_and_user_id($id, $this->user_id);
-        
+
        	$val = Validation::factory('edit_note');
         $val->add('concept_id');
         $val->add('title')->add_rule('required');
         $val->add('body')->add_rule('required');
-        
+
         if ($val->run())
         {
 			if (!$val->input('concept_id'))
@@ -147,11 +118,11 @@ class Controller_Notes extends Controller_User {
 			{
 				$concept_id = $val->validated('concept_id');
 			}
-			
+
             $note->concept_id = $concept_id;
             $note->title = $val->validated('title');
             $note->body = $val->validated('body');
-            
+
 			if ($note->save())
 			{
 				Session::set_flash('success', 'Note successfully updated.');
@@ -163,14 +134,14 @@ class Controller_Notes extends Controller_User {
 
             Response::redirect('notes/edit/'.$note->id);
         }
-        
+
         $this->template->title = 'Edit Note - '.$note->title;
         $this->template->content = View::factory('notes/edit')
 			->set('concepts', Model_Concept::find('all'), false)
 			->set('note', $note, false)
 			->set('val', Validation::instance('edit_note'), false);
     }
-    
+
     public function action_publish($id)
     {
         $note = Model_Note::find_by_id_and_user_id($id, $this->user_id);
@@ -179,11 +150,11 @@ class Controller_Notes extends Controller_User {
 
         Response::redirect('notes');
     }
-    
+
     public function action_delete($id)
     {
         Model_Note::find_by_id_and_user_id($id, $this->user_id)->delete();
-        
+
         Response::redirect('notes');
     }
 }

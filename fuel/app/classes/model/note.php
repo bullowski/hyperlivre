@@ -1,36 +1,62 @@
 <?php
 
 class Model_Note extends Orm\Model {
-    
+
 	protected static $_table_name 	= 'notes';
-    protected static $_belongs_to 	= array('concept');
-	protected static $_properties 	= array('id', 'user_id', 'concept_id', 'title', 
-											'body', 'published', 'created_at');
+	protected static $_belongs_to = array(
+		'creator' => array(
+			'key_from' => 'creator_id',
+			'model_to' => 'Model_User',
+			'key_to' => 'id',
+			'cascade_save' => false,
+			'cascade_delete' => false));
+
+	protected static $_properties 	= array('id', 'creator_id', 'title', 'body',
+											'status', 'created_at', 'updated_at');
 	protected static $_primary_key 	= array('id');
-	
-	public function _validation_unique($input, $field)
-    {
-		$field	= MBSTRING ? mb_strtolower($field) : strtolower($field);
-		$input 	= MBSTRING ? mb_strtolower($input) : strtolower($input);
-		
-		$count 	= Model_Note::find()->where($field, '=', $input)->count();
-        if($count != 0)
-            return false;
-        else
-            return true;
-    }
-	
-	public function count_notes()
+
+	public static $status_values = array('draft' => 0, 'published' => 1, 'archive' => 2);
+
+
+	public static function status_names()
 	{
-		return count(Model_Note::find('all'));
+		return array_flip(static::$status_values);
 	}
-	
-	public function count_user_notes($uid)
+
+	public static function count_filtered_notes_by_author($user_id, $filter = 'all')
 	{
-		$notes = Model_Note::find_by_user_id($uid);
-		return count($notes);
+		return count(static::get_filtered_notes_by_author($user_id, $filter));
 	}
-	
-		
+
+	public static function get_filtered_notes_by_author(
+			$user_id, $filter = 'all', $offset = 0, $limit = null)
+	{
+		if (!$user_id)
+		{
+			return false;
+		}
+
+		$options = array(
+			'include' => 'concepts',
+			'where' => array(
+				array('creator_id', '=', $user_id)
+			));
+
+		if (!is_null($limit))
+		{
+			$options['offset'] = $offset;
+			$options['limit'] = $limit;
+		}
+
+		if ($filter !== 'all')
+		{
+			$options['where'][] = array(
+				array('status', '=', static::$status_values[$filter])
+			);
+		}
+
+		return Model_Note::find('all', $options);
+	}
+
 
 }
