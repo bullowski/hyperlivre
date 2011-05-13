@@ -13,6 +13,7 @@
 					<li><?php echo Html::anchor('user/notes', 'My Notes'); ?></li>
 					<li><?php echo Html::anchor('home/logout', 'Logout'); ?></li>
 				<?php else: ?>
+					<li><div class="wrap"><?php echo Html::anchor('home', 'Home'); ?></div></li>
 					<li><div class="wrap"><?php echo Html::anchor('home/login', 'Login'); ?></div></li>
 					<li><div class="wrap"><?php echo Html::anchor('home/signup', 'Sign Up'); ?></div></li>
 				<?php endif; ?>
@@ -65,6 +66,9 @@
             </div>
             <div class="stats">Page renedered in {exec_time}s &middot; Memory Usage {mem_usage}MB</div>
         </div>
+        
+        <p><?php print_r('language='.Config::get('language')); ?></p>
+		<p><?php echo Html::anchor(Uri::string().'/lang/fr/', 'French').' '.Html::anchor(Uri::string().'/lang/en/', 'English'); ?></p>
 
     </body>
 </html>

@@ -9,4 +9,5 @@ return array(
 	 * after it.
 	 */
 	// 'foo/bar' => array('welcome/foo', 'name' => 'foo'),
+	'(:any)/lang/(:segment)' =>	'lang/change/$2/$1',
 );

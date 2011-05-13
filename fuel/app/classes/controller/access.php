@@ -32,7 +32,7 @@ class Controller_Access extends Controller_Template
 
 		//useful for the template view
 		$this->page_id = implode('_', $class_array);
-		$this->content = implode(DS, $class_array).DS.$method;
+		$this->content = implode('/', $class_array).'/'.$method;
 
 		$right = ($method === 'index') ? 'view' : $method;
 		if ($this->user_group &&
@@ -54,6 +54,9 @@ class Controller_Access extends Controller_Template
 			$this->template = 'admin/template';
 			parent::before();
 		}
+		
+		// change the config if there is a cookie for the language
+		Config::set('language', Cookie::get('language', 'fr'));
 
 		return call_user_func_array(array($this, $full_method), $args);
 	}

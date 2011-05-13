@@ -1,2 +1,6 @@
-<h2>404 - <?php echo $title; ?></h2>
-<p>This page does not exist. <?php echo Html::anchor('home', 'Go back Home'); ?></p>
+<?php Lang::load('404'); ?>
+
+<h2>404 - <?php $messages = Lang::line('messages'); echo $messages[array_rand($messages)]; ?></h2>
+<p><?php echo Lang::line('not_exist'); echo Html::anchor('home', Lang::line('back')); ?></p>
+
+

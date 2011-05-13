@@ -7,7 +7,6 @@ abstract class Controller_Template extends Fuel\Core\Controller_Template {
 	protected $content = '';
 	protected $data = array();
 
-
 	public function router($method = 'index', $args = null)
 	{
 		$full_method = 'action_'.$method;
@@ -22,6 +21,9 @@ abstract class Controller_Template extends Fuel\Core\Controller_Template {
 
 		$this->page_id = implode('_', $class_array);
 		$this->content = implode(DS, $class_array).DS.$method;
+		
+		// change the config if there is a cookie for the language
+		Config::set('language', Cookie::get('language', 'fr'));
 
 		return call_user_func_array(array($this, $full_method), $args);
 	}
@@ -46,9 +48,6 @@ abstract class Controller_Template extends Fuel\Core\Controller_Template {
 	 */
 	public function action_404()
 	{
-		$messages = array('Aw, no! Damn thing', 'Bloody Hell!', 'Uh Oh!', 'Nope, not here.', 'Huh?');
-		$this->title = $messages[array_rand($messages)];
-
         // set a HTTP 404 output header
         $this->response->status = 404;
 		// redifine the view default name
