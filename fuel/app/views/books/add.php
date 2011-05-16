@@ -5,5 +5,5 @@
 <?php echo $form->validation()->show_errors(); ?>
 <fieldset>
 <legend>Book details</legend>
-<?php echo $form->build('admin/books/add');?>
+<?php echo $form->build('books/add');?>
 </fieldset>

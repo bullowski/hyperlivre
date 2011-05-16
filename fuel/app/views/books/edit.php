@@ -5,7 +5,7 @@
 <?php echo $form->validation()->show_errors(); ?>
 <fieldset>
 <legend>Book details</legend>
-<?php echo $form->build('admin/books/edit/'.$book->id);?>
+<?php echo $form->build('books/edit/'.$book->id);?>
 </fieldset>
 
 <?php print_r(var_export($book->users,true));?>
