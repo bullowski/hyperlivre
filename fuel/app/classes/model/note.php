@@ -29,7 +29,7 @@ class Model_Note extends Orm\Model {
 
 	public static function status_name($status)
 	{
-		$status_names = statis::status_names();
+		$status_names = static::status_names();
 		$name = $status_names[$status];
 
 		return ($name === null) ? 'all' : $name;
