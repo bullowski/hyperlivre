@@ -17,7 +17,7 @@ class Controller_Notes extends Controller_Access
 			\Response::redirect('home/404');
 		}
 
-		$total_notes = Model_Note::count_filtered_notes_by_author($this->user_id);
+		$total_notes = Model_Note::count_filtered_notes_by_author($this->user_id, $filter);
 
 		Pagination::set_config(array(
 			'pagination_url' => 'notes/index/'.$filter.'/',
@@ -50,10 +50,10 @@ class Controller_Notes extends Controller_Access
             }
 
 			$note = new Model_Note(array(
-						'creator_id' => $this->user_id,
 						'title' => $form->validated('title'),
 						'body' => $form->validated('body'),
 						'status' => Model_Note::$status_values[$status],
+						'creator_id' => $this->user_id,
 					));
 
 			if ($note->save())

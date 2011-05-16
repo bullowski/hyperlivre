@@ -35,8 +35,9 @@ class Controller_Access extends Controller_Template
 		$this->content = implode('/', $class_array).'/'.$method;
 
 		$right = ($method === 'index') ? 'view' : $method;
-		if ($this->user_group &&
-				!Auth::acl()->has_access(
+		if (in_array($right, array('view', 'create', 'update', 'delete'), true)
+				&& $this->user_group
+				&& !Auth::acl()->has_access(
 						array($this->page_id, array($right)), $this->user_group))
 		{
 			Response::redirect('home/404');
@@ -54,10 +55,10 @@ class Controller_Access extends Controller_Template
 			$this->template = 'admin/template';
 			parent::before();
 		}
-		
+
 		// change the config if there is a cookie for the language
 		Config::set('language', Cookie::get('language', 'fr'));
-		
+
 		// load the language file
 		Lang::load($this->content);
 
