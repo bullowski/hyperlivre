@@ -72,7 +72,7 @@ class Model_Book extends Orm\Model
 	{
 		$options = array('include' => 'concepts');
 
-		if (user_id !== null && $user_id !== 'all')
+		if ($user_id !== null && $user_id !== 'all')
 		{
 			$options['where'][] = array(array('creator_id', '=', $user_id));
 		}
