@@ -12,9 +12,9 @@ class Model_Book_Validation
 			array('required'),
 			array('min_length', 3)
 		),
-		'published' => array(
+		'status' => array(
 			array('required'),
-			array('valid_published')
+			array('valid_status')
 		)
 	);
 
@@ -46,11 +46,11 @@ class Model_Book_Validation
 						'value' => !empty($book) ? $book->description : ''),
 				static::get_common_rules('description'));
 
-		$form->add('published', 'Status',
+		$form->add('status', 'Status',
 				array(	'type' => 'select',
-						'options' => Model_Book::$status,
-						'value' => !empty($book) ? $book->published : null),
-				static::get_common_rules('published'));
+						'options' => Model_Book::status_names(),
+						'value' => !empty($book) ? $book->status : null),
+				static::get_common_rules('status'));
 
 		$form->add('submit', null,
 				array(	'type' => 'submit',
@@ -82,12 +82,12 @@ class Model_Book_Validation
 						'value' => !empty($book) ? $book->description : ''),
 				static::get_common_rules('description'));
 
-		$form->add('published', 'Status',
-				array(	'id' => 'published',
+		$form->add('status', 'Status',
+				array(	'id' => 'status',
 						'type' => 'select',
-						'options' => Model_Book::$status,
-						'value' => !empty($book) ? $book->published : null),
-				static::get_common_rules('published'));
+						'options' => Model_Book::status_names(),
+						'value' => !empty($book) ? $book->status : null),
+				static::get_common_rules('status'));
 
 		$form->add('submit', null,
 				array(	'type' => 'submit',
@@ -118,9 +118,9 @@ class Model_Book_Validation
 	}
 
 	// Check if the status is in the possible status
-	public function _validation_valid_published($value)
+	public function _validation_valid_status($value)
     {
-		 return (Model_Book::$status[$value] !== null);
+		 return (Model_Book::$status_values[$value] !== null);
 	}
 
 }
