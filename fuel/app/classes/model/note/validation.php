@@ -112,7 +112,7 @@ class Model_Note_Validation
 	// Check if the status is in the possible status
 	public function _validation_valid_status($value)
     {
-		 return (Model_Note::$status_values[$value] !== null);
+		 return (Model_Note::status_name($value) !== 'all');
 	}
 
 }

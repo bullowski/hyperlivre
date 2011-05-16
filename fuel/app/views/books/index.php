@@ -17,9 +17,9 @@
 			echo '&middot;';
 		}
 	?>
-	<?php echo Html::anchor('books/index/open', 'Published and Open'); ?>
+	<?php echo Html::anchor('books/index/open', 'Opened to subscription'); ?>
 	&middot;
-	<?php echo Html::anchor('books/index/private', 'Published and Closed'); ?>
+	<?php echo Html::anchor('books/index/private', 'Private'); ?>
     &middot;
 	<?php echo Html::anchor('books/index/archive', 'Archive'); ?>
 </div>

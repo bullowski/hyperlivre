@@ -120,7 +120,7 @@ class Model_Book_Validation
 	// Check if the status is in the possible status
 	public function _validation_valid_status($value)
     {
-		 return (Model_Book::$status_values[$value] !== null);
+		 return (Model_Book::status_name($value) !== 'all');
 	}
 
 }

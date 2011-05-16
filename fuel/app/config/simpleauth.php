@@ -36,6 +36,7 @@ return array(
 		'admin'      => array(
 			'website'  => array('add', 'edit', 'delete'),
 			'admin'    => array('view', 'add', 'edit', 'delete'),
+			'books'    => array('view_hidden', 'add', 'edit', 'delete'),
 		),
 		'super'      => true,
 	),
