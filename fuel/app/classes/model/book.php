@@ -2,8 +2,6 @@
 
 class Model_Book extends Orm\Model
 {
-	public static $status = array('hidden', 'published_open', 'published_closed', 'archive');
-
 	protected static $_table_name = 'books';
 	protected static $_belongs_to = array(
 		'creator' => array(
@@ -27,7 +25,7 @@ class Model_Book extends Orm\Model
 	);
 
 	protected static $_has_many = array('users');
-	protected static $_properties = array('id', 'creator_id', 'title', 'description', 'published', 'created_at', 'updated_at');
+	protected static $_properties = array('id', 'creator_id', 'title', 'description', 'status', 'created_at', 'updated_at');
 	protected static $_primary_key = array('id');
 
 	protected static $_observers = array(
@@ -35,49 +33,66 @@ class Model_Book extends Orm\Model
 		'Orm\Observer_UpdatedAt' => array('before_save'),
 	);
 
-	public static function count_books($published = null)
+	public static $status_values = array('hidden' => 0, 'open' => 1, 'private' => 2, 'archive' => 3);
+
+	public static function status_names()
 	{
-		if ($published === null || $published === 'all')
-		{
-			return count(Model_Book::find('all'));
-		}
-		else
-		{
-			return count(Model_Book::find_by_published($published));
-		}
+		return array_flip(static::$status_values);
+	}
+
+	public static function status_name($status)
+	{
+		$status_names = statis::status_names();
+		$name = $status_names[$status];
+
+		return ($name === null) ? 'all' : $name;
+	}
+
+	public static function count_filtered_books($filter = 'all')
+	{
+		return count(static::get_filtered_books_by_author('all', $filter));
+	}
+
+	public static function count_filtered_books_by_author($user_id, $filter = 'all')
+	{
+		return count(static::get_filtered_books_by_author($user_id, $filter));
 	}
 
 	/**
-	 * Orm call to get all books from this published status
-	 * @return type array books from this published status
+	 * Orm call to get all books given their status
+	 * @return type array filtered books
 	 */
-	public function get_books_by_published($published = 'all', $offset = 0, $limit = 10)
+	public static function get_filtered_books($filter = 'all', $offset = 0, $limit = null)
 	{
-		$options = array('offset' => $offset, 'limit' => $limit);
+		return static::get_filtered_books_by_author('all', $filter, $offset, $limit);
+	}
 
-		if ($published !== 'all')
+	public static function get_filtered_books_by_author(
+			$user_id, $filter = 'all', $offset = 0, $limit = null)
+	{
+		$options = array('include' => 'concepts');
+
+		if (user_id !== null && $user_id !== 'all')
 		{
-			$options['where'] = array(array('published', '=', $published));
+			$options['where'][] = array(array('creator_id', '=', $user_id));
+		}
+
+		if (!is_null($limit))
+		{
+			$options['offset'] = $offset;
+			$options['limit'] = $limit;
+		}
+
+		if ($filter !== 'all')
+		{
+			$options['where'][] = array(
+				array('status', '=', static::$status_values[$filter])
+			);
 		}
 
 		return Model_Book::find('all', $options);
 	}
 
-	public static function get_status($filter = 'all')
-	{
-		if ($filter !== 'all')
-		{
-			foreach(static::$status as $key => $value)
-			{
-				if ($value === $filter)
-				{
-					return $key;
-				}
-			}
-		}
-
-		return 'all';
-	}
 }
 
 /* End of file book.php */

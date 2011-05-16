@@ -27,6 +27,14 @@ class Model_Note extends Orm\Model {
 		return array_flip(static::$status_values);
 	}
 
+	public static function status_name($status)
+	{
+		$status_names = statis::status_names();
+		$name = $status_names[$status];
+
+		return ($name === null) ? 'all' : $name;
+	}
+
 	public static function count_filtered_notes_by_author($user_id, $filter = 'all')
 	{
 		return count(static::get_filtered_notes_by_author($user_id, $filter));
@@ -35,16 +43,12 @@ class Model_Note extends Orm\Model {
 	public static function get_filtered_notes_by_author(
 			$user_id, $filter = 'all', $offset = 0, $limit = null)
 	{
-		if (!$user_id)
-		{
-			return false;
-		}
+		$options = array('include' => 'concepts');
 
-		$options = array(
-			'include' => 'concepts',
-			'where' => array(
-				array('creator_id', '=', $user_id)
-			));
+		if (user_id !== null && $user_id !== 'all')
+		{
+			$options['where'][] = array(array('creator_id', '=', $user_id));
+		}
 
 		if (!is_null($limit))
 		{
@@ -61,6 +65,5 @@ class Model_Note extends Orm\Model {
 
 		return Model_Note::find('all', $options);
 	}
-
 
 }
