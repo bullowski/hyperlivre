@@ -48,27 +48,29 @@ class Model_Book extends Orm\Model
 		return ($name === null) ? 'all' : $name;
 	}
 
-	public static function count_filtered_books($filter = 'all')
+	public static function count_filtered_books($filter = 'all', $exclude_filter = false)
 	{
-		return count(static::get_filtered_books_by_author('all', $filter));
+		return count(static::get_filtered_books_by_author('all', $filter, $exclude_filter));
 	}
 
-	public static function count_filtered_books_by_author($user_id, $filter = 'all')
+	public static function count_filtered_books_by_author($user_id, $filter = 'all', $exclude_filter = false)
 	{
-		return count(static::get_filtered_books_by_author($user_id, $filter));
+		return count(static::get_filtered_books_by_author($user_id, $filter, $exclude_filter));
 	}
 
 	/**
 	 * Orm call to get all books given their status
 	 * @return type array filtered books
 	 */
-	public static function get_filtered_books($filter = 'all', $offset = 0, $limit = null)
+	public static function get_filtered_books(
+			$filter = 'all', $exclude_filter = false, $offset = 0, $limit = null)
 	{
-		return static::get_filtered_books_by_author('all', $filter, $offset, $limit);
+		return static::get_filtered_books_by_author(
+				'all', $filter, $exclude_filter, $offset, $limit);
 	}
 
 	public static function get_filtered_books_by_author(
-			$user_id, $filter = 'all', $offset = 0, $limit = null)
+			$user_id, $filter = 'all', $exclude_filter = false, $offset = 0, $limit = null)
 	{
 		$options = array('include' => 'concepts');
 
@@ -81,6 +83,11 @@ class Model_Book extends Orm\Model
 		{
 			$options['offset'] = $offset;
 			$options['limit'] = $limit;
+		}
+
+		if ($exclude_filter) {
+			$options['where'][] = array(
+				array('status', '<>', static::$status_values[$exclude_filter]));
 		}
 
 		if ($filter !== 'all')

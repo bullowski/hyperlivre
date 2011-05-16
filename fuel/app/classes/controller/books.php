@@ -11,18 +11,19 @@ class Controller_Books extends Controller_Access
 			$status = Model_Book::status_names();
 			$filter = $status[$filter];
 		}
+
+		$hidden_books_access = Auth::acl()->has_access(
+				array('books', array('view_hidden')), $this->user_group);
 		//redirect if the filter value is not valid
 		if ($filter === null
-				|| ($filter !== 'all'
-						&& Model_Book::$status_values[$filter] === null)
-				|| ($filter === 'hidden'
-						&& !Auth::acl()->has_access(
-								array('books', array('view_hidden')), $this->user_group)))
+				|| ($filter !== 'all' && Model_Book::$status_values[$filter] === null)
+				|| ($filter === 'hidden' && !$hidden_books_access))
 		{
 			\Response::redirect('home/404');
 		}
 
-		$total_books = Model_Book::count_filtered_books($filter);
+		$exclude_filter = $hidden_books_access ? false : 'hidden';
+		$total_books = Model_Book::count_filtered_books($filter, $exclude_filter);
 
 		Pagination::set_config(array(
 			'pagination_url' => 'books/index/'.$filter.'/',
@@ -35,7 +36,7 @@ class Controller_Books extends Controller_Access
 		$this->title = 'Books Index';
 		$this->data['filter'] = $filter;
 		$this->data['books'] =  Model_Book::get_filtered_books(
-				$filter, Pagination::$offset, Pagination::$per_page);;
+				$filter, $exclude_filter, Pagination::$offset, Pagination::$per_page);;
 		$this->data['user_rights'] = $this->user_rights;
 	}
 

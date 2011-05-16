@@ -35,7 +35,7 @@ class Controller_Access extends Controller_Template
 		$this->content = implode('/', $class_array).'/'.$method;
 
 		$right = ($method === 'index') ? 'view' : $method;
-		if (in_array($right, array('view', 'create', 'update', 'delete'), true)
+		if (in_array($right, array('view', 'add', 'edit', 'delete'), true)
 				&& $this->user_group
 				&& !Auth::acl()->has_access(
 						array($this->page_id, array($right)), $this->user_group))
