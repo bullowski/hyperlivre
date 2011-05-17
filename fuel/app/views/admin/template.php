@@ -1,3 +1,5 @@
+<?php Lang::load('template'); ?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -58,12 +60,15 @@
 
         <div class="footer">
             <div class="copyright">
-				Made possible with <a href="http://fuelphp.com/">FuelPHP</a>
+				<?php echo __('possible'); ?><a href="http://fuelphp.com/">FuelPHP</a>
                 <br/>
-				Developed by Alex Bulla &amp; Michael Gumowski.
+				<?php echo __('author'); ?>
             </div>
-            <div class="stats">Page renedered in {exec_time}s &middot; Memory Usage {mem_usage}MB</div>
+            <div class="stats">
+            	<?php echo __('render'); ?>{exec_time}s &middot; <?php echo __('memory'); ?>{mem_usage}MB
+            	<br/>
+            	<?php echo Html::anchor(Uri::string().'/lang/fr/', __('french')).' '.Html::anchor(Uri::string().'/lang/en/', __('english')); ?>
+            </div>
         </div>
-
     </body>
 </html>
