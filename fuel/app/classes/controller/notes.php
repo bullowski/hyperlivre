@@ -35,6 +35,23 @@ class Controller_Notes extends Controller_Access
 		$this->data['user_rights'] = $this->user_rights;
     }
 
+	public function action_view($id) {
+		if (empty($id) || !$note = Model_Note::find($id))
+		{
+			Response::redirect('notes');
+		}
+
+		//redirect if the user do not have enougth privileges
+		if (Model_Note::status_name($note->status) === 'draft'
+				&& $note->creator->$id !== $this->user_id)
+		{
+			\Response::redirect('home/404');
+		}
+
+		$this->title = 'View Note - '.$note->title;
+		$this->data['note'] = $note;
+	}
+
     public function action_add()
     {
 		$form = Model_Note_Validation::add();
