@@ -26,6 +26,11 @@ class Controller_Home extends Controller_Template {
 	//TODO move this to an other controller??
 	public function action_signup()
 	{
+		Config::load('auth', true);
+		if (!Config::get('auth.signup', false))
+		{
+			Response::redirect('home/404');
+		}
         if (Auth::check())
         {
             Response::redirect('/');

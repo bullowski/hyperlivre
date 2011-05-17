@@ -69,6 +69,10 @@ class Model_Book extends Orm\Model
 				'all', $filter, $exclude_filter, $offset, $limit);
 	}
 
+	/**
+	 * $exclude_filter is only valid with filter === 'all'
+	 * This parameter is used to exclude statuses from the 'all' bag
+	 */
 	public static function get_filtered_books_by_author(
 			$user_id, $filter = 'all', $exclude_filter = false, $offset = 0, $limit = null)
 	{
@@ -85,16 +89,19 @@ class Model_Book extends Orm\Model
 			$options['limit'] = $limit;
 		}
 
-		if ($exclude_filter) {
-			$options['where'][] = array(
-				array('status', '<>', static::$status_values[$exclude_filter]));
-		}
-
 		if ($filter !== 'all')
 		{
 			$options['where'][] = array(
 				array('status', '=', static::$status_values[$filter])
 			);
+		}
+		else
+		{	//use this only to exclude statuses from the 'all' bag
+			if ($exclude_filter)
+			{
+				$options['where'][] = array(
+				array('status', '<>', static::$status_values[$exclude_filter]));
+			}
 		}
 
 		return Model_Book::find('all', $options);

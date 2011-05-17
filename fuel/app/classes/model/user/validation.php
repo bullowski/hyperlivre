@@ -140,8 +140,8 @@ class Model_User_Validation
 				array_merge(
 						static::get_common_rules('email'),
 						array(array('unique', 'email'))));
-		
-		$open_books = Model_Book::get_books_by_published(1);
+
+		$open_books = Model_Book::get_filtered_books('open');
 		$books_select = array();
 		foreach ($open_books as $book)
 		{
@@ -215,10 +215,14 @@ class Model_User_Validation
     {
 		 return (Auth::group()->get_name($value) !== null);
 	}
-	
+
 	//FIXME check book published status
-	public function _validation_valid_book(Array $values, $select_book)
+	public function _validation_valid_book($values, Array $select_book)
     {
+		if (is_string($values))
+		{
+			$values = array($values);
+		}
     	foreach ($values as $value)
     	{
     		if ($select_book[$value] === null)
@@ -226,7 +230,7 @@ class Model_User_Validation
     			return false;
     		}
     	}
-		
+
     	return true;
 	}
 }
