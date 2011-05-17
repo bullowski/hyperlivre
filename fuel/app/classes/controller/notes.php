@@ -14,7 +14,7 @@ class Controller_Notes extends Controller_Access
 		//redirect if the filter value is not valid
 		if ($filter === null ||
 				($filter !== 'all' && Model_Note::$status_values[$filter] === null)) {
-			\Response::redirect('home/404');
+			Request::show_404();
 		}
 
 		$total_notes = Model_Note::count_filtered_notes_by_author($this->user_id, $filter);
@@ -45,7 +45,7 @@ class Controller_Notes extends Controller_Access
 		if (Model_Note::status_name($note->status) === 'draft'
 				&& $note->creator->$id !== $this->user_id)
 		{
-			\Response::redirect('home/404');
+			Request::show_404();
 		}
 
 		$this->title = 'View Note - '.$note->title;

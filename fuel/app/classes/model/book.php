@@ -11,7 +11,7 @@ class Model_Book extends Orm\Model
 			'cascade_save' => false,
 			'cascade_delete' => false)
 	);
-	
+
 	protected static $_has_many = array(
 		'active_users' => array(
 			'key_from' => 'id',
@@ -115,38 +115,43 @@ class Model_Book extends Orm\Model
 
 		return Model_Book::find('all', $options);
 	}
-	
-	// TODO
+
+	// TODO test this
 	public static function get_activable_books_by_user(
 			$user_id, $filter = 'all', $exclude_filter = false)
 	{
-		$options = array();
-
-		if ($user_id !== null && $user_id !== 'all')
+		if ($user_id === null || $user_id === 'all')
 		{
-			$user = Model_User::find($user_id);
-			
-			if ($filter !== 'all')
+			return false;
+		}
+
+		$activable_books = Model_User::find($user_id)->books;
+
+		if ($filter !== 'all')
+		{
+			foreach ($activable_books as $id => $book)
 			{
-				$options['where'][] = array(
-					array('status', '=', static::$status_values[$filter])
-				);
-			}
-			else
-			{	//use this only to exclude statuses from the 'all' bag
-				if ($exclude_filter)
+				if (Model_Book::status_name($book->status) !== $filter)
 				{
-					$options['where'][] = array(
-					array('status', '<>', static::$status_values[$exclude_filter]));
+					unset($activable_books[$id]);
+				}
+			}
+		}
+		else
+		{	//use this only to exclude status from the 'all' bag
+			if ($exclude_filter)
+			{
+				foreach ($activable_books as $id => $book)
+				{
+					if (Model_Book::status_name($book->status) === $exclude_filter)
+					{
+						unset($activable_books[$id]);
+					}
 				}
 			}
 		}
 
-		
-
-		
-
-		return Model_Book::find('all', $options);
+		return $activable_books;
 	}
 
 }

@@ -19,7 +19,7 @@ class Controller_Books extends Controller_Access
 				|| ($filter !== 'all' && Model_Book::$status_values[$filter] === null)
 				|| ($filter === 'hidden' && !$hidden_books_access))
 		{
-			\Response::redirect('home/404');
+			Request::show_404();
 		}
 
 		$exclude_filter = $hidden_books_access ? false : 'hidden';
@@ -49,10 +49,10 @@ class Controller_Books extends Controller_Access
 		$hidden_books_access = Auth::acl()->has_access(
 				array('books', array('view_hidden')), $this->user_group);
 
-		//redirect if the user do not have enougth privileges
+		//redirect if the user do not have 'view_hidden' privileges
 		if (Model_Book::status_name($book->status) === 'hidden' && !$hidden_books_access)
 		{
-			\Response::redirect('home/404');
+			Request::show_404();
 		}
 
 		$this->title = 'View Book - '.$book->title;
@@ -66,7 +66,7 @@ class Controller_Books extends Controller_Access
             Session::set_flash('warning', 'You canceled the creation of the book.');
 			Response::redirect('books');
 		}
-		
+
 		$form = Model_Book_Validation::add();
 		if ($form->validation()->run())
 		{
@@ -84,7 +84,7 @@ class Controller_Books extends Controller_Access
 				{
 					$selected_users = array($selected_users);
 				}
-				// add/update all the selected books 
+				// add/update all the selected books
 	            foreach ($selected_users as $user_id)
 	            {
 	            	$book->users[$user_id] = Model_User::find($user_id);
@@ -92,7 +92,7 @@ class Controller_Books extends Controller_Access
 
 	            if ($book->save())
 				{
-				
+
 					Session::set_flash('success', 'Book successfully added with status '.
 							Model_Book::status_name($book->status));
 					Response::redirect('books');
@@ -121,7 +121,7 @@ class Controller_Books extends Controller_Access
                 				'All your changes has been ignored.');
 			Response::redirect('books');
 		}
-		
+
 		if (empty($id) || !$book = Model_Book::find($id))
 		{
 			Response::redirect('books');
@@ -149,7 +149,7 @@ class Controller_Books extends Controller_Access
 			$book->title = $form->validated('title');
 			$book->description = $form->validated('description');
 			$book->status = $form->validated('status');
-			
+
         	$selected_users = $form->validated('user');
 			if (is_string($selected_users))
 			{
@@ -162,8 +162,8 @@ class Controller_Books extends Controller_Access
             		unset($book->users[$user->id]);
             	}
             }
-            
-        	// add/update all the selected users 
+
+        	// add/update all the selected users
             foreach ($selected_users as $user_id)
             {
             	$book->users[$user_id] = Model_User::find($user_id);
