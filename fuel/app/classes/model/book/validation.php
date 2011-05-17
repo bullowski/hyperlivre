@@ -15,6 +15,9 @@ class Model_Book_Validation
 		'status' => array(
 			array('required'),
 			array('valid_status')
+		),
+		'user' => array(
+			array('required'),
 		)
 	);
 
@@ -51,6 +54,19 @@ class Model_Book_Validation
 						'options' => Model_Book::status_names(),
 						'value' => !empty($book) ? $book->status : null),
 				static::get_common_rules('status'));
+		
+		// TODO take only the unbanned users -> filter get_users
+		$available_users = Model_User::get_users_by_group('all');
+		$users_select = array();
+		foreach ($available_users as $user)
+		{
+			$users_select[$user->id] = $user->username;
+		}
+		$form->add('user', 'Availaible User(s)', 
+				array(	'type' => 'checkboxes',
+						'name' => $users_select,
+						'options' => $users_select),
+				array(array('valid_user', $users_select, true)));
 
 		$form->add('submit', null,
 				array(	'type' => 'submit',
@@ -123,4 +139,25 @@ class Model_Book_Validation
 		 return (Model_Book::status_name($value) !== 'all');
 	}
 
+	public function _validation_valid_user($values, Array $select_user, $nullable = false)
+    {
+    	if ($nullable && $values === null)
+    	{
+    		return true;
+    	}
+    	
+		if (is_string($values))
+		{
+			$values = array($values);
+		}
+    	foreach ($values as $value)
+    	{
+    		if ($select_user[$value] === null)
+    		{
+    			return false;
+    		}
+    	}
+
+    	return true;
+	}
 }

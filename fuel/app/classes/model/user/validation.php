@@ -238,7 +238,6 @@ class Model_User_Validation
 		 return (Auth::group()->get_name($value) !== null);
 	}
 
-	//FIXME check book published status
 	public function _validation_valid_book($values, Array $select_book, $nullable = false)
     {
     	if ($nullable && $values === null)
