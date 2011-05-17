@@ -65,7 +65,7 @@
 				if (in_array('edit', $user_rights)) 
 				{
 					if (Model_Book::status_name($book->status) === 'hidden') {
-						echo Html::anchor('books/edit/open/'.$book->id, 'Open').'  ';
+						echo Html::anchor('books/edit/'.$book->id.'/open/', 'Open').'  ';
 					}
 					echo Html::anchor('books/edit/'.$book->id, 'Edit').'  ';
 				}
