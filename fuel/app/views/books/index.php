@@ -3,7 +3,11 @@
 <p>//todo modify view app/views/admin/books.php</p>
 
 <div class="options">
-	<div class="option"><?php echo Html::anchor('books/add', 'Create a new Book'); ?></div>
+	<?php if (in_array('add', $user_rights)) : ?>
+		<div class="option">
+			<?php echo Html::anchor('books/add', 'Create a new Book'); ?>
+		</div>
+	<?php endif;?>
 </div>
 
 <div class="filters">
@@ -35,7 +39,12 @@
 		<th>Status</th>
         <th>Creation date</th>
         <th>Last update</th>
-        <th></th>
+        <?php 
+			if (in_array('edit', $user_rights) || in_array('delete', $user_rights)) 
+			{
+				echo '<th>Options</th>';
+			}
+		?>
 	</tr>
 </thead>
 <tbody>
@@ -44,13 +53,30 @@
 	<tr>
 		<td><?php echo $book->id; ?></td>
         <td><?php echo $book->creator->username; ?></td>
-        <td><?php echo Html::anchor('books/edit/'.$book->id, $book->title) ?></td>
+        <td><?php echo Html::anchor('books/view/'.$book->id, $book->title) ?></td>
         <td><?php echo Str::truncate($book->description,30); ?></td>
         <td><?php echo Model_Book::status_name($book->status); ?></td>
         <td><?php echo Date::factory($book->created_at); ?></td>
         <td><?php echo Date::factory($book->updated_at); ?></td>
-        <td width="11%">
-     		<?php echo Html::anchor('books/delete/'.$book->id, 'delete'); ?>
+		<?php
+			if (in_array('edit', $user_rights) || in_array('delete', $user_rights))
+			{
+			echo '<td>';
+				if (in_array('edit', $user_rights)) 
+				{
+					if (Model_Book::status_name($book->status) === 'hidden') {
+						echo Html::anchor('books/edit/'.$book->id.'/open/', 'Open').'  ';
+					}
+					echo Html::anchor('books/edit/'.$book->id, 'Edit').'  ';
+				}
+				if (in_array('delete', $user_rights))
+				{
+					echo Html::anchor('books/delete/'.$book->id, 'Delete', 
+							array('onclick' => "return confirm('Are you sure?')"));
+				}
+			}
+			echo '</td>';
+		?>
 		</td>
 	</tr>
 	<?php endforeach; ?>
