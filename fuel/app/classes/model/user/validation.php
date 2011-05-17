@@ -31,7 +31,6 @@ class Model_User_Validation
 		),
 		'book' => array(
 			array('required'),
-			//array('trim'),
 		)
 	);
 
@@ -188,6 +187,19 @@ class Model_User_Validation
 						'options' => Auth::group()->get_group_names(),
 						'value' => !empty($user) ? $user->group : null),
 				static::get_common_rules('group'));
+		
+		$accessible_books = Model_Book::get_filtered_books('all','archive');
+		$books_select = array();
+		foreach ($accessible_books as $book)
+		{
+			$books_select[$book->id] = $book->title;
+		}
+		$form->add('book', 'Accessible Book(s)', 
+				array(	'type' => 'checkboxes',
+						'name' => $books_select,
+						'value' => array_keys($user->books),
+						'options' => $books_select),
+				array(array('valid_book', $books_select)));
 
 		$form->add('submit', null,
 				array(	'type' => 'submit',
