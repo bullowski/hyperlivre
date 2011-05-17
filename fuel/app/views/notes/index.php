@@ -33,19 +33,16 @@
 			if (in_array('edit', $user_rights) || in_array('delete', $user_rights))
 			{
 				echo '<td>';
-				if (in_array('publish', $user_rights))
-				{
-					echo Html::anchor('notes/publish/'.$note->id, 'Publish').'  ';
-				}
 				if (in_array('edit', $user_rights)) 
 				{
+					echo Html::anchor('notes/edit/publish/'.$note->id, 'Publish').'  ';
 					echo Html::anchor('notes/edit/'.$note->id, 'Edit').'  ';
 				}
 				if (in_array('delete', $user_rights))
 				{
-					echo Html::anchor('notes/delete/'.$note->id, 'Delete', array('onclick' => "return confirm('Are you sure?')"));
+					echo Html::anchor('notes/delete/'.$note->id, 'Delete', 
+							array('onclick' => "return confirm('Are you sure?')"));
 				}
-
 				echo '</td>';
 			}	
 		?>
