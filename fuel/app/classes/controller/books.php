@@ -61,6 +61,12 @@ class Controller_Books extends Controller_Access
 
 	public function action_add()
 	{
+		if (Input::post('cancel'))
+        {
+            Session::set_flash('warning', 'You canceled the creation of the book.');
+			Response::redirect('books');
+		}
+		
 		$form = Model_Book_Validation::add();
 		if ($form->validation()->run())
 		{
@@ -109,6 +115,13 @@ class Controller_Books extends Controller_Access
 
 	public function action_edit($id, $status = null)
 	{
+		if (Input::post('cancel'))
+        {
+            Session::set_flash('warning', 'You canceled the edition of the book. '.
+                				'All your changes has been ignored.');
+			Response::redirect('books');
+		}
+		
 		if (empty($id) || !$book = Model_Book::find($id))
 		{
 			Response::redirect('books');

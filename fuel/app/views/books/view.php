@@ -8,4 +8,8 @@
 <h3>Book description :</h3>
 <p><?php echo $book->description; ?></p>
 
+<form>
+	<?php echo Form::submit('select', 'Select'); ?>
+</form>
+
 

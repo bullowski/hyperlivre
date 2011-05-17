@@ -33,6 +33,12 @@ class Controller_Admin_Users extends Controller_Admin
 
 	public function action_add()
 	{
+		if (Input::post('cancel'))
+        {
+            Session::set_flash('warning', 'You canceled the creation of the user.');
+			Response::redirect('admin/users');
+		}
+		
 		$form = Model_User_Validation::add();
         if ($form->validation()->run())
         {
@@ -80,6 +86,13 @@ class Controller_Admin_Users extends Controller_Admin
 
 	public function action_edit($id)
 	{
+		if (Input::post('cancel'))
+        {
+			Session::set_flash('warning', 'You canceled the edition of the user. '.
+                				'All your changes has been ignored.');
+			Response::redirect('admin/users');
+        }
+		
 		if (empty($id) || !$user = Model_User::find($id))
 		{
 			Response::redirect('admin/users');
@@ -87,7 +100,7 @@ class Controller_Admin_Users extends Controller_Admin
 
 		$form = Model_User_Validation::edit($user);
         if ($form->validation()->run())
-        {
+        {        	
 			$user->username = $form->validated('username');
 			$user->email = $form->validated('email');
 			$user->group = $form->validated('group');
