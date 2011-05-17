@@ -47,15 +47,19 @@ class Controller_Home extends Controller_Template {
             {
             	$user = Model_User::find($user_id);
             	$books = $form->validated('book');
+				if (is_string($books))
+				{
+					$books = array($books);
+				}
             	foreach ($books as $book_id)
             	{
             		$user->books[] = Model_Book::find($book_id);
             	}
-            	if ($user->save()) 
+            	if ($user->save())
             	{
 	                Session::set_flash('success', 'Thanks for registering!');
 	                Response::redirect('/');
-            	} 
+            	}
             	else
             	{
             		Session::set_flash('error', 'An error has occured. Try again later.');
