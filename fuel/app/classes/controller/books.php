@@ -40,6 +40,25 @@ class Controller_Books extends Controller_Access
 		$this->data['user_rights'] = $this->user_rights;
 	}
 
+	public function action_view($id) {
+		if (empty($id) || !$book = Model_Book::find($id))
+		{
+			Response::redirect('books');
+		}
+
+		$hidden_books_access = Auth::acl()->has_access(
+				array('books', array('view_hidden')), $this->user_group);
+
+		//redirect if the user do not have enougth privileges
+		if (Model_Book::status_name($book->status) === 'hidden' && !$hidden_books_access)
+		{
+			\Response::redirect('home/404');
+		}
+
+		$this->title = 'View Book - '.$book->title;
+		$this->data['book'] = $book;
+	}
+
 	public function action_add()
 	{
 		$form = Model_Book_Validation::add();
@@ -70,11 +89,27 @@ class Controller_Books extends Controller_Access
 		$this->data['form'] = $form;
 	}
 
-	public function action_edit($id)
+	public function action_edit($id, $status = null)
 	{
 		if (empty($id) || !$book = Model_Book::find($id))
 		{
 			Response::redirect('books');
+		}
+
+		//shortcut to change the status on the fly
+		if ($status !== null && Model_Book::$status_values[$status] !== null)
+		{
+			$book->status = Model_Book::$status_values[$status];
+			if ($book->save())
+			{
+				Session::set_flash('success', 'Status '.$status.' was assigned to the book'.
+						$book->title.' (#'.$book->id.')');
+				Response::redirect('books');
+			}
+			else
+			{
+				Session::set_flash('error', 'Something went wrong, please try again!');
+			}
 		}
 
 		$form = Model_Book_Validation::edit($book);
