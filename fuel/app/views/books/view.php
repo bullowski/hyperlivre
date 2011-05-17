@@ -8,8 +8,10 @@
 <h3>Book description :</h3>
 <p><?php echo $book->description; ?></p>
 
-<form>
-	<?php echo Form::submit('select', 'Select'); ?>
-</form>
+<?php 
+	echo Form::open('user/dashboard/active_book/'.$book->id);
+	echo Form::submit('active_book', 'Select this book');
+	echo Form::close();
+?>
 
 

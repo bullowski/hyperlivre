@@ -3,6 +3,14 @@
 class Model_User extends Orm\Model
 {
 	protected static $_table_name = 'users';
+	protected static $_belongs_to = array(
+		'active_book' => array(
+			'key_from' => 'active_book_id',
+			'model_to' => 'Model_Book',
+			'key_to' => 'id',
+			'cascade_save' => false,
+			'cascade_delete' => false),
+		);
 	protected static $_has_many = array(
 		'added_books' => array(
 			'key_from' => 'id',
@@ -47,7 +55,8 @@ class Model_User extends Orm\Model
 //	protected static $_has_many = array('books');//'notes', 'teams');
 	protected static $_properties = array('id', 'username', 'password',
 		'email', 'profile_fields',
-		'group', 'last_login', 'login_hash');
+		'group', 'active_book_id', 
+		'last_login', 'login_hash');
 	protected static $_primary_key = array('id');
 
 
