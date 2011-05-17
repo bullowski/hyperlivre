@@ -36,14 +36,35 @@ class Controller_Admin_Users extends Controller_Admin
 		$form = Model_User_Validation::add();
         if ($form->validation()->run())
         {
-            if (Auth::instance()
+            if ($user_id = Auth::instance()
 					->create_user(	$form->validated('username'),
 									$form->validated('password'),
 									$form->validated('email'),
 									$form->validated('group')))
 			{
+			
+			$user = Model_User::find($user_id);
+			$selected_books = $form->validated('book');
+			if (is_string($selected_books))
+			{
+				$selected_books = array($selected_books);
+			}
+			
+			// add/update all the selected books 
+            foreach ($selected_books as $book_id)
+            {
+            	$user->books[$book_id] = Model_Book::find($book_id);
+            }
+            
+            if ($user->save())
+			{
 				Session::set_flash('success', 'User successfully added.');
 				Response::redirect('admin/users');
+			}
+			else
+			{
+				Session::set_flash('error', 'Something went wrong, please try again!');
+			}
 			}
 			else
 			{
@@ -71,6 +92,25 @@ class Controller_Admin_Users extends Controller_Admin
 			$user->email = $form->validated('email');
 			$user->group = $form->validated('group');
 
+            $selected_books = $form->validated('book');
+			if (is_string($selected_books))
+			{
+				$selected_books = array($selected_books);
+			}
+			// remove the unselected books if previously linked
+            foreach ($user->books as $book) {
+            	if (! in_array($book->id, $selected_books))
+            	{
+            		unset($user->books[$book->id]);
+            	}
+            }
+			
+			// add/update all the selected books 
+            foreach ($selected_books as $book_id)
+            {
+            	$user->books[$book_id] = Model_Book::find($book_id);
+            }
+            
             if ($user->save())
 			{
 				Session::set_flash('success', 'User successfully updated.');

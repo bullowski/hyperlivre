@@ -55,6 +55,7 @@ class Controller_Home extends Controller_Template {
             	{
             		$user->books[] = Model_Book::find($book_id);
             	}
+            	
             	if ($user->save())
             	{
 	                Session::set_flash('success', 'Thanks for registering!');
