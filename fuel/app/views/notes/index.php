@@ -6,7 +6,7 @@
 		<th>Title</th>
 		<th>Body</th>
 		<?php 
-			if (in_array('edit', $user_rights) || in_array('delete', $user_rights)) 
+			if (in_array('edit', $user_rights) || in_array('delete', $user_rights) || in_array('publish', $user_rights)) 
 			{
 				echo '<th>Options</th>';
 			}
@@ -33,14 +33,19 @@
 			if (in_array('edit', $user_rights) || in_array('delete', $user_rights))
 			{
 				echo '<td>';
+				if (in_array('publish', $user_rights))
+				{
+					echo Html::anchor('notes/publish/'.$note->id, 'Publish').'  ';
+				}
 				if (in_array('edit', $user_rights)) 
 				{
-					echo Html::anchor('notes/edit/'.$note->id, 'Edit').' ';
+					echo Html::anchor('notes/edit/'.$note->id, 'Edit').'  ';
 				}
 				if (in_array('delete', $user_rights))
 				{
 					echo Html::anchor('notes/delete/'.$note->id, 'Delete', array('onclick' => "return confirm('Are you sure?')"));
 				}
+
 				echo '</td>';
 			}	
 		?>

@@ -161,9 +161,11 @@ class Controller_Notes extends Controller_Access
     public function action_publish($id)
     {
         $note = Model_Note::find_by_id_and_creator_id($id, $this->user_id);
-        $note->status = Model_Note::$status_values['published'];
-        $note->save();
-
+		if ($note)
+		{
+			$note->status = Model_Note::$status_values['published'];
+			$note->save();
+		}
         Response::redirect('notes');
     }
 
