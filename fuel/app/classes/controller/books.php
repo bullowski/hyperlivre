@@ -136,10 +136,29 @@ class Controller_Books extends Controller_Access
 			$book->title = $form->validated('title');
 			$book->description = $form->validated('description');
 			$book->status = $form->validated('status');
+			
+        	$selected_users = $form->validated('user');
+			if (is_string($selected_users))
+			{
+				$selected_users = array($selected_users);
+			}
+			// remove the unselected users if previously linked
+            foreach ($book->users as $user) {
+            	if (! in_array($user->id, $selected_users))
+            	{
+            		unset($book->users[$user->id]);
+            	}
+            }
+            
+        	// add/update all the selected users 
+            foreach ($selected_users as $user_id)
+            {
+            	$book->users[$user_id] = Model_User::find($user_id);
+            }
 
             if ($book->save())
 			{
-				Session::set_flash('success', 'Book successfully added with status '.
+				Session::set_flash('success', 'Book successfully updated with status '.
 						Model_Book::status_name($book->status));
 				Response::redirect('books');
 			}

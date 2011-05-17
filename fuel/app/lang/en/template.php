@@ -2,8 +2,10 @@
 	return array(
 		'books' => 'Books',
 		'concepts' => 'Concepts',
+		'users' => 'Users',
 		'notes' => 'Notes',
 		'logout' => 'Logout',
+		'dashboard' => 'Dashboard',
 		'home' => 'Home',
 		'login' => 'Login',
 		'signup' => 'Sign up',

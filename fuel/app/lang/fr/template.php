@@ -2,8 +2,10 @@
 	return array(
 		'books' => 'Livres',
 		'concepts' => 'Concepts',
+		'users' => 'Utilisateurs',
 		'notes' => 'Notes',
 		'logout' => 'D&eacute;connexion',
+		'dashboard' => 'Tableau de bord',
 		'home' => 'Accueil',
 		'login' => 'Connexion',
 		'signup' => 'Inscription',
