@@ -104,6 +104,20 @@ class Model_Book_Validation
 						'options' => Model_Book::status_names(),
 						'value' => !empty($book) ? $book->status : null),
 				static::get_common_rules('status'));
+		
+		// TODO take only the unbanned users -> filter get_users
+		$available_users = Model_User::get_users_by_group('all');
+		$users_select = array();
+		foreach ($available_users as $user)
+		{
+			$users_select[$user->id] = $user->username;
+		}
+		$form->add('user', 'Available User(s)', 
+				array(	'type' => 'checkboxes',
+						'name' => $users_select,
+						'value' => array_keys($book->users),
+						'options' => $users_select),
+				array(array('valid_user', $users_select, true)));
 
 		$form->add('submit', null,
 				array(	'type' => 'submit',
