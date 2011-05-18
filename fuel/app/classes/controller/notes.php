@@ -150,8 +150,8 @@ class Controller_Notes extends Controller_Access
 		//shortcut to change the status on the fly
 		if ($status !== null && key_exists($status, Model_Note::$status_values))
 		{
-			$book->status = Model_Note::$status_values[$status];
-			if ($book->save())
+			$note->status = Model_Note::$status_values[$status];
+			if ($note->save())
 			{
 				Session::set_flash('success', 'Status '.$status.' was assigned to the note'.
 						$note->title.' (#'.$id.')');
@@ -245,4 +245,21 @@ class Controller_Notes extends Controller_Access
 
 		Response::redirect('notes');
 	}
+
+	public function action_super_delete($id)
+    {
+        $note = Model_Note::find($id);
+		if ($note && $note->delete())
+		{
+			Session::set_flash('notice', 'The note "'.$note->title.'" (#'.$id.')'
+					.' was successfully deleted.');
+		}
+		else
+		{
+			Session::set_flash('error', 'Could not delete note #'.$id);
+		}
+
+		Response::redirect('notes');
+	}
+
 }
