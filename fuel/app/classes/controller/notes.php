@@ -216,8 +216,17 @@ class Controller_Notes extends Controller_Access
 
     public function action_delete($id)
     {
-        Model_Note::find_by_id_and_creator_id($id, $this->user_id)->delete();
+        $note = Model_Note::find_by_id_and_creator_id($id, $this->user_id);
+		if ($note && $note->delete())
+		{
+			Session::set_flash('notice', 'The note "'.$note->title.'" (#'.$id.')'
+					.' was successfully deleted.');
+		}
+		else
+		{
+			Session::set_flash('error', 'Could not delete note #'.$id);
+		}
 
-        Response::redirect('notes');
-    }
+		Response::redirect('notes');
+	}
 }
