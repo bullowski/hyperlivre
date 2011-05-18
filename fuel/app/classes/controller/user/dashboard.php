@@ -11,11 +11,11 @@ class Controller_User_Dashboard extends Controller_User {
 	{
 		if (Input::post('activate'))
 		{
-			return $this->action_active_book($id);
+			return $this->action_activate_book($id);
 		}
 		else if (Input::post('deactivate'))
 		{
-			return $this->action_deactive_book($id);
+			return $this->action_deactivate_book($id);
 		}
 		else if (Input::post('subscribe'))
 		{
@@ -35,7 +35,7 @@ class Controller_User_Dashboard extends Controller_User {
 	 * Selects the active book. The user must previously subscribe to a book
 	 * before selecting it as his active book.
 	 */
-    public function action_active_book($id)
+    public function action_activate_book($id)
     {
     	if (empty($id) || !$book = Model_Book::find($id))
 		{
@@ -73,9 +73,31 @@ class Controller_User_Dashboard extends Controller_User {
 
     }
 
+	//TODO test if the active book was also removed from the active_users array in the Model_Book
+	public function action_deactivate_book($id)
+	{
+		$user = Model_User::find($this->user_id);
+		if (empty($id) || $id !== $user->active_book_id)
+		{
+			Request::show_404();
+		}
 
-	public function action_deactive_book($id){
-		//TODO
+		// only deactivate book if the user previously activated it
+		//--- this works but doc says : unset($user->active_book) which does not work
+		//--- so, test if the active book was also removed from the active_users array
+		$user->active_book_id = null;
+
+		if ($user->save())
+		{
+			Session::set_flash('user', 'You do not have an active book anymore.');
+			Response::redirect('/');
+		}
+		else
+		{
+			Session::set_flash('error', 'Something went wrong, please try again!');
+			Response::redirect('books');
+		}
+
 	}
 
 	public function action_subscribe_book($id)
@@ -103,8 +125,35 @@ class Controller_User_Dashboard extends Controller_User {
 
 	}
 
+	//--- TODO test : (see deactivate case)
 	public function action_unsubscribe_book($id){
-		//TODO
+		Config::load('auth', true);
+		$user = Model_User::find($this->user_id);
+		if (empty($id)
+				|| !Config::get('auth.unsubscribe', false)
+				|| !key_exists($id, $user->books))
+		{
+			Request::show_404();
+		}
+
+		unset($user->books[$id]);
+		if ($id === $user->active_book_id) {
+			//also deactivate this book if needed
+			$user->active_book_id = null;
+		}
+
+		if ($user->save())
+		{
+			Session::set_flash('user', 'You have successfully unsubscribed from Book "'.Model_Book::find($id)->title.'".');
+			Response::redirect('/');
+		}
+		else
+		{
+			Session::set_flash('error', 'Something went wrong, please try again!');
+			Response::redirect('books');
+		}
+
+
 	}
 
 }
