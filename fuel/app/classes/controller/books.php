@@ -59,7 +59,24 @@ class Controller_Books extends Controller_Access
 		$form = Fieldset::factory('view_book');
 		Config::load('auth', true);
 
-		if (in_array($book, $user->books))
+		if (Auth::acl()->has_access(array('admin', array('view')), $this->user_group))
+		{
+			if ($id !== $user->active_book_id)
+			{
+				$form->add('activate', null,
+						array(	'type' => 'submit',
+								'value' => 'Select as active'));
+			}
+			else
+			{
+				$form->add('deactivate', null,
+						array(	'type' => 'submit',
+								'value' => 'Unselect'));
+			}
+			$area = 'admin';
+
+		}
+		else if (in_array($book, $user->books))
 		{
 			if (Config::get('auth.unsubscribe', false))
 			{
@@ -80,7 +97,7 @@ class Controller_Books extends Controller_Access
 						array(	'type' => 'submit',
 								'value' => 'Unselect'));
 			}
-
+			$area = 'user';
 		}
 		else if (in_array($book, Model_Book::get_filtered_books('open'))
 				&& Config::get('auth.subscribe', false))
@@ -89,11 +106,12 @@ class Controller_Books extends Controller_Access
 			$form->add('subscribe', null,
 						array(	'type' => 'submit',
 								'value' => 'Subscribe'));
+			$area = 'user';
 		}
 
 		$this->title = 'View Book - '.$book->title;
 		$this->data['book'] = $book;
-		$this->data['form'] = $form;
+		$this->data['form'] = $form->build($area.'/dashboard/assign_book/'.$book->id);
 	}
 
 	public function action_add()

@@ -9,9 +9,16 @@ class Model_Note extends Orm\Model {
 			'model_to' => 'Model_User',
 			'key_to' => 'id',
 			'cascade_save' => false,
-			'cascade_delete' => false));
+			'cascade_delete' => false),
+		'book' => array(
+			'key_from' => 'book_id',
+			'model_to' => 'Model_Book',
+			'key_to' => 'id',
+			'cascade_save' => true,
+			'cascade_delete' => false),
+		);
 
-	protected static $_properties 	= array('id', 'creator_id', 'title', 'body',
+	protected static $_properties 	= array('id', 'creator_id', 'book_id', 'title', 'body',
 											'status', 'created_at', 'updated_at');
 	protected static $_primary_key 	= array('id');
 
@@ -35,15 +42,17 @@ class Model_Note extends Orm\Model {
 		return ($name === null) ? 'all' : $name;
 	}
 
-	public static function count_filtered_notes_by_author($user_id, $filter = 'all', $exclude_filter = false)
+	public static function count_filtered_notes_by_author($active_book_id, $user_id, $filter = 'all', $exclude_filter = false)
 	{
-		return count(static::get_filtered_notes_by_author($user_id, $filter, $exclude_filter));
+		return count(static::get_filtered_notes_by_author($active_book_id, $user_id, $filter, $exclude_filter));
 	}
 
 	public static function get_filtered_notes_by_author(
-			$user_id, $filter = 'all', $exclude_filter = false, $offset = 0, $limit = null)
+			$active_book_id, $user_id, $filter = 'all', $exclude_filter = false, $offset = 0, $limit = null)
 	{
-		$options = array('include' => 'concepts');
+		$options = array('include' => 'concepts',
+						 'where' => array(
+							 array('book_id', '=', $active_book_id)));
 
 		if ($user_id !== null && $user_id !== 'all')
 		{

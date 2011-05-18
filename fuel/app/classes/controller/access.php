@@ -14,7 +14,7 @@ class Controller_Access extends Controller_Template
 		$user_groups = Auth::instance()->get_groups();
 		if ( ! method_exists($this, $full_method) || ! $user_groups)
 		{
-			Response::redirect('home/404');
+			Request::show_404();
 		}
 
 		//set user details
@@ -39,7 +39,7 @@ class Controller_Access extends Controller_Template
 				&& !Auth::acl()->has_access(
 						array($this->page_id, array($right)), $this->user_group))
 		{
-			Response::redirect('home/404');
+			Request::show_404();
 		}
 
 		$this->user_roles = Auth::group()->get_roles($this->user_group[1]);

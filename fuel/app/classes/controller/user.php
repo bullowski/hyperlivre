@@ -1,7 +1,7 @@
 <?php
 
-abstract class Controller_User extends Controller_Template {
-
+class Controller_User extends Controller_Template 
+{
 	protected $user_id = null;
 
     public function before()

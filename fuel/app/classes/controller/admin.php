@@ -1,6 +1,6 @@
 <?php
 
-abstract class Controller_Admin extends Controller_Template
+class Controller_Admin extends Controller_Template
 {
 	protected $user_id = null;
 	//TODO test

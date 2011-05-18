@@ -23,6 +23,19 @@
 				<?php echo Asset::img(array('admin/admin-logo.gif')); ?>
             </div>
 
+			 <?php if (Auth::check()): ?>
+            <div class="active_book">
+            	<?php
+            		$user_id = Auth::instance()->get_user_id();
+            		$user = Model_User::find($user_id[1], array('related' => array('active_book')));
+            		if ($user->active_book !== null)
+            			echo 'Active book: '.$user->active_book->title;
+            		else
+            			echo 'No active book selected.'
+            	?>
+            </div>
+            <?php endif; ?>
+
 			<!-- Messages -->
 			<?php //if (Session::get_flash()): ?>
 				<!--<div class="messages">-->

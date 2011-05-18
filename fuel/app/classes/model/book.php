@@ -18,7 +18,13 @@ class Model_Book extends Orm\Model
 			'model_to' => 'Model_User',
 			'key_to' => 'active_book_id',
 			'cascade_save' => true,
-			'cascade_delete' => false)
+			'cascade_delete' => false),
+		'notes' => array(
+			'key_from' => 'id',
+			'model_to' => 'Model_Note',
+			'key_to' => 'book_id',
+			'cascade_save' => true,
+			'cascade_delete' => true),
 	);
 
 	protected static $_many_many = array(

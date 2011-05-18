@@ -10,6 +10,6 @@
 
 <fieldset>
 <legend></legend>
-	<?php echo $form->build('user/dashboard/assign_book/'.$book->id); ?>
+	<?php echo $form; ?>
 </fieldset>
 

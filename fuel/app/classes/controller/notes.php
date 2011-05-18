@@ -3,6 +3,36 @@
 class Controller_Notes extends Controller_Access
 {
 
+	public function before()
+	{
+		$id = Auth::instance()->get_user_id();
+		if (!$id || !$user = Model_User::find($id[1]))
+		{
+			Request::show_404();
+		}
+
+		$user_groups = Auth::instance()->get_groups();
+		if ($user->active_book_id == null) {
+			if(Auth::acl()->has_access(
+					array('admin', array('view', 'add', 'edit', 'delete')),
+					$user_groups[0]))
+			{
+				$area = 'admin';
+			}
+			else
+			{
+				$area = 'user';
+			}
+			Session::set_flash('notice', 'Please select an active book first.');
+			Response::redirect($area.'/dashboard');
+		}
+
+		$this->data['active_book'] = $user->active_book;
+		$this->active_book_id = $user->active_book_id;
+
+		parent::before();
+	}
+
 	public function action_index($filter = 'published', $current_page = 0)
 	{
 		//convert filter index to its correct string representation
@@ -34,7 +64,7 @@ class Controller_Notes extends Controller_Access
 		}
 
 		$total_notes = Model_Note::count_filtered_notes_by_author(
-				$author_id, $filter, $exclude_filter);
+				$this->active_book_id, $author_id, $filter, $exclude_filter);
 
 		Pagination::set_config(array(
 			'pagination_url' => 'notes/index/'.$filter.'/',
@@ -47,7 +77,7 @@ class Controller_Notes extends Controller_Access
 		$this->title = 'My Notes';
 		$this->data['filter'] = $filter;
 		$this->data['notes'] =  Model_Note::get_filtered_notes_by_author(
-				$author_id, $filter, $exclude_filter,
+				$this->active_book_id, $author_id, $filter, $exclude_filter,
 				Pagination::$offset, Pagination::$per_page);;
 		$this->data['user_rights'] = $this->user_rights;
     }
@@ -95,6 +125,9 @@ class Controller_Notes extends Controller_Access
 						'status' => Model_Note::$status_values[$status],
 						'creator_id' => $this->user_id,
 					));
+
+			//FIXME link the note to the active book
+			//$note->book = $this->data['active_book'];
 
 			if ($note->save())
 			{
