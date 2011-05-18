@@ -111,7 +111,8 @@ class Controller_User_Dashboard extends Controller_User {
 		}
 
 		$user = Model_User::find($this->user_id);
-		$user->books[$id] = Model_Book::find($id);
+		$book = Model_Book::find($id);
+		$user->books[$id] = $book;
 		if ($user->save())
 		{
 			Session::set_flash('user', 'You successfully subscribed to the Book "'.$book->title.'".');

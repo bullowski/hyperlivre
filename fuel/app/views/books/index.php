@@ -2,13 +2,13 @@
 <p>Manage books and their status.</p>
 <p>//todo modify view app/views/admin/books.php</p>
 
+<?php if (in_array('add', $user_rights)) : ?>
 <div class="options">
-	<?php if (in_array('add', $user_rights)) : ?>
-		<div class="option">
-			<?php echo Html::anchor('books/add', 'Create a new Book'); ?>
-		</div>
-	<?php endif;?>
+	<div class="option">
+		<?php echo Html::anchor('books/add', 'Create a new Book'); ?>
+	</div>	
 </div>
+<?php endif;?>
 
 <div class="filters">
     <strong>Show:</strong>
