@@ -72,7 +72,7 @@
 					}
 					echo Html::anchor('notes/edit/'.$note->id, 'Edit').'  ';
 				}
-				if (in_array('delete', $user_rights))
+				if ((in_array('delete', $user_rights) && ($note->creator_id == $user_id[1])))
 				{
 					echo Html::anchor('notes/delete/'.$note->id, 'Delete',
 							array('onclick' => "return confirm('Are you sure?')"));
