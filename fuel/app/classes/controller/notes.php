@@ -133,7 +133,7 @@ class Controller_Notes extends Controller_Access
 
     }
 
-    public function action_edit($id)
+    public function action_edit($id, $status = null)
     {
     	if (Input::post('cancel'))
         {
@@ -145,6 +145,22 @@ class Controller_Notes extends Controller_Access
 				!$note =  Model_Note::find_by_id_and_creator_id($id, $this->user_id))
 		{
 			Response::redirect('notes');
+		}
+
+		//shortcut to change the status on the fly
+		if ($status !== null && key_exists($status, Model_Note::$status_values))
+		{
+			$book->status = Model_Note::$status_values[$status];
+			if ($book->save())
+			{
+				Session::set_flash('success', 'Status '.$status.' was assigned to the note'.
+						$note->title.' (#'.$id.')');
+				Response::redirect('notes');
+			}
+			else
+			{
+				Session::set_flash('error', 'Something went wrong, please try again!');
+			}
 		}
 
 		$form = Model_Note_Validation::edit($note);

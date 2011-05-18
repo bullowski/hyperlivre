@@ -165,7 +165,7 @@ class Controller_Books extends Controller_Access
 		}
 
 		//shortcut to change the status on the fly
-		if ($status !== null && Model_Book::$status_values[$status] !== null)
+		if ($status !== null && key_exists($status, Model_Book::$status_values))
 		{
 			$book->status = Model_Book::$status_values[$status];
 			if ($book->save())
