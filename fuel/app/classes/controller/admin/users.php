@@ -115,6 +115,11 @@ class Controller_Admin_Users extends Controller_Admin
             	if (! in_array($book->id, $selected_books))
             	{
             		unset($user->books[$book->id]);
+            		// unsubscribe
+            		if ($user->active_book_id == $book->id)
+            		{
+            			$user->active_book_id = null;
+            		}
             	}
             }
 
