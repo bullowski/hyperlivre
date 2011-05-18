@@ -141,10 +141,18 @@ class Controller_Notes extends Controller_Access
 			Response::redirect('notes');
 		}
 
-		if (empty($id) ||
-				!$note =  Model_Note::find_by_id_and_creator_id($id, $this->user_id))
+		if (empty($id) || !$note = Model_Note::find($id))
 		{
-			Response::redirect('notes');
+			Request::show_404();
+		}
+
+		if (!Auth::acl()->has_access(
+				array('notes', array('super_edit')), $this->user_group))
+		{
+			if(!$note = Model_Note::find_by_id_and_creator_id($id, $this->user_id))
+			{
+				Request::show_404();
+			}
 		}
 
 		//shortcut to change the status on the fly
@@ -153,7 +161,7 @@ class Controller_Notes extends Controller_Access
 			$note->status = Model_Note::$status_values[$status];
 			if ($note->save())
 			{
-				Session::set_flash('success', 'Status '.$status.' was assigned to the note'.
+				Session::set_flash('success', 'Status '.$status.' was assigned to the note '.
 						$note->title.' (#'.$id.')');
 				Response::redirect('notes');
 			}
@@ -232,7 +240,20 @@ class Controller_Notes extends Controller_Access
 
     public function action_delete($id)
     {
-        $note = Model_Note::find_by_id_and_creator_id($id, $this->user_id);
+		if (empty($id) || !$note = Model_Note::find($id))
+		{
+			Request::show_404();
+		}
+
+		if (!Auth::acl()->has_access(
+				array('notes', array('super_delete')), $this->user_group))
+		{
+			if(!$note = Model_Note::find_by_id_and_creator_id($id, $this->user_id))
+			{
+				Request::show_404();
+			}
+		}
+
 		if ($note && $note->delete())
 		{
 			Session::set_flash('notice', 'The note "'.$note->title.'" (#'.$id.')'
@@ -246,20 +267,5 @@ class Controller_Notes extends Controller_Access
 		Response::redirect('notes');
 	}
 
-	public function action_super_delete($id)
-    {
-        $note = Model_Note::find($id);
-		if ($note && $note->delete())
-		{
-			Session::set_flash('notice', 'The note "'.$note->title.'" (#'.$id.')'
-					.' was successfully deleted.');
-		}
-		else
-		{
-			Session::set_flash('error', 'Could not delete note #'.$id);
-		}
-
-		Response::redirect('notes');
-	}
 
 }
