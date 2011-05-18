@@ -54,6 +54,12 @@ class Controller_Notes extends Controller_Access
 
     public function action_add()
     {
+    	if (Input::post('cancel'))
+        {
+            Session::set_flash('warning', 'You canceled the creation of the note.');
+			Response::redirect('notes');
+		}
+    	
 		$form = Model_Note_Validation::add();
 		if ($form->validation()->run())
 		{
@@ -112,6 +118,11 @@ class Controller_Notes extends Controller_Access
 
     public function action_edit($id)
     {
+    	if (Input::post('cancel'))
+        {
+            Session::set_flash('warning', 'You canceled the update of the note.');
+			Response::redirect('notes');
+		}
 
 		if (empty($id) ||
 				!$note =  Model_Note::find_by_id_and_creator_id($id, $this->user_id))
@@ -124,8 +135,8 @@ class Controller_Notes extends Controller_Access
         {
 			$note->title = $form->validated('title');
             $note->body = $form->validated('body');
-
-			if (Input::post('draft'))
+			
+            if (Input::post('draft'))
             {
                  $note->status = Model_Note::$status_values['draft'];
             }

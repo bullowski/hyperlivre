@@ -154,23 +154,28 @@ class Model_User_Validation
 						static::get_common_rules('email'),
 						array(array('unique', 'email'))));
 
-		$open_books = Model_Book::get_filtered_books('open');
-		$books_select = array();
-		foreach ($open_books as $book)
+		Config::load('auth', true);
+		if (Config::get('auth.subscribe', true))
 		{
-			$books_select[$book->id] = $book->title;
+			$open_books = Model_Book::get_filtered_books('open');
+			$books_select = array();
+			foreach ($open_books as $book)
+			{
+				$books_select[$book->id] = $book->title;
+			}
+			$form->add('book', 'Open Book(s)',
+					array(	'type' => 'checkboxes',
+							'name' => $books_select,
+							'options' => $books_select),
+					array(array('valid_book', $books_select, true)));
 		}
-		$form->add('book', 'Open Book(s)',
-				array(	'type' => 'checkboxes',
-						'name' => $books_select,
-						'options' => $books_select),
-				array_merge(
-					static::get_common_rules('book'),
-					array(array('valid_book', $books_select))));
 
 		$form->add('submit', null,
 				array(	'type' => 'submit',
 						'value' => 'Sign Up'));
+		$form->add('cancel', null,
+				array(	'type' => 'submit',
+						'value' => 'Cancel'));
 
 	}
 

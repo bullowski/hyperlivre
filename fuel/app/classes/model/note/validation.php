@@ -46,12 +46,15 @@ class Model_Note_Validation
 						'value' => !empty($note) ? $note->body : ''),
 				static::get_common_rules('body'));
 
-		$form->add('draft', null,
-				array(	'type' => 'submit',
-						'value' => 'draft'));
 		$form->add('publish', null,
 				array(	'type' => 'submit',
 						'value' => 'publish'));
+		$form->add('draft', null,
+				array(	'type' => 'submit',
+						'value' => 'draft'));
+		$form->add('cancel', null,
+				array(	'type' => 'submit',
+						'value' => 'cancel'));
 	}
 
 	public static function edit($note)
@@ -78,12 +81,15 @@ class Model_Note_Validation
 						'value' => !empty($note) ? $note->body : ''),
 				static::get_common_rules('body'));
 
-		$form->add('draft', null,
-				array(	'type' => 'submit',
-						'value' => 'draft'));
 		$form->add('publish', null,
 				array(	'type' => 'submit',
 						'value' => 'publish'));
+		$form->add('draft', null,
+				array(	'type' => 'submit',
+						'value' => 'draft'));
+		$form->add('cancel', null,
+				array(	'type' => 'submit',
+						'value' => 'cancel'));
 
 	}
 
