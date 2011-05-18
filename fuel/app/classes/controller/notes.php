@@ -127,7 +127,7 @@ class Controller_Notes extends Controller_Access
 					));
 
 			//FIXME link the note to the active book
-			//$note->book = $this->data['active_book'];
+			$note->book = $this->data['active_book'];
 
 			if ($note->save())
 			{
