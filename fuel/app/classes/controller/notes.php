@@ -8,16 +8,33 @@ class Controller_Notes extends Controller_Access
 		//convert filter index to its correct string representation
 		if (is_int($filter))
 		{
-			$status = Model_Note::status_names();
-			$filter = $status[$filter];
+			$filter = Model_Note::status_name($status);
 		}
+
+		//set defaults
+		$author_id = 'all';	//no related notes by default
+		$exclude_filter = 'draft';	//cannot see draft notes
+		$this->data['my'] = '';
+
+		//if the filter begins with 'my_' only consider personnal notes
+		$filter_array = explode('_', $filter);
+		if (in_array('my', $filter_array) && count($filter_array) == 2)
+		{
+			$filter = $filter_array[1];
+			$author_id = $this->user_id;
+			$exclude_filter = false;
+			$this->data['my'] = 'my_';
+		}
+
 		//redirect if the filter value is not valid
 		if ($filter === null ||
-				($filter !== 'all' && Model_Note::$status_values[$filter] === null)) {
+				($filter !== 'all' && !key_exists($filter, Model_Note::$status_values)))
+		{
 			Request::show_404();
 		}
 
-		$total_notes = Model_Note::count_filtered_notes_by_author($this->user_id, $filter);
+		$total_notes = Model_Note::count_filtered_notes_by_author(
+				$author_id, $filter, $exclude_filter);
 
 		Pagination::set_config(array(
 			'pagination_url' => 'notes/index/'.$filter.'/',
@@ -30,7 +47,7 @@ class Controller_Notes extends Controller_Access
 		$this->title = 'My Notes';
 		$this->data['filter'] = $filter;
 		$this->data['notes'] =  Model_Note::get_filtered_notes_by_author(
-				$this->user_id, $filter,
+				$author_id, $filter, $exclude_filter,
 				Pagination::$offset, Pagination::$per_page);;
 		$this->data['user_rights'] = $this->user_rights;
     }
