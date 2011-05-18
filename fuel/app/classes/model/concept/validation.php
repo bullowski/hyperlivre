@@ -45,6 +45,9 @@ class Model_Concept_Validation
 		$form->add('submit', null,
 				array(	'type' => 'submit',
 						'value' => 'Add'));
+		$form->add('cancel', null,
+				array(	'type' => 'submit',
+						'value' => 'Cancel'));
 
 	}
 
@@ -75,6 +78,9 @@ class Model_Concept_Validation
 		$form->add('submit', null,
 				array(	'type' => 'submit',
 						'value' => 'Edit'));
+		$form->add('cancel', null,
+				array(	'type' => 'submit',
+						'value' => 'Cancel'));
 
 	}
 

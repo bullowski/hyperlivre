@@ -20,6 +20,12 @@ class Controller_Concepts extends Controller_Access
 
 	public function action_add($id = null)
 	{
+		if (Input::post('cancel'))
+        {
+            Session::set_flash('warning', 'You canceled the creation of the concept.');
+			Response::redirect('concepts');
+		}
+		
 		$form = Model_Concept_Validation::add();
 		if ($form->validation()->run())
 		{
@@ -48,6 +54,12 @@ class Controller_Concepts extends Controller_Access
 
 	public function action_edit($id = null)
 	{
+		if (Input::post('cancel'))
+        {
+            Session::set_flash('warning', 'You canceled the edition of the concept.');
+			Response::redirect('concepts');
+		}
+		
 		if (empty($id) || !$concept = Model_Concept::find($id))
 		{
 			Response::redirect('concepts');
