@@ -197,6 +197,11 @@ class Controller_Books extends Controller_Access
             	if (! in_array($user->id, $selected_users))
             	{
             		unset($book->users[$user->id]);
+            		// unsubscribe
+            		if ($user->active_book_id == $book->id)
+            		{
+            			unset($book->active_users[$user->id]);
+            		}
             	}
             }
 

@@ -72,10 +72,18 @@
 					}
 					echo Html::anchor('notes/edit/'.$note->id, 'Edit').'  ';
 				}
-				if ((in_array('delete', $user_rights) && ($note->creator_id == $user_id[1])))
+				if (in_array('delete', $user_rights))
 				{
-					echo Html::anchor('notes/delete/'.$note->id, 'Delete',
+					if ($note->creator_id == $user_id[1])
+					{
+						echo Html::anchor('notes/delete/'.$note->id, 'Delete',
 							array('onclick' => "return confirm('Are you sure?')"));
+					}
+					elseif (in_array('super_delete', $user_rights))
+					{
+						echo Html::anchor('notes/super_delete/'.$note->id, 'Delete',
+							array('onclick' => "return confirm('Are you sure?')"));
+					}
 				}
 				echo '</td>';
 			}
