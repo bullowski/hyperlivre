@@ -60,7 +60,7 @@ class Controller_Notes extends Controller_Access
 
 		//redirect if the user do not have enougth privileges
 		if (Model_Note::status_name($note->status) === 'draft'
-				&& $note->creator->$id !== $this->user_id)
+				&& $note->creator_id != $this->user_id)
 		{
 			Request::show_404();
 		}
@@ -76,7 +76,7 @@ class Controller_Notes extends Controller_Access
             Session::set_flash('warning', 'You canceled the creation of the note.');
 			Response::redirect('notes');
 		}
-    	
+
 		$form = Model_Note_Validation::add();
 		if ($form->validation()->run())
 		{
@@ -152,7 +152,7 @@ class Controller_Notes extends Controller_Access
         {
 			$note->title = $form->validated('title');
             $note->body = $form->validated('body');
-			
+
             if (Input::post('draft'))
             {
                  $note->status = Model_Note::$status_values['draft'];
