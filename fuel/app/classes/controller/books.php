@@ -55,8 +55,45 @@ class Controller_Books extends Controller_Access
 			Request::show_404();
 		}
 
+		$user = Model_User::find($this->user_id);
+		$form = Fieldset::factory('view_book');
+		Config::load('auth', true);
+
+		if (in_array($book, $user->books))
+		{
+			if (Config::get('auth.unsubscribe', false))
+			{
+				$form->add('unsubscribe', null,
+							array(	'type' => 'submit',
+									'value' => 'Un-subscribe'));
+			}
+
+			if ($id !== $user->active_book_id)
+			{
+				$form->add('activate', null,
+						array(	'type' => 'submit',
+								'value' => 'Select as active'));
+			}
+			else
+			{
+				$form->add('deactivate', null,
+						array(	'type' => 'submit',
+								'value' => 'Unselect'));
+			}
+
+		}
+		else if (in_array($book, Model_Book::get_filtered_books('open'))
+				&& Config::get('auth.subscribe', false))
+		{
+			// can subscribe to an 'open' status book.
+			$form->add('subscribe', null,
+						array(	'type' => 'submit',
+								'value' => 'Subscribe'));
+		}
+
 		$this->title = 'View Book - '.$book->title;
 		$this->data['book'] = $book;
+		$this->data['form'] = $form;
 	}
 
 	public function action_add()

@@ -38,7 +38,7 @@ class Controller_Admin_Users extends Controller_Admin
             Session::set_flash('warning', 'You canceled the creation of the user.');
 			Response::redirect('admin/users');
 		}
-		
+
 		$form = Model_User_Validation::add();
         if ($form->validation()->run())
         {
@@ -48,29 +48,29 @@ class Controller_Admin_Users extends Controller_Admin
 									$form->validated('email'),
 									$form->validated('group')))
 			{
-			
-			$user = Model_User::find($user_id);
-			$selected_books = $form->validated('book');
-			if (is_string($selected_books))
-			{
-				$selected_books = array($selected_books);
-			}
-			
-			// add/update all the selected books 
-            foreach ($selected_books as $book_id)
-            {
-            	$user->books[$book_id] = Model_Book::find($book_id);
-            }
-            
-            if ($user->save())
-			{
-				Session::set_flash('success', 'User successfully added.');
-				Response::redirect('admin/users');
-			}
-			else
-			{
-				Session::set_flash('error', 'Something went wrong, please try again!');
-			}
+
+				$user = Model_User::find($user_id);
+				$selected_books = $form->validated('book');
+				if (is_string($selected_books))
+				{
+					$selected_books = array($selected_books);
+				}
+
+				// add/update all the selected books
+				foreach ($selected_books as $book_id)
+				{
+					$user->books[$book_id] = Model_Book::find($book_id);
+				}
+
+				if ($user->save())
+				{
+					Session::set_flash('success', 'User successfully added.');
+					Response::redirect('admin/users');
+				}
+				else
+				{
+					Session::set_flash('error', 'Something went wrong, please try again!');
+				}
 			}
 			else
 			{
@@ -92,7 +92,7 @@ class Controller_Admin_Users extends Controller_Admin
                 				'All your changes has been ignored.');
 			Response::redirect('admin/users');
         }
-		
+
 		if (empty($id) || !$user = Model_User::find($id))
 		{
 			Response::redirect('admin/users');
@@ -100,7 +100,7 @@ class Controller_Admin_Users extends Controller_Admin
 
 		$form = Model_User_Validation::edit($user);
         if ($form->validation()->run())
-        {        	
+        {
 			$user->username = $form->validated('username');
 			$user->email = $form->validated('email');
 			$user->group = $form->validated('group');
@@ -117,13 +117,13 @@ class Controller_Admin_Users extends Controller_Admin
             		unset($user->books[$book->id]);
             	}
             }
-			
-			// add/update all the selected books 
+
+			// add/update all the selected books
             foreach ($selected_books as $book_id)
             {
             	$user->books[$book_id] = Model_Book::find($book_id);
             }
-            
+
             if ($user->save())
 			{
 				Session::set_flash('success', 'User successfully updated.');
