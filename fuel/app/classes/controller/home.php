@@ -26,6 +26,12 @@ class Controller_Home extends Controller_Template {
 	//TODO move this to an other controller??
 	public function action_signup()
 	{
+		if (Input::post('cancel'))
+        {
+            Session::set_flash('warning', 'Subscription canceled.');
+			Response::redirect('home');
+		}
+		
 		Config::load('auth', true);
 		if (!Config::get('auth.signup', false))
 		{
@@ -59,7 +65,7 @@ class Controller_Home extends Controller_Template {
             	if ($user->save())
             	{
 	                Session::set_flash('success', 'Thanks for registering!');
-	                Response::redirect('/');
+	                Response::redirect('home');
             	}
             	else
             	{

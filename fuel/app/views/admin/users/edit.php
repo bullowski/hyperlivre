@@ -9,5 +9,3 @@
 <legend>User details</legend>
 <?php echo $form->build('admin/users/edit/'.$user->id);?>
 </fieldset>
-
-<?php print_r(var_export($user->books,true));?>
