@@ -64,24 +64,27 @@
 			if (in_array('edit', $user_rights) || in_array('delete', $user_rights))
 			{
 				echo '<td>';
-				if (in_array('edit', $user_rights) && ($note->creator_id == $user_id[1]))
-				{
-					if ( Model_Note::status_name($note->status) === 'draft')
-					{
-						echo Html::anchor('notes/edit/'.$note->id.'/published/', 'Publish').'  ';
-					}
-					echo Html::anchor('notes/edit/'.$note->id, 'Edit').'  ';
-				}
-				if (in_array('delete', $user_rights))
+				if (in_array('edit', $user_rights))
 				{
 					if ($note->creator_id == $user_id[1])
 					{
-						echo Html::anchor('notes/delete/'.$note->id, 'Delete',
-							array('onclick' => "return confirm('Are you sure?')"));
+						if ( Model_Note::status_name($note->status) === 'draft')
+						{
+							echo Html::anchor('notes/edit/'.$note->id.'/published/', 'Publish').'  ';
+						}
+						echo Html::anchor('notes/edit/'.$note->id, 'Edit').'  ';
 					}
-					elseif (in_array('super_delete', $user_rights))
+					elseif (in_array('super_edit', $user_rights))
 					{
-						echo Html::anchor('notes/super_delete/'.$note->id, 'Delete',
+						echo Html::anchor('notes/edit/'.$note->id, 'Edit').'  ';
+					}
+				}
+				if (in_array('delete', $user_rights))
+				{
+					if (($note->creator_id == $user_id[1]) 
+						|| (in_array('super_delete', $user_rights)))
+					{
+						echo Html::anchor('notes/delete/'.$note->id, 'Delete',
 							array('onclick' => "return confirm('Are you sure?')"));
 					}
 				}
