@@ -68,7 +68,7 @@
 				{
 					if ( Model_Note::status_name($note->status) === 'draft')
 					{
-						echo Html::anchor('notes/edit/'.$note->id.'/publish/', 'Publish').'  ';
+						echo Html::anchor('notes/edit/'.$note->id.'/published/', 'Publish').'  ';
 					}
 					echo Html::anchor('notes/edit/'.$note->id, 'Edit').'  ';
 				}
