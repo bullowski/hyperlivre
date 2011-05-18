@@ -18,6 +18,15 @@ class Model_Note extends Orm\Model {
 			'cascade_delete' => false),
 		);
 
+	protected static $_has_many = array(
+		'comments' => array(
+			'key_from' => 'id',
+			'model_to' => 'Model_Comment',
+			'key_to' => 'note_id',
+			'cascade_save' => true,
+			'cascade_delete' => true),
+	);
+
 	protected static $_properties 	= array('id', 'creator_id', 'book_id', 'title', 'body',
 											'status', 'created_at', 'updated_at');
 	protected static $_primary_key 	= array('id');
