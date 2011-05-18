@@ -51,6 +51,7 @@
 	</tr>
 </thead>
 <tbody>
+	<?php $user_id = Auth::instance()->get_user_id(); ?>
 	<?php foreach ($notes as $note): ?>
 	<tr>
 		<td><?php echo $note->creator->username; ?></td>
@@ -63,11 +64,11 @@
 			if (in_array('edit', $user_rights) || in_array('delete', $user_rights))
 			{
 				echo '<td>';
-				if (in_array('edit', $user_rights))
+				if (in_array('edit', $user_rights) && ($note->creator_id == $user_id[1]))
 				{
 					if ( Model_Note::status_name($note->status) === 'draft')
 					{
-						echo Html::anchor('notes/edit/publish/'.$note->id, 'Publish').'  ';
+						echo Html::anchor('notes/edit/'.$note->id.'/publish/', 'Publish').'  ';
 					}
 					echo Html::anchor('notes/edit/'.$note->id, 'Edit').'  ';
 				}
