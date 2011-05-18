@@ -37,7 +37,8 @@
         <td><?php echo $user->email; ?></td>
         <td><?php echo Auth::group()->get_name($user->group); ?></td>
         <td width="11%">
-     		<?php echo Html::anchor('admin/users/delete/'.$user->id, 'delete'); ?>
+        	<?php echo Html::anchor('admin/users/delete/'.$user->id, 'Delete',
+							array('onclick' => "return confirm('Are you sure?')")); ?>
 		</td>
 	</tr>
 	<?php endforeach; ?>
