@@ -32,6 +32,7 @@ return array(
 		'moderator'  => array(
 			'comments' => array('add', 'edit', 'delete'),
 			'concepts' => array('add', 'edit', 'delete'),
+			'notes' => array('super_edit', 'super_delete'),
 		),
 		'admin'      => array(
 			'website'  => array('add', 'edit', 'delete'),
