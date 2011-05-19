@@ -1,12 +1,12 @@
 <?php
 
-class Controller_Concepts extends Controller_Access
+class Controller_Concepts extends Controller_Accessbook
 {
 
 	public function action_index()
 	{
 		$this->title = "Concepts";
-		$this->data['concepts'] = Model_Concept::find('all');
+		$this->data['concepts'] = Model_Concept::find_by_book_id('all');
 		$this->data['user_rights'] = $this->user_rights;
 	}
 
@@ -25,7 +25,7 @@ class Controller_Concepts extends Controller_Access
             Session::set_flash('warning', 'You canceled the creation of the concept.');
 			Response::redirect('concepts');
 		}
-		
+
 		$form = Model_Concept_Validation::add();
 		if ($form->validation()->run())
 		{
@@ -59,7 +59,7 @@ class Controller_Concepts extends Controller_Access
             Session::set_flash('warning', 'You canceled the edition of the concept.');
 			Response::redirect('concepts');
 		}
-		
+
 		if (empty($id) || !$concept = Model_Concept::find($id))
 		{
 			Response::redirect('concepts');

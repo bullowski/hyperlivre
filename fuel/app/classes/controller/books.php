@@ -59,6 +59,7 @@ class Controller_Books extends Controller_Access
 		$form = Fieldset::factory('view_book');
 		Config::load('auth', true);
 
+		$area = 'user';
 		if (Auth::acl()->has_access(array('admin', array('view')), $this->user_group))
 		{
 			if ($id !== $user->active_book_id)
@@ -97,7 +98,6 @@ class Controller_Books extends Controller_Access
 						array(	'type' => 'submit',
 								'value' => 'Unselect'));
 			}
-			$area = 'user';
 		}
 		else if (in_array($book, Model_Book::get_filtered_books('open'))
 				&& Config::get('auth.subscribe', false))
@@ -106,7 +106,6 @@ class Controller_Books extends Controller_Access
 			$form->add('subscribe', null,
 						array(	'type' => 'submit',
 								'value' => 'Subscribe'));
-			$area = 'user';
 		}
 		else if (in_array($book, Model_Book::get_filtered_books('archive')))
 		{
@@ -122,7 +121,6 @@ class Controller_Books extends Controller_Access
 						array(	'type' => 'submit',
 								'value' => 'Unselect'));
 			}
-			$area = 'user';
 		}
 
 		$this->title = 'View Book - '.$book->title;
@@ -205,6 +203,10 @@ class Controller_Books extends Controller_Access
 			{
 				return $this->action_delete($id, true);
 			}
+			elseif ($status === Model_Book::status_name('hidden'))
+			{
+				//TODO unsign all users...
+			}
 
 			$book->status = Model_Book::$status_values[$status];
 			if ($book->save())
@@ -269,7 +271,7 @@ class Controller_Books extends Controller_Access
 		$this->data['form'] = $form;
 	}
 
-	//TODO test this
+	// delete cascade
 	public function action_delete($id = null, $archive = false)
 	{
 		if (Model_Book::remove($id, $archive))

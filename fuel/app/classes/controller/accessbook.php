@@ -18,23 +18,21 @@ class Controller_Accessbook extends Controller_Access
 
 		$this->data['active_book'] = $user->active_book;
 		$this->active_book_id = $user->active_book_id;
+		$this->active_book_status = Model_Book::status_name($user->active_book->status);
 
 		//show 404 if not allowed to add notes in this book
 		$active_book_status = Model_Book::status_name($user->active_book->status);
 		$admin_access = Auth::acl()->has_access(
 				array('admin', array('view', 'add', 'edit', 'delete')),
-				$this->user_group);
+				$user_groups[0]);
 
-		if (!key_exists($this->active_book_id, $user->books)
-			&& !$admin_access)
-		{
-			Request::show_404();
-		}
-		if ($active_book_status === 'archive')
-		{
-			Request::show_404();
-		}
 		if ($active_book_status === 'hidden' && !$admin_access)
+		{
+			Request::show_404();
+		}
+		elseif ($active_book_status !== 'archive'
+				&& !key_exists($this->active_book_id, $user->books)
+				&& !$admin_access)
 		{
 			Request::show_404();
 		}

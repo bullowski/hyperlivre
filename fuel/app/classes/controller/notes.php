@@ -96,6 +96,11 @@ class Controller_Notes extends Controller_Accessbook
 			Response::redirect('notes');
 		}
 
+		if ($this->active_book_status === 'archive')
+		{
+			Request::show_404();
+		}
+
 		$form = Model_Note_Validation::add();
 		if ($form->validation()->run())
 		{
@@ -161,6 +166,11 @@ class Controller_Notes extends Controller_Accessbook
         {
             Session::set_flash('warning', 'You canceled the update of the note.');
 			Response::redirect('notes');
+		}
+
+		if ($this->active_book_status === 'archive')
+		{
+			Request::show_404();
 		}
 
 		if (empty($id) || !$note = Model_Note::find($id))
@@ -262,7 +272,8 @@ class Controller_Notes extends Controller_Accessbook
 		{
 			Request::show_404();
 		}
-		if ($note->book_id != $this->active_book_id)
+		if ($note->book_id != $this->active_book_id
+				|| $this->active_book_status === 'archive')
 		{
 			Request::show_404();
 		}
