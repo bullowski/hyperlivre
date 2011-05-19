@@ -8,13 +8,13 @@ class Model_Comment extends Orm\Model
 			'key_from' => 'note_id',
 			'model_to' => 'Model_Note',
 			'key_to' => 'id',
-			'cascade_save' => true,
+			'cascade_save' => false,
 			'cascade_delete' => false),
 		'user' => array(
 			'key_from' => 'user_id',
 			'model_to' => 'Model_User',
 			'key_to' => 'id',
-			'cascade_save' => true,
+			'cascade_save' => false,
 			'cascade_delete' => false),
 	);
 

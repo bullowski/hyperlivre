@@ -14,7 +14,7 @@ class Model_Note extends Orm\Model {
 			'key_from' => 'book_id',
 			'model_to' => 'Model_Book',
 			'key_to' => 'id',
-			'cascade_save' => true,
+			'cascade_save' => false,
 			'cascade_delete' => false),
 		);
 
@@ -23,7 +23,7 @@ class Model_Note extends Orm\Model {
 			'key_from' => 'id',
 			'model_to' => 'Model_Comment',
 			'key_to' => 'note_id',
-			'cascade_save' => true,
+			'cascade_save' => false,
 			'cascade_delete' => false),
 	);
 

@@ -9,7 +9,7 @@ class Controller_Comments extends Controller_Accessbook
 		{
 			Request::show_404();
 		}
-		if ($comment->note->book_id != $this->active_book_id)
+		if ($note->book_id != $this->active_book_id)
 		{
 			Request::show_404();
 		}

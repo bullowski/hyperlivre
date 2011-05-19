@@ -17,14 +17,14 @@ class Model_Book extends Orm\Model
 			'key_from' => 'id',
 			'model_to' => 'Model_User',
 			'key_to' => 'active_book_id',
-			'cascade_save' => true,
+			'cascade_save' => false,
 			'cascade_delete' => false),
 		'notes' => array(
 			'key_from' => 'id',
 			'model_to' => 'Model_Note',
 			'key_to' => 'book_id',
-			'cascade_save' => true,
-			'cascade_delete' => true),
+			'cascade_save' => false,
+			'cascade_delete' => false),
 	);
 
 	protected static $_many_many = array(
@@ -35,7 +35,7 @@ class Model_Book extends Orm\Model
 	        'key_through_to' => 'user_id', // column 2 from the table in between, should match a users.id
 	        'model_to' => 'Model_User',
 	        'key_to' => 'id',
-	        'cascade_save' => true,
+	        'cascade_save' => false,
 	        'cascade_delete' => false,
 	    )
 	);
@@ -159,6 +159,12 @@ class Model_Book extends Orm\Model
 
 		return $activable_books;
 	}
+
+
+//	public static function delete($id, $archive = false)
+//	{
+//
+//	}
 
 }
 

@@ -251,17 +251,17 @@ class Controller_Books extends Controller_Access
 	//TODO archive notes?
 	public function action_delete($id = null)
 	{
-		$book = Model_Book::find($id);
-		if ($book && $book->delete())
-		{
-			Session::set_flash('notice', 'Deleted book #'.$id);
-		}
-		else
-		{
-			Session::set_flash('error', 'Could not delete book #'.$id);
-		}
-
-		Response::redirect('books');
+//		$book = Model_Book::find($id);
+//		if ($book && Model_Book::delete($id))
+//		{
+//			Session::set_flash('notice', 'Deleted book #'.$id);
+//		}
+//		else
+//		{
+//			Session::set_flash('error', 'Could not delete book #'.$id);
+//		}
+//
+//		Response::redirect('books');
 	}
 
 }
