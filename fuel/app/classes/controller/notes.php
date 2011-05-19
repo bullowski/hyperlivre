@@ -1,28 +1,7 @@
 <?php
 
-class Controller_Notes extends Controller_Access
+class Controller_Notes extends Controller_Accessbook
 {
-
-	public function before()
-	{
-		$id = Auth::instance()->get_user_id();
-		if (!$id || !$user = Model_User::find($id[1]))
-		{
-			Request::show_404();
-		}
-
-		$user_groups = Auth::instance()->get_groups();
-		if ($user->active_book_id == null) {
-			Session::set_flash('notice', 'Please select an active book first.');
-			Response::redirect('books');
-		}
-
-		$this->data['active_book'] = $user->active_book;
-		$this->active_book_id = $user->active_book_id;
-
-		parent::before();
-	}
-
 	public function action_index($filter = 'published', $current_page = 0)
 	{
 		//convert filter index to its correct string representation
@@ -73,10 +52,16 @@ class Controller_Notes extends Controller_Access
 		$this->data['user_rights'] = $this->user_rights;
     }
 
-	public function action_view($id) {
+	public function action_view($id)
+	{
 		if (empty($id) || !$note = Model_Note::find($id))
 		{
-			Response::redirect('notes');
+			Request::show_404();
+		}
+
+		if ($note->book_id != $this->active_book_id)
+		{
+			Request::show_404();
 		}
 
 		//redirect if the user do not have enougth privileges
@@ -130,7 +115,7 @@ class Controller_Notes extends Controller_Access
 						'creator_id' => $this->user_id,
 					));
 
-			//FIXME link the note to the active book
+			//link the note to the active book
 			$note->book = $this->data['active_book'];
 
 			if ($note->save())
@@ -172,13 +157,18 @@ class Controller_Notes extends Controller_Access
 
     public function action_edit($id, $status = null)
     {
-    	if (Input::post('cancel'))
+		if (Input::post('cancel'))
         {
             Session::set_flash('warning', 'You canceled the update of the note.');
 			Response::redirect('notes');
 		}
 
 		if (empty($id) || !$note = Model_Note::find($id))
+		{
+			Request::show_404();
+		}
+
+		if ($note->book_id != $this->active_book_id)
 		{
 			Request::show_404();
 		}
@@ -264,20 +254,13 @@ class Controller_Notes extends Controller_Access
 
     }
 
-    public function action_publish($id)
-    {
-        $note = Model_Note::find_by_id_and_creator_id($id, $this->user_id);
-		if ($note)
-		{
-			$note->status = Model_Note::$status_values['published'];
-			$note->save();
-		}
-        Response::redirect('notes');
-    }
-
     public function action_delete($id)
     {
 		if (empty($id) || !$note = Model_Note::find($id))
+		{
+			Request::show_404();
+		}
+		if ($note->book_id != $this->active_book_id)
 		{
 			Request::show_404();
 		}

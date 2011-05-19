@@ -1,18 +1,20 @@
 <?php
 
-class Controller_Comments extends Controller_Access
+class Controller_Comments extends Controller_Accessbook
 {
 
 	public function action_add($note_id)
 	{
-		if (empty($note_id) || !$note = Model_Note::find($note_id))
+		if (empty($note_id)
+				|| !$note = Model_Note::find($note_id)
+				|| $note->book_id != $this->active_book_id)
 		{
 			Request::show_404();
 		}
 
 		if (Input::post('cancel'))
         {
-            Session::set_flash('warning', 'You canceled the creation of this comment.');
+            Session::set_flash('notice', 'You canceled the creation of this comment.');
 			Response::redirect('notes/view/'.$note_id);
 		}
 
@@ -51,10 +53,14 @@ class Controller_Comments extends Controller_Access
 		{
 			Request::show_404();
 		}
+		if ($comment->note->book_id != $this->active_book_id)
+		{
+			Request::show_404();
+		}
 
 		if (Input::post('cancel'))
         {
-            Session::set_flash('warning', 'You canceled the edition of the last comment. '.
+            Session::set_flash('notice', 'You canceled the edition of the last comment. '.
                 				'All your changes has been ignored.');
 			Response::redirect('notes/view/'.$comment->note_id);
 		}
@@ -101,16 +107,21 @@ class Controller_Comments extends Controller_Access
 		$this->data['form'] = $form;
 	}
 
+	//FIXME huge dump db bug!!!! be carefull
 	public function action_delete($id)
 	{
 		if (empty($id) || !$comment = Model_Comment::find($id))
 		{
 			Request::show_404();
 		}
+		if ($comment->note->book_id != $this->active_book_id)
+		{
+			Request::show_404();
+		}
 
 		if ($comment->delete())
 		{
-			Session::set_flash('notice', 'Deleted comment #'.$id);
+			Session::set_flash('success', 'Deleted comment #'.$id);
 		}
 		else
 		{
