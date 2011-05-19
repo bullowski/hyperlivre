@@ -132,6 +132,18 @@ class Model_Book extends Orm\Model
 		}
 
 		$activable_books = Model_User::find($user_id)->books;
+		$archives = Model_Book::get_filtered_books('archive');
+		if (!is_array($activable_books))
+		{
+			$activable_books = array($activable_books);
+		}
+		if (!is_array($archives))
+		{
+			$archives = array($archives);
+		}
+
+		//merged with archives
+		$activable_books = array_merge($activable_books, $archives);
 
 		if ($filter !== 'all')
 		{
@@ -161,10 +173,64 @@ class Model_Book extends Orm\Model
 	}
 
 
-//	public static function delete($id, $archive = false)
-//	{
-//
-//	}
+	public static function remove($id, $archive = false)
+	{
+		if (!$book = Model_Book::find($id))
+		{
+			Request::show_404();
+		}
+
+		$success = true;
+		foreach ($book->notes as $note)
+		{
+			$success = $success && Model_Note::remove($note->id, $archive); //cascade
+			if (!$success)
+			{
+				return false;
+			}
+		}
+
+		//TODO cascade delete concepts
+//			foreach ($book->concepts as $concept)
+//			{
+//				$success = $success && Model_Concept::remove($concept->id, $archive); //cascade
+//			    if (!$success)
+	//			{
+	//				return false;
+	//			}
+//			}
+
+		//deselect active users
+		foreach ($book->active_users as $user)
+		{
+			$user->active_book_id = null;
+			$success = $success && $user->save();
+			if (!$success)
+			{
+				return false;
+			}
+		}
+
+		//unsubscibe users
+		foreach ($book->users as $user)
+		{
+			unset($user->books[$id]);
+			$success = $success && $user->save();
+			if (!$success)
+			{
+				return false;
+			}
+		}
+
+
+		if ($archive)
+		{
+			$book->status = static::$status_values['archive'];
+			return $book->save();
+		}
+
+		return $book->delete();
+	}
 
 }
 

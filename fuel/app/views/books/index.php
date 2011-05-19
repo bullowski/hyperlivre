@@ -6,7 +6,7 @@
 <div class="options">
 	<div class="option">
 		<?php echo Html::anchor('books/add', 'Create a new Book'); ?>
-	</div>	
+	</div>
 </div>
 <?php endif;?>
 
@@ -14,7 +14,7 @@
     <strong>Show:</strong>
 	<?php echo Html::anchor('books/index/all', 'All'); ?>
 	&middot;
-	<?php 
+	<?php
 		if (in_array('view_hidden', $user_rights))
 		{
 			echo Html::anchor('books/index/hidden', 'Hidden');
@@ -39,8 +39,8 @@
 		<th>Status</th>
         <th>Creation date</th>
         <th>Last update</th>
-        <?php 
-			if (in_array('edit', $user_rights) || in_array('delete', $user_rights)) 
+        <?php
+			if (in_array('edit', $user_rights) || in_array('delete', $user_rights))
 			{
 				echo '<th>Options</th>';
 			}
@@ -62,7 +62,7 @@
 			if (in_array('edit', $user_rights) || in_array('delete', $user_rights))
 			{
 			echo '<td>';
-				if (in_array('edit', $user_rights)) 
+				if (in_array('edit', $user_rights))
 				{
 					if (Model_Book::status_name($book->status) === 'hidden') {
 						echo Html::anchor('books/edit/'.$book->id.'/open/', 'Open').'  ';
@@ -71,7 +71,7 @@
 				}
 				if (in_array('delete', $user_rights))
 				{
-					echo Html::anchor('books/delete/'.$book->id, 'Delete', 
+					echo Html::anchor('books/delete/'.$book->id, 'Delete',
 							array('onclick' => "return confirm('Are you sure?')"));
 				}
 			}
@@ -86,14 +86,8 @@
 <div class="pagination"><?php echo Pagination::create_links(); ?></div>
 
 <?php else: ?>
-<div class="message" id="notice">
-	<?php if (!$filter): ?>
-	<span>There are no books at all, which is quite outstanding because you should use one! Right?
-	<?php echo Html::anchor('books/add', 'Add a new Book'); ?>.</span>
-	<?php else: ?>
-	<span>There are no <?php echo $filter; ?>.
-		<?php echo Html::anchor('books/add', 'Add a new Book'); ?>.</span>
-	<?php endif; ?>
-</div>
-<div class="clear"></div>
+	<div class="message" id="notice">
+		<span>No books to show.</span>
+	</div>
+	<div class="clear"></div>
 <?php endif; ?>

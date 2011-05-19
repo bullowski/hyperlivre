@@ -111,6 +111,24 @@ class Model_Comment extends Orm\Model
 		return Model_Comment::find('all', $options);
 	}
 
+	public static function remove($id, $archive = false)
+	{
+		if (!$comment = Model_Comment::find($id))
+		{
+			Request::show_404();
+		}
+
+		if ($archive)
+		{
+			$comment->status = static::$status_values['archive'];
+			return $comment->save();
+		}
+		else
+		{
+			return $comment->delete();
+		}
+
+	}
 }
 
 /* End of file book.php */
