@@ -163,9 +163,7 @@ class Controller_Notes extends Controller_Accessbook
 			Response::redirect('notes');
 		}
 
-		if (empty($id)
-				|| !$note = Model_Note::find($id)
-				|| $note->book_id != $this->active_book_id)
+		if (empty($id) || !$note = Model_Note::find($id))
 		{
 			Request::show_404();
 		}
@@ -258,9 +256,7 @@ class Controller_Notes extends Controller_Accessbook
 
     public function action_delete($id)
     {
-		if (empty($id)
-				|| !$note = Model_Note::find($id)
-				|| $note->book_id != $this->active_book_id)
+		if (empty($id) || !$note = Model_Note::find($id))
 		{
 			Request::show_404();
 		}
