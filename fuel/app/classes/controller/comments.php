@@ -109,7 +109,7 @@ class Controller_Comments extends Controller_Accessbook
 		$this->data['form'] = $form;
 	}
 
-	//FIXME huge dump db bug!!!! be carefull
+	//TODO test
 	public function action_delete($id)
 	{
 		if (empty($id) || !$comment = Model_Comment::find($id))
@@ -120,8 +120,8 @@ class Controller_Comments extends Controller_Accessbook
 		{
 			Request::show_404();
 		}
-
-		if ($comment->delete())
+		$note_id = $comment->note_id;
+		if (Model_Comment::remove($id))
 		{
 			Session::set_flash('success', 'Deleted comment #'.$id);
 		}
@@ -130,7 +130,7 @@ class Controller_Comments extends Controller_Accessbook
 			Session::set_flash('error', 'Could not delete comment #'.$id);
 		}
 
-		Response::redirect('notes/view/'.$comment->note_id);
+		Response::redirect('notes/view/'.$note_id);
 	}
 
 }

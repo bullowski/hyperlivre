@@ -27,7 +27,7 @@ class Controller_Notes extends Controller_Accessbook
 		}
 
 		//redirect if the filter value is not valid
-		if ($filter === null ||
+		if ($filter === 'draft' ||
 				($filter !== 'all' && !key_exists($filter, Model_Note::$status_values)))
 		{
 			Request::show_404();
@@ -173,6 +173,7 @@ class Controller_Notes extends Controller_Accessbook
 			Request::show_404();
 		}
 
+		// if not super_edit cannot edit someone's notes
 		if (!Auth::acl()->has_access(
 				array('notes', array('super_edit')), $this->user_group))
 		{
@@ -254,6 +255,7 @@ class Controller_Notes extends Controller_Accessbook
 
     }
 
+	//TODO test this
     public function action_delete($id)
     {
 		if (empty($id) || !$note = Model_Note::find($id))
@@ -274,7 +276,8 @@ class Controller_Notes extends Controller_Accessbook
 			}
 		}
 
-		if ($note && $note->delete())
+		// remove note (cascade on comments)
+		if (Model_Note::remove($id))
 		{
 			Session::set_flash('notice', 'The note "'.$note->title.'" (#'.$id.')'
 					.' was successfully deleted.');

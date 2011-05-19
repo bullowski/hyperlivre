@@ -92,4 +92,31 @@ class Model_Note extends Orm\Model {
 		return Model_Note::find('all', $options);
 	}
 
+
+	public static function remove($id, $archive = false)
+	{
+		$success = true;
+		if (!$note = Model_Note::find($id))
+		{
+			Request::show_404();
+		}
+
+		foreach ($note->comments as $comment)
+		{
+			$success = $success && Model_Comment::remove($comment->id, $archive);
+			if (!$success)
+			{
+				return false;
+			}
+		}
+
+		if ($archive)
+		{
+			$note->status = static::$status_values['archive'];
+			return $note->save();
+		}
+
+		return $note->delete();
+	}
+
 }

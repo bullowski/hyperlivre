@@ -108,6 +108,22 @@ class Controller_Books extends Controller_Access
 								'value' => 'Subscribe'));
 			$area = 'user';
 		}
+		else if (in_array($book, Model_Book::get_filtered_books('archive')))
+		{
+			if ($id !== $user->active_book_id)
+			{
+				$form->add('activate', null,
+						array(	'type' => 'submit',
+								'value' => 'Select as active'));
+			}
+			else
+			{
+				$form->add('deactivate', null,
+						array(	'type' => 'submit',
+								'value' => 'Unselect'));
+			}
+			$area = 'user';
+		}
 
 		$this->title = 'View Book - '.$book->title;
 		$this->data['book'] = $book;
@@ -185,6 +201,11 @@ class Controller_Books extends Controller_Access
 		//shortcut to change the status on the fly
 		if ($status !== null && key_exists($status, Model_Book::$status_values))
 		{
+			if ($status === Model_Book::status_name('archive'))
+			{
+				return $this->action_delete($id, true);
+			}
+
 			$book->status = Model_Book::$status_values[$status];
 			if ($book->save())
 			{
@@ -248,20 +269,26 @@ class Controller_Books extends Controller_Access
 		$this->data['form'] = $form;
 	}
 
-	//TODO archive notes?
-	public function action_delete($id = null)
+	//TODO test this
+	public function action_delete($id = null, $archive = false)
 	{
-//		$book = Model_Book::find($id);
-//		if ($book && Model_Book::delete($id))
-//		{
-//			Session::set_flash('notice', 'Deleted book #'.$id);
-//		}
-//		else
-//		{
-//			Session::set_flash('error', 'Could not delete book #'.$id);
-//		}
-//
-//		Response::redirect('books');
+		if (Model_Book::remove($id, $archive))
+		{
+			if ($archive)
+			{
+				Session::set_flash('notice', 'The book #'.$id.' was archived.');
+			}
+			else
+			{
+				Session::set_flash('success', 'The book #'.$id.' was deleted.');
+			}
+		}
+		else
+		{
+			Session::set_flash('error', 'Could not delete book #'.$id);
+		}
+
+		Response::redirect('books');
 	}
 
 }
