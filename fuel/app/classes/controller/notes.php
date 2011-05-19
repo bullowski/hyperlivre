@@ -13,18 +13,8 @@ class Controller_Notes extends Controller_Access
 
 		$user_groups = Auth::instance()->get_groups();
 		if ($user->active_book_id == null) {
-			if(Auth::acl()->has_access(
-					array('admin', array('view', 'add', 'edit', 'delete')),
-					$user_groups[0]))
-			{
-				$area = 'admin';
-			}
-			else
-			{
-				$area = 'user';
-			}
 			Session::set_flash('notice', 'Please select an active book first.');
-			Response::redirect($area.'/dashboard');
+			Response::redirect('books');
 		}
 
 		$this->data['active_book'] = $user->active_book;
@@ -48,7 +38,8 @@ class Controller_Notes extends Controller_Access
 
 		//if the filter begins with 'my_' only consider personnal notes
 		$filter_array = explode('_', $filter);
-		if (in_array('my', $filter_array) && count($filter_array) == 2)
+		if (in_array('my', $filter_array) && count($filter_array) == 2
+				&& in_array('add', $this->user_rights))
 		{
 			$filter = $filter_array[1];
 			$author_id = $this->user_id;
@@ -98,11 +89,18 @@ class Controller_Notes extends Controller_Access
 		$this->title = 'View Note - '.$note->title;
 		$this->data['note'] = $note;
 		$this->data['user_id'] = $this->user_id;
+
+		$exclude_filter = 'hidden';
 		$comments_rights = Auth::acl()->get_rights('comments', $this->user_roles);
 		foreach ($comments_rights as $right)
 		{
 			$this->data['user_rights'][] = $right."_comments";
+			if ($right === 'view_hidden') {
+				$exclude_filter = false;
+			}
 		}
+		$this->data['comments'] = Model_Comment::get_filtered_comments_by_note(
+				$id, 'all', $exclude_filter);
 	}
 
     public function action_add()

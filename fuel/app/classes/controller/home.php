@@ -31,7 +31,7 @@ class Controller_Home extends Controller_Template {
             Session::set_flash('warning', 'Subscription canceled.');
 			Response::redirect('home');
 		}
-		
+
 		Config::load('auth', true);
 		if (!Config::get('auth.signup', false))
 		{
@@ -61,11 +61,11 @@ class Controller_Home extends Controller_Template {
             	{
             		$user->books[] = Model_Book::find($book_id);
             	}
-            	
+
             	if ($user->save())
             	{
 	                Session::set_flash('success', 'Thanks for registering!');
-	                Response::redirect('home');
+	                Response::redirect('home/login');
             	}
             	else
             	{
@@ -88,7 +88,7 @@ class Controller_Home extends Controller_Template {
 	{
 		if (Auth::check())
         {
-            Response::redirect('/');
+            Response::redirect('admin/dashboard');
         }
 
 		$form = Model_User_Validation::login();

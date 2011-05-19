@@ -3,8 +3,10 @@
 <h4>by <?php echo $note->creator->username; ?></h4>
 <p>
 	<?php echo 'Status : '.Model_Note::status_name($note->status); ?></br>
+	<span class="timestamps">
 	<?php echo 'Created at : '.Date::factory($note->created_at); ?></br>
 	<?php echo 'Updated at : '.Date::factory($note->updated_at); ?>
+	</span>
 </p>
 
 <p><?php echo $note->body; ?></p>
@@ -17,22 +19,29 @@
 	</div>
 <?php endif; ?>
 
-<?php if (in_array('view_comments', $user_rights) && count($note->comments) > 0): ?>
+<?php if (in_array('view_comments', $user_rights) && count($comments) > 0): ?>
 <div class="comments">
 	<h4>Comments</h4>
 	<?php
 		$comment_count = 0;
-		foreach ($note->comments as $comment): ?>
+		foreach ($comments as $comment): ?>
+
 			<div class="comment">
 				<h4 class="comment_title">
 					<?php
 						$comment_count++;
-						echo $comment_count.'. |'.$comment->title.
+						echo $comment_count.'. |   '.$comment->title.
 								' by <span class="author">'.$comment->user->username.'</span>';
+						if(Model_Comment::status_name($comment->status) !== 'published')
+						{
+							echo '<em class="status"> ('.Model_Comment::status_name($comment->status).')</em>';
+						}
 					?>
 				</h4>
-				<span class="date"><?php echo $comment->created_at; ?></span>
-				<span class="date"><?php echo $comment->updated_at; ?></span>
+				<span class="timestamps">
+				<?php echo 'Created at : '.Date::factory($comment->created_at); ?></br>
+				<?php echo 'Updated at : '.Date::factory($comment->updated_at); ?>
+				</span>
 
 				<p><?php echo $comment->comment; ?></p>
 

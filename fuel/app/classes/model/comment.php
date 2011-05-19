@@ -27,7 +27,7 @@ class Model_Comment extends Orm\Model
 		'Orm\Observer_UpdatedAt' => array('before_save'),
 	);
 
-	public static $status_values = array('hidden' => 0, 'published' => 1, 'archive' => 3);
+	public static $status_values = array('hidden' => 0, 'published' => 1, 'archive' => 2);
 
 	public static function status_names()
 	{
@@ -42,14 +42,14 @@ class Model_Comment extends Orm\Model
 		return ($name === null) ? 'all' : $name;
 	}
 
-	public static function count_filtered_comments($filter = 'all', $exclude_filter = false)
+	public static function count_filtered_comments_by_note($note_id, $filter = 'all', $exclude_filter = false)
 	{
-		return count(static::get_filtered_comments_by_author('all', $filter, $exclude_filter));
+		return count(static::get_filtered_comments_by_note_and_author($note_id, 'all', $filter, $exclude_filter));
 	}
 
 	public static function count_filtered_comments_by_author($user_id, $filter = 'all', $exclude_filter = false)
 	{
-		return count(static::get_filtered_comments_by_author($user_id, $filter, $exclude_filter));
+		return count(static::get_filtered_comments_by_note_and_author('all', $user_id, $filter, $exclude_filter));
 	}
 
 	/**
@@ -59,17 +59,29 @@ class Model_Comment extends Orm\Model
 	public static function get_filtered_comments(
 			$filter = 'all', $exclude_filter = false, $offset = 0, $limit = null)
 	{
-		return static::get_filtered_comments_by_author(
-				'all', $filter, $exclude_filter, $offset, $limit);
+		return static::get_filtered_comments_by_note_and_author(
+				'all', 'all', $filter, $exclude_filter, $offset, $limit);
+	}
+
+	public static function get_filtered_comments_by_note(
+			$note_id, $filter = 'all', $exclude_filter = false, $offset = 0, $limit = null)
+	{
+		return static::get_filtered_comments_by_note_and_author(
+				$note_id, 'all', $filter, $exclude_filter, $offset, $limit);
 	}
 
 	/**
 	 * $exclude_filter is only valid with filter === 'all'
 	 * This parameter is used to exclude statuses from the 'all' bag
 	 */
-	public static function get_filtered_comments_by_author(
-			$user_id, $filter = 'all', $exclude_filter = false, $offset = 0, $limit = null)
+	public static function get_filtered_comments_by_note_and_author(
+			$note_id, $user_id, $filter = 'all', $exclude_filter = false, $offset = 0, $limit = null)
 	{
+		if ($note_id !== null && $note_id !== 'all')
+		{
+			$options['where'][] = array(array('note_id', '=', $note_id));
+		}
+
 		if ($user_id !== null && $user_id !== 'all')
 		{
 			$options['where'][] = array(array('user_id', '=', $user_id));
@@ -88,7 +100,7 @@ class Model_Comment extends Orm\Model
 			);
 		}
 		else
-		{	//use this only to exclude statuses from the 'all' bag
+		{	//use this only to exclude a status from the 'all' bag
 			if ($exclude_filter)
 			{
 				$options['where'][] = array(

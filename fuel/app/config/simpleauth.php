@@ -30,7 +30,7 @@ return array(
 			'books'	   => array('view'),
 		),
 		'moderator'  => array(
-			'comments' => array('add', 'edit', 'delete'),
+			'comments' => array('view_hidden', 'add', 'edit', 'delete'),
 			'concepts' => array('add', 'edit', 'delete'),
 			'notes' => array('super_edit', 'super_delete'),
 		),
@@ -38,6 +38,7 @@ return array(
 			'website'  => array('add', 'edit', 'delete'),
 			'admin'    => array('view', 'add', 'edit', 'delete'),
 			'books'    => array('view_hidden', 'add', 'edit', 'delete'),
+			'comments' => array('super_edit', 'super_delete')
 		),
 		'super'      => true,
 	),

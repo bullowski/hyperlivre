@@ -116,7 +116,7 @@ class Controller_User_Dashboard extends Controller_User {
 		if ($user->save())
 		{
 			Session::set_flash('user', 'You successfully subscribed to the Book "'.$book->title.'".');
-			Response::redirect('books');
+			Response::redirect('books/view/'.$id);
 		}
 		else
 		{

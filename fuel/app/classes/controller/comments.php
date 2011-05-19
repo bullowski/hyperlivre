@@ -21,7 +21,7 @@ class Controller_Comments extends Controller_Access
 		{
 			$comment = new Model_Comment(array(
 						'title' => $form->validated('title'),
-						'comment' => $form->validated('description'),
+						'comment' => $form->validated('comment'),
 						'status' => Model_Comment::$status_values['published'],
 						'user_id' => $this->user_id,
 						'note_id' => $note_id,
@@ -79,7 +79,7 @@ class Controller_Comments extends Controller_Access
         if ($form->validation()->run())
         {
 			$comment->title = $form->validated('title');
-			$comment->description = $form->validated('description');
+			$comment->comment = $form->validated('comment');
 			$comment->status = $form->validated('status');
 
             if ($comment->save())
@@ -108,7 +108,7 @@ class Controller_Comments extends Controller_Access
 			Request::show_404();
 		}
 
-		if ($comment && $comment->delete())
+		if ($comment->delete())
 		{
 			Session::set_flash('notice', 'Deleted comment #'.$id);
 		}
