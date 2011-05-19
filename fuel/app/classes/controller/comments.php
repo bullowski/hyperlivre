@@ -49,7 +49,9 @@ class Controller_Comments extends Controller_Accessbook
 
 	public function action_edit($id, $status = null)
 	{
-		if (empty($id) || !$comment = Model_Comment::find($id))
+		if (empty($id)
+				|| !$comment = Model_Comment::find($id)
+				|| $comment->note->book_id != $this->active_book_id)
 		{
 			Request::show_404();
 		}
