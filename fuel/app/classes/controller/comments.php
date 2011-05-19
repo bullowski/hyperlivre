@@ -5,7 +5,7 @@ class Controller_Comments extends Controller_Access
 
 	public function action_add($note_id)
 	{
-		if (empty($id) || !$note = Model_Note::find($note_id))
+		if (empty($note_id) || !$note = Model_Note::find($note_id))
 		{
 			Request::show_404();
 		}
@@ -22,7 +22,7 @@ class Controller_Comments extends Controller_Access
 			$comment = new Model_Comment(array(
 						'title' => $form->validated('title'),
 						'comment' => $form->validated('description'),
-						'status' => Model_Comment::$status_values('published'),
+						'status' => Model_Comment::$status_values['published'],
 						'user_id' => $this->user_id,
 						'note_id' => $note_id,
 				));
@@ -30,7 +30,7 @@ class Controller_Comments extends Controller_Access
 			if ($comment->save())
 			{
 				Session::set_flash('success', 'Comment successfully added.');
-				Response::redirect('notes/view/'.note_id);
+				Response::redirect('notes/view/'.$note_id);
 			}
 			else
 			{
@@ -40,8 +40,9 @@ class Controller_Comments extends Controller_Access
 			Response::redirect('comments/add');
 		}
 
-		$this->title = 'Comment';
+		$this->title = 'Comment a Note';
 		$this->data['form'] = $form;
+		$this->data['note'] = $note;
 	}
 
 	public function action_edit($id, $status = null)

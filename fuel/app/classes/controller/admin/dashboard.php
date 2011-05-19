@@ -46,7 +46,7 @@ class Controller_Admin_Dashboard extends Controller_Admin
 		if ($user->save())
 		{
 			Session::set_flash('user', 'Book '.$book->title.' is now your active book.');
-			Response::redirect('admin/dashboard');
+			Response::redirect('notes');
 		}
 		else
 		{
@@ -73,7 +73,7 @@ class Controller_Admin_Dashboard extends Controller_Admin
 		if ($user->save())
 		{
 			Session::set_flash('user', 'You do not have an active book anymore.');
-			Response::redirect('admin/dashboard');
+			Response::redirect('books');
 		}
 		else
 		{

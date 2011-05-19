@@ -63,7 +63,7 @@ class Controller_User_Dashboard extends Controller_User {
 		if ($user->save())
 		{
 			Session::set_flash('user', 'Book '.$book->title.' is now your active book.');
-			Response::redirect('user/dashboard');
+			Response::redirect('notes');
 		}
 		else
 		{
@@ -90,7 +90,7 @@ class Controller_User_Dashboard extends Controller_User {
 		if ($user->save())
 		{
 			Session::set_flash('user', 'You do not have an active book anymore.');
-			Response::redirect('user/dashboard');
+			Response::redirect('books');
 		}
 		else
 		{
@@ -116,7 +116,7 @@ class Controller_User_Dashboard extends Controller_User {
 		if ($user->save())
 		{
 			Session::set_flash('user', 'You successfully subscribed to the Book "'.$book->title.'".');
-			Response::redirect('user/dashboard');
+			Response::redirect('books');
 		}
 		else
 		{
@@ -146,7 +146,7 @@ class Controller_User_Dashboard extends Controller_User {
 		if ($user->save())
 		{
 			Session::set_flash('user', 'You have successfully unsubscribed from Book "'.Model_Book::find($id)->title.'".');
-			Response::redirect('user/dashboard');
+			Response::redirect('books');
 		}
 		else
 		{

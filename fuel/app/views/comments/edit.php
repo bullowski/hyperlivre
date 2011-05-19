@@ -1,9 +1,8 @@
-<h2>Edit Note</h2>
-<p>Please fill the form below with the book information.</p>
-<p> //todo add js validation</p>
+<h2><?php echo $title; ?></h2>
+<p>Edit the comment "<?php echo $comment->title; ?>" using the form below.</p>
 
 <?php echo $form->validation()->show_errors(); ?>
 <fieldset>
-<legend>Concept details</legend>
-<?php echo $form->build('notes/edit/'.$note->id);?>
+<legend>Comment</legend>
+<?php echo $form->build('comments/edit/'.$comment->id);?>
 </fieldset>

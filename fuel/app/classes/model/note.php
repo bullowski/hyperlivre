@@ -24,7 +24,7 @@ class Model_Note extends Orm\Model {
 			'model_to' => 'Model_Comment',
 			'key_to' => 'note_id',
 			'cascade_save' => true,
-			'cascade_delete' => true),
+			'cascade_delete' => false),
 	);
 
 	protected static $_properties 	= array('id', 'creator_id', 'book_id', 'title', 'body',

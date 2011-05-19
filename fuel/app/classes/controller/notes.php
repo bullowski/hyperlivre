@@ -97,6 +97,12 @@ class Controller_Notes extends Controller_Access
 
 		$this->title = 'View Note - '.$note->title;
 		$this->data['note'] = $note;
+		$this->data['user_id'] = $this->user_id;
+		$comments_rights = Auth::acl()->get_rights('comments', $this->user_roles);
+		foreach ($comments_rights as $right)
+		{
+			$this->data['user_rights'][] = $right."_comments";
+		}
 	}
 
     public function action_add()

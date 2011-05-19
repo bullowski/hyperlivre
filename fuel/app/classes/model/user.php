@@ -30,6 +30,12 @@ class Model_User extends Orm\Model
 			'key_to' => 'creator_id',
 			'cascade_save' => true,
 			'cascade_delete' => false),
+		'comments' => array(
+			'key_from' => 'id',
+			'model_to' => 'Model_Comment',
+			'key_to' => 'user_id',
+			'cascade_save' => true,
+			'cascade_delete' => false),
 		);
 	protected static $_many_many = array(
 	    'books' => array(
@@ -55,7 +61,7 @@ class Model_User extends Orm\Model
 //	protected static $_has_many = array('books');//'notes', 'teams');
 	protected static $_properties = array('id', 'username', 'password',
 		'email', 'profile_fields',
-		'group', 'active_book_id', 
+		'group', 'active_book_id',
 		'last_login', 'login_hash');
 	protected static $_primary_key = array('id');
 
