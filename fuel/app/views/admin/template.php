@@ -12,10 +12,10 @@
             <!-- Menu -->
             <ul class="menu">
 				<li><?php echo Html::anchor('admin/dashboard', __('dashboard')); ?></li>
-                <li><?php echo Html::anchor('books', __('books')); ?></li>
 				<li><?php echo Html::anchor('admin/users', __('users')); ?></li>
+                <li><?php echo Html::anchor('books', __('books')); ?></li>
+                <li><?php echo Html::anchor('concepts', __('concepts')); ?></li>
                 <li><?php echo Html::anchor('notes', __('notes')); ?></li>
-				<li><?php echo Html::anchor('concepts', __('concepts')); ?></li>
 				<li><?php echo Html::anchor('home/logout', __('logout')); ?></li>
             </ul>
 
