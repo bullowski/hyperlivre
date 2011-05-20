@@ -33,7 +33,7 @@ class Model_Comment_Validation
 				->repopulate();
 	}
 
-	public static function set_add_form(Fieldset $form, $concept = null)
+	public static function set_add_form(Fieldset $form, $comment = null)
 	{
 		$form->add('title', '* Title <em class="validation-info">(2 to 128 caracters long)</em>',
 				array(	'id' => 'title',
