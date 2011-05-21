@@ -27,6 +27,10 @@ class Controller_Statements extends Controller_Accessbook
 			}
 		}
 
+		if (!$object_class = Model_Class::find_by_name($object_type))
+		{
+			Request::show_404();
+		}
 		$object_model = 'Model_'.ucfirst($object_class->name);
 		if (class_exists($object_model) && method_exists($object_model, 'find'))
 		{
@@ -44,7 +48,7 @@ class Controller_Statements extends Controller_Accessbook
 		));
 		//link the statement to the current book and user
 		$statement->property = $property;
-		$statement->creator = $this->user_id;
+		$statement->creator_id = $this->user_id;
 		$statement->book = $this->data['active_book'];
 
 		if ($statement->save())

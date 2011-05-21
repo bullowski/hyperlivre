@@ -28,6 +28,7 @@ return array(
 			'comments' => array('view'),
 			'concepts' => array('view'),
 			'books'	   => array('view'),
+			'statements' => array('add'),
 		),
 		'moderator'  => array(
 			'comments' => array('view_hidden', 'add', 'edit', 'delete'),
