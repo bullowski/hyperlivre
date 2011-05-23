@@ -81,8 +81,6 @@ body.about.header ul.nav li.about_tab a:focus {
 
 
 
-
-
 /*--------------------------------------------- */
 
 
@@ -107,7 +105,7 @@ body.about.header ul.nav li.about_tab a:focus {
     margin: 0;
     padding: 0;
     text-align: center;
-    background: rgba(0,44,71,0.4); /*#002C47; */
+    background: #002C47; /*rgba(0,44,71,0.4); */
     border-right: 1px solid #fff;
     
 /*    border-right: 1px solid #4D6975;*/
@@ -163,4 +161,56 @@ body.about.header ul.nav li.about_tab a:focus {
 	background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #002C47),color-stop(1, #014164)); 
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorStr='#002C47', EndColorStr='#014164'); 
 	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#002C47', EndColorStr='#014164')"; 	
+}
+
+/*--------------------------------------------- */
+
+#login_home {
+	float: right;
+	overflow: hidden;
+	
+	width: 250px;
+	
+	margin-top: 10px;
+	padding: 10px 10px;
+	
+	color: #f1f3f5;
+	background-color: #264671; 
+	border-radius:6px;
+}
+
+#login_home #labels {
+	font-weight: bold;
+	float: left;
+	width: 30%;
+}
+
+#login_home #labels label {
+	padding: 0;
+	margin: 0;
+}
+
+#login_home #fields {
+	float: right;
+	width: 70%;
+}
+
+#login_home #fields #username, #login_home #fields #password {
+	background: rgba(255,255,255,0.8);
+	border: none;
+	border-radius: 4px;
+	width: 100%;
+}
+
+#login_home #commands {
+	margin-top: 5px;
+	float: right;
+	display: block;
+}
+
+#login_home span {
+	font-style: italic;
+	float: left;
+	margin-top: 8px;
+	padding: 0;
 }

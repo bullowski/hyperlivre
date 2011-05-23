@@ -10,6 +10,9 @@
  * @extends  Controller
  */
 class Controller_Home extends Controller_Template {
+	
+	public $template = 'home/template';
+	protected $method = null;
 
 	/**
 	 * The index action.
@@ -18,8 +21,35 @@ class Controller_Home extends Controller_Template {
 	 * @return  void
 	 */
 	public function action_index()
-	{
-		$this->title = 'Welcome';
+	{		
+		if (Input::post('subscribe'))
+        {
+			Response::redirect('home/signup');
+		}
+		
+		$form = Model_User_Validation::login();
+		
+        if ($form->validation()->run())
+        {
+            if (Auth::instance()
+					->login(	$form->validated('username'),
+								$form->validated('password')))
+            {
+				Session::set_flash('user', 'Welcome back, '. $form->validated('username').' !');
+                Response::redirect('admin/dashboard');
+            }
+			else
+			{
+				Session::set_flash('error', 'Incorrect username or password.');
+				Response::redirect('home/index');
+			}
+        }
+        
+        $this->title = 'Home';
+        $this->content = 'home/index';
+        $this->data['username'] = $form->validated('username');
+		$this->data['form'] = $form;
+		$this->data['method'] = 'index';
 	}
 
 

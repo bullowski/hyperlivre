@@ -66,21 +66,23 @@
     <body <?php echo isset($page_id) ? 'id="'.$page_id.'"' : ''; ?>>
         <div class="header">
             <!-- Menu -->
-            <ul class="menu">
-				<?php if (Auth::check()): ?>
-					<li><?php echo Html::anchor('books', __('books')); ?></li>
-					<li><?php echo Html::anchor('concepts', __('concepts')); ?></li>
-					<li><?php echo Html::anchor('notes', __('notes')); ?></li>
-					<li><?php echo Html::anchor('home/logout', __('logout')); ?></li>
-				<?php else: ?>
-					<li><div class="wrap"><?php echo Html::anchor('home', __('home')); ?></div></li>
-					<li><div class="wrap"><?php echo Html::anchor('home/login', __('login')); ?></div></li>
-					<li><div class="wrap"><?php echo Html::anchor('home/signup', __('signup')); ?></div></li>
-				<?php endif; ?>
-            </ul>
+			<?php if (Auth::check()): ?>
+			<ul class="menu">
+				<li><?php echo Html::anchor('books', __('books')); ?></li>
+				<li><?php echo Html::anchor('concepts', __('concepts')); ?></li>
+				<li><?php echo Html::anchor('notes', __('notes')); ?></li>
+				<li><?php echo Html::anchor('home/logout', __('logout')); ?></li>
+			</ul>
+			<?php else: ?>
+			<ul class="menu">
+				<li><?php echo Html::anchor('home', __('home')); ?></li>
+				<li><?php echo Html::anchor('home/login', __('login')); ?></li>
+				<li><?php echo Html::anchor('home/signup', __('signup')); ?></li>
+			</ul>
+			<?php endif; ?>
 
             <div class="logo">
-				<?php echo Asset::img(array('logo.gif')); ?>
+				<?php echo Asset::img(array('logo2.gif')); ?>
             </div>
 
             <?php if (Auth::check()): ?>
@@ -94,6 +96,17 @@
             			echo 'No active book selected.'
             	?>
             </div>
+            
+            <!-- Statements -->
+			<div class="statement_generator">
+				<p>statements goes there... </p> 
+				<p><input> <select name="group">
+						<option value="0">Define...</option>
+						<option value="1">Exemple</option>
+						<option value="2">Implementation</option>
+						<option value="3">Illsutration</option>
+						<option value="4">Definition</option> <input> <button>ok</button></p>
+			</div>
             <?php endif; ?>
 
 			<!-- Messages -->
@@ -130,11 +143,6 @@
 					$editor->replaceAll();
 				?>
 				<!-- test CKEditor -->
-            </div>
-
-            <!-- Sidebar -->
-            <div id="sidebar">
-                <p>lorem ipsum</p>
             </div>
 
         </div>
