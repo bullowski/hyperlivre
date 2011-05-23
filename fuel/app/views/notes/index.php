@@ -33,19 +33,21 @@
     &middot;
 	<?php echo Html::anchor('notes/index/'.$my.'archive', 'Archive'); ?>
 </div>
-
+<!--
    		<table class="grid all" action="<?php echo Uri::create("lookup"); ?>" title="Notes">
 			<thead>
 			<tr>
 				<th col="creator_id" width="70">Creator Id</th>
 				<th col="title" width="100">Title</th>
 				<th col="status" width="70">Status</th>
+-->
 				<!-- <th col="title" >Google Search</th> -->
+<!--
 			</tr>
 			</thead>
 			
 		</table>
-
+-->
 
 
 <?php if (count($notes) > 0): ?>

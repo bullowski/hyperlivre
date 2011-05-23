@@ -13,12 +13,12 @@
 		<?php echo Asset::css(array('screen.css', /*'grid.css'*/)); ?>
 		<?php echo Asset::js(array(
 					'jquery-1.6.1.min.js',
-					'jquery-ui-1.8.12.custom.min.js',
+					/*'jquery-ui-1.8.12.custom.min.js',
 					'blockui.js',
-					'grid.js'
+					'grid.js'*/
 		)); ?>
 		<script>
-         $(function() {
+         /*$(function() {
 		 	// grid with row numbers and inline editing
 				$(".grid.all").loadGrid({
 					nRowsShowing:10,
@@ -51,7 +51,7 @@
    			//	sort : "asc"
 			//});
 
-         });
+         });*/
       </script>
 
 
