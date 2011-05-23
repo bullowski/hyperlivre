@@ -54,21 +54,16 @@
 					<?php endif; ?>
 <!--				</div>-->
 			<?php //endif; ?>
-
         </div>
+        
 
         <div class="content">
-
+        
             <div id="main">
                 <!-- Main content -->
 				<?php echo $content; ?>
             </div>
-
-            <!-- Sidebar -->
-            <div id="sidebar">
-                <p>admin sidebar</p>
-            </div>
-
+            
         </div>
 
         <div class="footer">

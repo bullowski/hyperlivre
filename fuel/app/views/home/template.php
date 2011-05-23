@@ -1,56 +1,58 @@
 <?php Lang::load('template'); ?>
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
-        <title>HyperLivre<?php echo isset($title) ? ' - '.$title : null; ?></title>
+        <title>HyperLivre<?php echo ' - '.$content->title; ?></title>
 		<?php echo Asset::css(array('screen.css')); ?>
     </head>
-    <body <?php echo isset($page_id) ? 'id="'.$page_id.'"' : ''; ?>>
+    <body <?php echo 'id="'.$content->page_id.'"'; ?>>
         <div class="header">
-            <!-- Menu -->
-			<?php if (Auth::check()): ?>
-			<ul class="menu">
-				<li><?php echo Html::anchor('books', __('books')); ?></li>
-				<li><?php echo Html::anchor('concepts', __('concepts')); ?></li>
-				<li><?php echo Html::anchor('notes', __('notes')); ?></li>
-				<li><?php echo Html::anchor('home/logout', __('logout')); ?></li>
-			</ul>
-			<?php else: ?>
-			<ul class="menu">
-				<li><?php echo Html::anchor('home', __('home')); ?></li>
-				<li><?php echo Html::anchor('home/login', __('login')); ?></li>
-				<li><?php echo Html::anchor('home/signup', __('signup')); ?></li>
-			</ul>
-			<?php endif; ?>
-
-            <div class="logo">
-				<?php echo Asset::img(array('logo2.gif')); ?>
+            <!-- Menu -->            
+            <?php if (isset($content->method) && ($content->method == 'index')):?>
+            	<div id="login_home">
+					<?php 
+						echo Form::open('home/index');
+						
+						echo '<div id="labels">';
+						
+						echo Form::label('Username', 'username');
+						echo Form::label('Password', 'password');
+						
+						echo '</div><div id="fields">';
+						
+						echo Form::input('username', 
+							isset($content->username)? $content->username: '', 
+							$attributes = array('id' => 'username')
+						);						
+						echo Form::password('password', 
+							'', 
+							$attributes = array('id' => 'password')
+						);
+						
+						echo '</div>';
+						
+						if (count($content->form->validation()->errors()) > 0)
+						{
+							echo '<span>Invalid login!</span>';
+						}
+						else
+						{
+							echo '<br />';
+						}
+						
+						echo '<div id="commands">';
+						echo Form::submit('submit', 'Login', $attributes = array());
+						echo Form::submit('subscribe', 'Sign up', $attributes = array());
+						echo '</div>';
+						echo Form::close(); 
+					?>
+				</div>
+			<?php endif;?>
+			<div class="logo_home">
+				<?php echo Asset::img(array('logo2_big.gif')); ?>
             </div>
-            
-            <?php if (Auth::check()): ?>
-            <div class="active_book">
-            	<?php
-            		$user_id = Auth::instance()->get_user_id();
-            		$user = Model_User::find($user_id[1], array('related' => array('active_book')));
-            		if ($user->active_book !== null) 
-            			echo 'Active book: '.$user->active_book->title;
-            		else
-            			echo 'No active book selected.'
-            	?>
-            </div>
-            
-            <!-- Statements -->
-			<div class="statement_generator">
-				<p>statements goes there... </p> 
-				<p><input> <select name="group">
-						<option value="0">Define...</option>
-						<option value="1">Exemple</option>
-						<option value="2">Implementation</option>
-						<option value="3">Illsutration</option>
-						<option value="4">Definition</option> <input> <button>ok</button></p>
-			</div>
-            <?php endif; ?>
 
 			<!-- Messages -->
 			<?php //if (Session::get_flash()): ?>
@@ -70,8 +72,8 @@
 					<?php endif; ?>
 <!--				</div>-->
 			<?php //endif; ?>
-
         </div>
+        
 
         <div class="content">
 
@@ -79,7 +81,6 @@
                 <!-- Main content -->
 				<?php echo $content; ?>
             </div>
-
         </div>
 
         <div class="footer">

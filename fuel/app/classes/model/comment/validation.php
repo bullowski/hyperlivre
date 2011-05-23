@@ -55,7 +55,6 @@ class Model_Comment_Validation
 		$form->add('cancel', null,
 				array(	'type' => 'submit',
 						'value' => 'Cancel'));
-
 	}
 
 	public static function edit($comment)

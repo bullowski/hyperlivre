@@ -148,12 +148,12 @@ caption {
 }
 
 	.header .logo > img {
-		width: 120px;
-		height: 96px;
-		padding: 10px 40px 10px 0;
-		margin-right: 40px;
+		width: 200px;
+		height: 72px;
+		padding: 10px 20px 10px 0;
+		margin-right: 20px;
     	float: left;
-		border-right: 1px solid #DDD;
+/*		border-right: 1px solid #DDD;*/
 		/* background: #ccc; */
 	}
 
@@ -187,7 +187,7 @@ caption {
     /* --     Main      -- */
 	/* ------------------- */
 	.content div#main {
-		width: 68%;
+		width: 95%;
 		/* width: 650px; */
 		margin: 20px 30px;
 		float: left;
@@ -197,21 +197,6 @@ caption {
 			padding: 6px 10px 6px 10px;
 			border-left: 4px solid #014164;
 		}
-	
-	/* --    Sidebar    -- */
-	/* ------------------- */	
-	.content div#sidebar {
-		width: 25%;
-		/* width: 230px; */
-        border: 1px solid black;
-		float: right;
-		display: inline;
-	}	
-	
-	.content div#sidebar .widget {
-		border: 1px dashed #ddd;
-		background-color: #00e; /*FIXME*/
-	}
 
 /* --     Footer    -- */
 /* ------------------- */
@@ -403,9 +388,6 @@ em.validation-info {
 #splash .placeholder:first-child {margin-left: 0;}
 #splash .placeholder:last-child {margin-right: 0;}
 
-.content #sidebar .placeholder {
-	/*margin-bottom: 24px;*/
-}
 
 /* Loader */
 .loader {
@@ -414,7 +396,4 @@ em.validation-info {
 }
 #splash .loader, #splash .placeholder {
 	height: 220px;
-}
-.content #sidebar .loader {
-	height: 170px;
 }
