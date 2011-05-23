@@ -32,7 +32,6 @@
 <table>
 <thead>
 	<tr>
-		<th>Id</th>
 		<th>Creator</th>
 		<th>Title</th>
 		<th>Description</th>
@@ -51,8 +50,7 @@
 	<?php
 	foreach ($books as $book): ?>
 	<tr>
-		<td><?php echo $book->id; ?></td>
-        <td><?php echo $book->creator->username; ?></td>
+        <td><?php echo ($book->creator !== null) ? $book->creator->username : 'anonymous'; ?></td>
         <td><?php echo Html::anchor('books/view/'.$book->id, $book->title) ?></td>
         <td><?php echo Str::truncate($book->description,30); ?></td>
         <td><?php echo Model_Book::status_name($book->status); ?></td>
@@ -77,7 +75,6 @@
 			}
 			echo '</td>';
 		?>
-		</td>
 	</tr>
 	<?php endforeach; ?>
 </tbody>

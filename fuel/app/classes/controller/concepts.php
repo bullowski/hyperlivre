@@ -3,19 +3,32 @@
 class Controller_Concepts extends Controller_Accessbook
 {
 
-	public function action_index()
+	public function action_index($current_page = 0)
 	{
+		$concepts = Model_Concept::find('all');
+
+		Pagination::set_config(array(
+			'pagination_url' => 'concepts/index',
+			'per_page' => 10,
+			'total_items' => count($concepts),
+			'num_links' => 3,
+			'current_page' => $current_page,
+        ));
+
 		$this->title = "Concepts";
-		$this->data['concepts'] = Model_Concept::find_by_book_id('all');
+		$this->data['concepts'] = $concepts;
 		$this->data['user_rights'] = $this->user_rights;
 	}
 
 	public function action_view($id = null)
 	{
-		$data['concepts'] = Model_Concept::find($id);
+		if (empty($id) || !$concept = Model_Concept::find($id))
+		{
+			Request::show_404();
+		}
 
-		$this->template->title = "Concepts";
-		$this->template->content = View::factory('concepts/view', $data);
+		$this->title = 'View Concept - '.$concept->title;
+		$this->data['concept'] = $concept;
 	}
 
 	public function action_add($id = null)

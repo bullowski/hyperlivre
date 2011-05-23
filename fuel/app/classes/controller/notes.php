@@ -145,7 +145,7 @@ class Controller_Notes extends Controller_Accessbook
 
 		$this->title = 'Add Note';
 		$this->data['form'] = $form;
-		$this->data['concepts'] = Model_Concept::find('all');
+		//$this->data['concepts'] = Model_Concept::find('all');
 
 //TODO add concepts lik
 //
@@ -248,7 +248,7 @@ class Controller_Notes extends Controller_Accessbook
 		$this->title = 'Edit Note - '.$note->title;
 		$this->data['note'] = $note;
 		$this->data['form'] = $form;
-		$this->data['concepts'] = Model_Concept::find('all');
+		//$this->data['concepts'] = Model_Concept::find('all');
 
 ///////////
 //

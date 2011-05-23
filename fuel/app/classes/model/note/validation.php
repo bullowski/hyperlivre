@@ -44,6 +44,7 @@ class Model_Note_Validation
 				array(	'id' => 'body',
 						'type' => 'textarea',
 						'value' => !empty($note) ? $note->body : ''),
+
 				static::get_common_rules('body'));
 
 		$form->add('publish', null,

@@ -2,10 +2,67 @@
 <!DOCTYPE html>
 <html>
     <head>
+
+		<?php //echo Asset::css(array('screen.css')); ?>
+
+
+
+	<!-- test grid --->
+
+
+		<?php echo Asset::css(array('screen.css', /*'grid.css'*/)); ?>
+		<?php echo Asset::js(array(
+					'jquery-1.6.1.min.js',
+					'jquery-ui-1.8.12.custom.min.js',
+					'blockui.js',
+					'grid.js'
+		)); ?>
+		<script>
+         $(function() {
+		 	// grid with row numbers and inline editing
+				$(".grid.all").loadGrid({
+					nRowsShowing:10,
+					inlineEditing:true,
+					//stickyRows:false,
+					order_by : "id",
+					sort : "asc",
+					//maxLength:true,
+					//adding:true,
+					//deleting:true,
+					showRowNumbers:true,
+					//confirmDelete:"id",
+					//dateRange:"updated_at",
+					pagerLocation:"bottom",
+					//saveLocation: "both",
+					width:680
+
+					// columnOpts : {
+					//	published : {
+					//		editable : "select"
+					//	}
+					//}
+
+				});
+
+			// editable grid
+            //$(".grid.editable").loadGrid({
+			//	inlineEditing:true,
+			//	order_by : "id",
+   			//	sort : "asc"
+			//});
+
+         });
+      </script>
+
+
+
+	<!-- test grid --->
+
         <meta charset="utf-8">
         <title>HyperLivre<?php echo isset($title) ? ' - '.$title : null; ?></title>
-		<?php echo Asset::css(array('screen.css')); ?>
+
     </head>
+
     <body <?php echo isset($page_id) ? 'id="'.$page_id.'"' : ''; ?>>
         <div class="header">
             <!-- Menu -->
@@ -25,13 +82,13 @@
             <div class="logo">
 				<?php echo Asset::img(array('logo.gif')); ?>
             </div>
-            
+
             <?php if (Auth::check()): ?>
             <div class="active_book">
             	<?php
             		$user_id = Auth::instance()->get_user_id();
             		$user = Model_User::find($user_id[1], array('related' => array('active_book')));
-            		if ($user->active_book !== null) 
+            		if ($user->active_book !== null)
             			echo 'Active book: '.$user->active_book->title;
             		else
             			echo 'No active book selected.'
@@ -65,6 +122,14 @@
             <div id="main">
                 <!-- Main content -->
 				<?php echo $content; ?>
+				
+				<!-- test CKEditor -->
+				<?php
+					$editor = new CKEditor();
+					$editor->basePath = Uri::create('../fuel/packages/ckeditor/vendor/');
+					$editor->replaceAll();
+				?>
+				<!-- test CKEditor -->
             </div>
 
             <!-- Sidebar -->

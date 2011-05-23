@@ -29,14 +29,14 @@
 	</tr>
 </thead>
 <tbody>
-	<?php	
+	<?php
 	foreach ($users as $user): ?>
 	<tr>
 		<td><?php echo $user->id; ?></td>
         <td><?php echo Html::anchor('admin/users/edit/'.$user->id, $user->username); ?></td>
         <td><?php echo $user->email; ?></td>
         <td><?php echo Auth::group()->get_name($user->group); ?></td>
-        <td width="11%">
+        <td>
         	<?php echo Html::anchor('admin/users/delete/'.$user->id, 'Delete',
 							array('onclick' => "return confirm('Are you sure?')")); ?>
 		</td>
@@ -50,10 +50,10 @@
 <?php else: ?>
 <div class="message" id="notice">
 	<?php if (!$filter): ?>
-	<span>There are no users at all, which is quite outstanding because you're one! Right? 
+	<span>There are no users at all, which is quite outstanding because you're one! Right?
 	<?php echo Html::anchor('admin/users/add', 'Add a new User'); ?>.</span>
 	<?php else: ?>
-	<span>There are no <?php echo $filter; ?>. 
+	<span>There are no <?php echo $filter; ?>.
 		<?php echo Html::anchor('admin/users/add', 'Add a new User'); ?>.</span>
 	<?php endif; ?>
 </div>
