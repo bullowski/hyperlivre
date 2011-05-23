@@ -8,11 +8,11 @@ html {
 /* --    Wrapper    -- */
 /* ------------------- */
 body {
+	background: #e5e5e5 url(../img/bg.gif) top left repeat-x;
     width: 74%;
 	max-width: 960px;
 	min-width: 760px;
 	margin: 0 auto;
-	background: #FFF;
 	color: #444;
 	font-family: Helvetica, 'Lucida Grande', Arial, sans-serif;
     font: normal 75%;
@@ -141,10 +141,9 @@ caption {
 /* --    Header    -- */
 /* ------------------ */
 .header {
-	background-color: white;
+/*	background-color: white;*/
 	padding: 0px 20px 10px 20px;
 	overflow: hidden;
-    border-bottom: 1px solid #DDD;
 }
 
 	.header .logo > img {
@@ -153,13 +152,7 @@ caption {
 		padding: 10px 20px 10px 0;
 		margin-right: 20px;
     	float: left;
-/*		border-right: 1px solid #DDD;*/
-		/* background: #ccc; */
-	}
-
-    /* --  Navigation  -- */
-	/* ------------------ */
-	
+	}	
 	
 		
 /* --    Splash    -- */
@@ -174,15 +167,15 @@ caption {
 /* --    Content    -- */
 /* ------------------- */
 .content {
-	background: url('../img/edge_grad.gif') repeat-y left top;
+	background-color: white;
+	border: 1px solid #ddd;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	-moz-box-shadow: 3px 3px 8px #888;
+    -webkit-box-shadow: 3px 3px 8px #888;
+    box-shadow: 3px 3px 8px #888;
 	overflow: hidden;
-    
-    /*
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 10px;
-    margin-top: 10px;
-    */
 }        
     /* --     Main      -- */
 	/* ------------------- */
@@ -203,7 +196,6 @@ caption {
 .footer {
     margin: 6px auto;
     padding: 10px 0px;
-	border-top: 1px solid #014164;
 	overflow: hidden;
 }
 

@@ -105,7 +105,7 @@ body.about.header ul.nav li.about_tab a:focus {
     margin: 0;
     padding: 0;
     text-align: center;
-    background: rgba(0,44,71,0.4); /*#002C47; */
+    background: #002C47; /*rgba(0,44,71,0.4); */
     border-right: 1px solid #fff;
     
 /*    border-right: 1px solid #4D6975;*/
