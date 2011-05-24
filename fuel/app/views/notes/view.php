@@ -2,9 +2,9 @@
 
 <h4>by <?php echo $note->creator->username; ?></h4>
 <p>
-	<?php echo 'Status : '.Model_Note::status_name($note->status); ?></br>
+	<?php echo 'Status : '.Model_Note::status_name($note->status); ?><br />
 	<span class="timestamps">
-	<?php echo 'Created at : '.Date::factory($note->created_at); ?></br>
+	<?php echo 'Created at : '.Date::factory($note->created_at); ?><br />
 	<?php echo 'Updated at : '.Date::factory($note->updated_at); ?>
 	</span>
 </p>
@@ -39,7 +39,7 @@
 					?>
 				</h4>
 				<span class="timestamps">
-				<?php echo 'Created at : '.Date::factory($comment->created_at); ?></br>
+				<?php echo 'Created at : '.Date::factory($comment->created_at); ?><br />
 				<?php echo 'Updated at : '.Date::factory($comment->updated_at); ?>
 				</span>
 

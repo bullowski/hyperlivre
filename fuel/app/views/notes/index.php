@@ -51,7 +51,7 @@
 
 
 <?php if (count($notes) > 0): ?>
-<table>
+<table class="index">
 <thead>
 	<tr>
 		<th>Creator</th>

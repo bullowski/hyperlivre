@@ -20,13 +20,13 @@
             </ul>
 
             <div class="logo">
-				<?php echo Asset::img(array('admin/admin-logo.gif')); ?>
+				<?php echo Html::anchor('admin/dashboard',Asset::img(array('admin/admin-logo.gif'))); ?>
             </div>
 
 			<?php if (Auth::check()): ?>
             <div id="active_book">
             	<ul>
-            		<li><?php echo '<strong>Active book<strong>'; ?></li>
+            		<li><?php echo '<strong>Active book</strong>'; ?></li>
             		<li>
             	<?php
             		$user_id = Auth::instance()->get_user_id();
@@ -34,8 +34,7 @@
             		if ($user->active_book !== null)
             			echo Html::anchor('books/view/'.$user->active_book->id, $user->active_book->title);
             		else
-            			echo Html::anchor('books/index/','No active book selected.</em>');
-            			'books/view/'
+            			echo Html::anchor('books/index/','<em>No active book selected.</em>');
             	?></li>
             	</ul>
             </div>
@@ -67,6 +66,12 @@
             <div id="main">
                 <!-- Main content -->
 				<?php echo $content; ?>
+				<!-- test CKEditor -->
+				<?php
+					$editor = new CKEditor();
+					$editor->basePath = Uri::create('../fuel/packages/ckeditor/vendor/');
+					$editor->replaceAll();
+				?> <!-- test CKEditor -->
             </div>
             
         </div>

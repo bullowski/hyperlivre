@@ -29,6 +29,9 @@ CKEDITOR.editorConfig = function( config )
 		['Image','Table','Smiley','SpecialChar','HorizontalRule','PageBreak'],
         
     ];
+   
+    config.skin = 'kama';
+    
 	//config.stylesSet = 'my_styles:custom_styles.js';
 	//config.filebrowserBrowseUrl : '/ckfinder/ckfinder.html',
     //config.filebrowserImageBrowseUrl : '/ckfinder/ckfinder.html?Type=Images',

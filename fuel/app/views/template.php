@@ -84,15 +84,14 @@
 			<?php if (Auth::check()): ?>
 				<div id="active_book">
 					<ul>
-						<li><?php echo '<strong>Active book<strong>'; ?></li>
+						<li><?php echo '<strong>Active book</strong>'; ?></li>
 						<li><?php
 						$user_id = Auth::instance()->get_user_id();
 						$user = Model_User::find($user_id[1], array('related' => array('active_book')));
 						if ($user->active_book !== null)
 							echo Html::anchor('books/view/'.$user->active_book->id, $user->active_book->title);
 						else
-							echo Html::anchor('books/index/', 'No active book selected.</em>');
-						'books/view/'
+							echo Html::anchor('books/index/', '<em>No active book selected.</em>');
 						?></li>
 					</ul>
 				</div>
@@ -136,12 +135,16 @@
 
 		<div class="content">
 
-			<div id="main"><!-- Main content --> <?php echo $content; ?> <!-- test CKEditor -->
+			<!-- Main content --> 
+			<div id="main">
+				<?php echo $content; ?> 
+				<!-- test CKEditor -->
 				<?php
-				$editor = new CKEditor();
-				$editor->basePath = Uri::create('../fuel/packages/ckeditor/vendor/');
-				$editor->replaceAll();
-				?> <!-- test CKEditor --></div>
+					$editor = new CKEditor();
+					$editor->basePath = Uri::create('../fuel/packages/ckeditor/vendor/');
+					$editor->replaceAll();
+				?> <!-- test CKEditor -->
+			</div>
 
 		</div>
 

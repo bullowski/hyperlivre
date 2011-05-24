@@ -1,11 +1,12 @@
 /*-----------------------------------------------------------------------*/
-	/*----						General elements						 ----*/
-	/*-----------------------------------------------------------------------*/
+/*----						General elements						 ----*/
+/*-----------------------------------------------------------------------*/
 html {
 	height: 100%;
 }
 
-/* --    Wrapper    -- */ /* ------------------- */
+/* --    Wrapper    -- */ 
+/* ------------------- */
 body {
 	background: #e5e5e5 url(../img/bg.gif) top left repeat-x;
 	width: 74%;
@@ -19,7 +20,8 @@ body {
 	text-align: left;
 }
 
-/* --    Headings   -- */ /* ------------------- */
+/* --    Headings   -- */ 
+/* ------------------- */
 h1,h2,h3,h4,h5,h6 {
 	color: #444;
 	font-weight: normal;
@@ -54,7 +56,8 @@ h6 {
 	font-size: 1em;
 }
 
-/* --      Links    -- */ /* ------------------- */
+/* --      Links    -- */ 
+/* ------------------- */
 a,a:visited {
 	color: #456;
 	text-decoration: none;
@@ -65,7 +68,8 @@ a:hover,a:focus {
 	text-decoration: underline;
 }
 
-/* -- Text elements -- */ /* ------------------- */
+/* -- Text elements -- */ 
+/* ------------------- */
 p { /* margin: 10px 30px;
     padding: 0px 6px 0px 6px; */
 	
@@ -97,7 +101,8 @@ pre,code,tt {
 	font-family: monospace;
 }
 
-/* --     Lists     -- */ /* ------------------- */
+/* --     Lists     -- */ 
+/* ------------------- */
 li ul,li ol {
 	margin-left: 1.5em;
 }
@@ -127,20 +132,21 @@ dd {
 	margin-left: 1.5em;
 }
 
-/* --    Tables     -- */ /* ------------------- */
-table {
+/* --    Tables     -- */ 
+/* ------------------- */
+table.index {
 	margin-bottom: 1.4em;
 	width: 100%;
 	border: 1px solid #ccc;
 	border-collapse: separate;
 }
 
-table tbody tr td,table thead tr th {
+table.index tbody tr td, table.index thead tr th {
 	padding: 5px;
 	text-align: left;
 }
 
-table thead tr th {
+table.index thead tr th {
 	background: #eee; /* #C3D9FF; */
 	font-weight: bold;
 	border-top: 1px solid #fff;
@@ -148,36 +154,37 @@ table thead tr th {
 	border-bottom: 1px solid #ccc;
 }
 
-table tbody tr td {
+table.index tbody tr td {
 	border-right: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 }
 
-table tbody tr td:first-child {
+table.index tbody tr td:first-child {
 	background: #fff;
 }
 
-table tbody tr td:last-child,table thead tr th:last-child {
+table.index tbody tr td:last-child, table.index thead tr th:last-child {
 	border-right: none;
 }
 
-table tbody tr:last-child td {
+table.index tbody tr:last-child td {
 	border-bottom: none;
 }
 
-table tfoot {
+table.index tfoot {
 	font-style: italic;
 }
 
-caption {
+.index caption {
 	padding: 4px 10px 4px 5px;
 	background: #EEE;
 }
 
 /*-----------------------------------------------------------------------*/
-	/*----			Page Layout & Content specific styles				 ----*/
-	/*-----------------------------------------------------------------------*/
-	/* --    Header    -- */ /* ------------------ */
+/*----			Page Layout & Content specific styles				 ----*/
+/*-----------------------------------------------------------------------*/
+/* --    Header    -- */ 
+/* ------------------ */
 .header { /*	background-color: white;*/
 	padding: 0px 20px 10px 20px;
 	overflow: hidden;
@@ -197,17 +204,16 @@ caption {
 	float: left;
 }
 
-
-
-
-/* --    Splash    -- */ /* ------------------- */
+/* --    Splash    -- */ 
+/* ------------------- */
 #splash {
 	background: green; /*FIXME*/ /* padding-top: 32px; */
 	padding-top: 2px;
 	overflow: hidden;
 }
 
-/* --    Content    -- */ /* ------------------- */
+/* --    Content    -- */ 
+/* ------------------- */
 .content {
 	background-color: white;
 	border: 1px solid #ddd;
@@ -220,7 +226,8 @@ caption {
 	overflow: hidden;
 }
 
-/* --     Main      -- */ /* ------------------- */
+/* --     Main      -- */ 
+/* ------------------- */
 .content div#main {
 	width: 95%;
 	/* width: 650px; */
@@ -234,7 +241,8 @@ caption {
 	border-left: 4px solid #014164;
 }
 
-/* --     Footer    -- */ /* ------------------- */
+/* --     Footer    -- */ 
+/* ------------------- */
 .footer {
 	margin: 6px auto;
 	padding: 10px 0px;
@@ -251,7 +259,8 @@ caption {
 	padding-left: 10px;
 }
 
-/* --    Messages   -- */ /* ------------------- */
+/* --    Messages   -- */ 
+/* ------------------- */
 .messages {
 	padding: 10px 20px;
 	margin: 4px 2%;
@@ -307,8 +316,8 @@ caption {
 	border: 1px solid #CECECE; /*#A8A8A8;*/
 }
 
-/* --     Forms     -- */ /* ------------------- */
-	/* ------------------ FIXME */
+/* --     Forms     -- */ 
+/* ------------------- */
 .content div#main form {
 	width: 80%;
 	margin: 10px 30px;
@@ -381,10 +390,9 @@ em.validation-info {
 	color: #760000;
 }
 
-/* --------------------------------- FIXME */
-	/*-----------------------------------------------------------------------*/
-	/*----			Additional styles for drag and drop					 ----*/
-	/*-----------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------*/
+/*----			Additional styles for drag and drop					 ----*/
+/*-----------------------------------------------------------------------*/
 .handle {
 	cursor: move;
 	margin-bottom: 0.2em;
