@@ -27,7 +27,7 @@ class Controller_Notes extends Controller_Accessbook
 		}
 
 		//redirect if the filter value is not valid
-		if ($filter === 'draft' ||
+		if (($filter === 'draft' && $author_id === 'all') ||
 				($filter !== 'all' && !key_exists($filter, Model_Note::$status_values)))
 		{
 			Request::show_404();
