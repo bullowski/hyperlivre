@@ -86,15 +86,20 @@
             </div>
 
             <?php if (Auth::check()): ?>
-            <div class="active_book">
+            <div id="active_book">
+            	<ul>
+            		<li><?php echo '<strong>Active book<strong>'; ?></li>
+            		<li>
             	<?php
             		$user_id = Auth::instance()->get_user_id();
             		$user = Model_User::find($user_id[1], array('related' => array('active_book')));
             		if ($user->active_book !== null)
-            			echo 'Active book: '.$user->active_book->title;
+            			echo Html::anchor('books/view/'.$user->active_book->id, $user->active_book->title);
             		else
-            			echo 'No active book selected.'
-            	?>
+            			echo Html::anchor('books/index/','No active book selected.</em>');
+            			'books/view/'
+            	?></li>
+            	</ul>
             </div>
             
             <!-- Statements -->
