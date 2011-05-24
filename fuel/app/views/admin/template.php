@@ -20,7 +20,7 @@
             </ul>
 
             <div class="logo">
-				<?php echo Asset::img(array('admin/admin-logo.gif')); ?>
+				<?php echo Html::anchor('admin/dashboard',Asset::img(array('admin/admin-logo.gif'))); ?>
             </div>
 
 			<?php if (Auth::check()): ?>
@@ -35,7 +35,6 @@
             			echo Html::anchor('books/view/'.$user->active_book->id, $user->active_book->title);
             		else
             			echo Html::anchor('books/index/','No active book selected.</em>');
-            			'books/view/'
             	?></li>
             	</ul>
             </div>
