@@ -197,28 +197,10 @@ class Controller_Books extends Controller_Access
 		}
 
 		//shortcut to change the status on the fly
-		if ($status !== null && key_exists($status, Model_Book::$status_values))
+		if ($book !== null && $status !== null
+				&& key_exists($status, Model_Book::$status_values))
 		{
-			if ($status === Model_Book::status_name('archive'))
-			{
-				return $this->action_delete($id, true);
-			}
-			elseif ($status === Model_Book::status_name('hidden'))
-			{
-				//TODO unsign all users...
-			}
-
-			$book->status = Model_Book::$status_values[$status];
-			if ($book->save())
-			{
-				Session::set_flash('success', 'Status '.$status.' was assigned to the book'.
-						$book->title.' (#'.$book->id.')');
-				Response::redirect('books');
-			}
-			else
-			{
-				Session::set_flash('error', 'Something went wrong, please try again!');
-			}
+			$this->change_status($book, $status);
 		}
 
 		$form = Model_Book_Validation::edit($book);
@@ -226,7 +208,9 @@ class Controller_Books extends Controller_Access
         {
 			$book->title = $form->validated('title');
 			$book->description = $form->validated('description');
-			$book->status = $form->validated('status');
+
+			$this->change_status($book,
+					Model_Book::status_name($form->validated('status')));
 
         	$selected_users = $form->validated('user');
 			if (is_string($selected_users))
@@ -291,6 +275,41 @@ class Controller_Books extends Controller_Access
 		}
 
 		Response::redirect('books');
+	}
+
+
+	private function change_status($book = null, $status = null)
+	{
+		if ($status === 'archive')
+		{
+			return $this->action_delete($id, true);
+		}
+		elseif ($status === 'hidden')
+		{
+			$driver = $this->user_group[0];
+			foreach ($book->active_users as $user)
+			{
+				if (!Auth::acl()->has_access(
+						array('books', array('view_hidden')),
+						array($driver, $user->group)))
+				{
+					unset($book->active_users[$user->id]);
+				}
+			}
+		}
+
+		$book->status = Model_Book::$status_values[$status];
+		if ($book->save())
+		{
+			Session::set_flash('success', 'Status '.$status.' was assigned to the book'.
+					$book->title.' (#'.$book->id.')');
+			Response::redirect('books');
+		}
+		else
+		{
+			Session::set_flash('error', 'Something went wrong, please try again!');
+		}
+
 	}
 
 }
