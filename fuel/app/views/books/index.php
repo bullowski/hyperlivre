@@ -28,7 +28,7 @@
 </div>
 
 <?php if (count($books) > 0): ?>
-<table>
+<table class="index">
 <thead>
 	<tr>
 		<th>Creator</th>

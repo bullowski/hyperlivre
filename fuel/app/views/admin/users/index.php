@@ -17,7 +17,7 @@
 </div>
 
 <?php if ($total_users > 0): ?>
-<table>
+<table class="index">
 <thead>
 	<tr>
 		<th>Id</th>

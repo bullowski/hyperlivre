@@ -66,6 +66,12 @@
             <div id="main">
                 <!-- Main content -->
 				<?php echo $content; ?>
+				<!-- test CKEditor -->
+				<?php
+					$editor = new CKEditor();
+					$editor->basePath = Uri::create('../fuel/packages/ckeditor/vendor/');
+					$editor->replaceAll();
+				?> <!-- test CKEditor -->
             </div>
             
         </div>

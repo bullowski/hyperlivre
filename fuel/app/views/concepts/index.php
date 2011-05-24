@@ -8,7 +8,7 @@
 </div>
 
 <?php if (count($concepts) > 0): ?>
-<table>
+<table class="index">
 <thead>
 	<tr>
 		<th>Creator</th>
