@@ -1,6 +1,5 @@
 <h2>Book list</h2>
 <p>Manage books and their status.</p>
-<p>//todo modify view app/views/admin/books.php</p>
 
 <?php if (in_array('add', $user_rights)) : ?>
 <div class="options">

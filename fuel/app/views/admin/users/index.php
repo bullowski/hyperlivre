@@ -1,6 +1,5 @@
 <h2>Users List</h2>
 <p>Manage users and their rights.</p>
-<p>//todo modify view app/views/admin/users.php</p>
 
 <div class="options">
 	<div class="option"><?php echo Html::anchor('admin/users/add', 'Add an User'); ?></div>
@@ -12,9 +11,9 @@
 	&middot;
 	<?php echo Html::anchor('admin/users/index/Users', 'Users'); ?>
 	&middot;
-	<?php echo Html::anchor('admin/users/index/Administrators', 'Administrators'); ?>
-	&middot;
 	<?php echo Html::anchor('admin/users/index/Moderators', 'Moderators'); ?>
+	&middot;
+	<?php echo Html::anchor('admin/users/index/Administrators', 'Administrators'); ?>
 </div>
 
 <?php if ($total_users > 0): ?>
