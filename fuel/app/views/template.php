@@ -68,6 +68,7 @@
             <!-- Menu -->
 			<?php if (Auth::check()): ?>
 			<ul class="menu">
+				<li><?php echo Html::anchor('home/dashboard', __('dashboard')); ?></li>
 				<li><?php echo Html::anchor('books', __('books')); ?></li>
 				<li><?php echo Html::anchor('concepts', __('concepts')); ?></li>
 				<li><?php echo Html::anchor('notes', __('notes')); ?></li>
@@ -105,12 +106,20 @@
             <!-- Statements -->
 			<div class="statement_generator">
 				<p>statements goes there... </p> 
-				<p><input> <select name="group">
-						<option value="0">Define...</option>
-						<option value="1">Exemple</option>
-						<option value="2">Implementation</option>
-						<option value="3">Illsutration</option>
-						<option value="4">Definition</option> <input> <button>ok</button></p>
+				<ul>
+					<li><input></li> 
+					<li>
+						<select name="group">
+							<option value="0">Define...</option>
+							<option value="1">Exemple</option>
+							<option value="2">Implementation</option>
+							<option value="3">Illsutration</option>
+							<option value="4">Definition</option> 
+						</select>
+					</li>
+					<li><input></li> 
+					<li><button>ok</button></li>
+				</ul>
 			</div>
             <?php endif; ?>
 

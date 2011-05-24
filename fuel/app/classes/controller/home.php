@@ -34,9 +34,22 @@ class Controller_Home extends Controller_Template {
             if (Auth::instance()
 					->login(	$form->validated('username'),
 								$form->validated('password')))
-            {
-				Session::set_flash('user', 'Welcome back, '. $form->validated('username').' !');
-                Response::redirect('admin/dashboard');
+			{
+            	Session::set_flash('user', 'Welcome back, '. $form->validated('username').' !');
+            	
+            	//change the template if the user is an admin
+            	$user_groups = Auth::instance()->get_groups();
+            	$this->user_group = $user_groups[0];
+				if (Auth::acl()->has_access(
+						array('admin', array('view', 'add', 'edit', 'delete')),
+						$this->user_group))
+				{
+					Response::redirect('admin/dashboard');
+				}
+				else
+				{
+					Response::redirect('user/dashboard');
+				}                
             }
 			else
 			{
