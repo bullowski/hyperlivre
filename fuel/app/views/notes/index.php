@@ -1,6 +1,6 @@
 <h2>Listing notes</h2>
 
-<?php if (in_array('add', $user_rights)) : ?>
+<?php if (in_array('add', $user_rights) && ($active_book_status != 'archive')) : ?>
 <div class="options">
 	<div class="option">
 		<?php echo Html::anchor('notes/add', 'Add a new Note'); ?>

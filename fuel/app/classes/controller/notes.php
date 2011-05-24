@@ -50,6 +50,7 @@ class Controller_Notes extends Controller_Accessbook
 				$this->active_book_id, $author_id, $filter, $exclude_filter,
 				Pagination::$offset, Pagination::$per_page);;
 		$this->data['user_rights'] = $this->user_rights;
+		$this->data['active_book_status'] = $this->active_book_status;
     }
 
 	public function action_view($id)
