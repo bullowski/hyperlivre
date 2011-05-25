@@ -109,4 +109,6 @@
     </div>
   </div>
 
+  <div id="shade"></div>
+  
 </div> <!-- end of slider -->

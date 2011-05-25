@@ -232,7 +232,7 @@
     overflow-x: hidden;
     position: relative;
     clear: left;
-    background: #FFF url(../img/content_pane_gradient.gif) repeat-x scroll left bottom;
+    background: #FFF url(../img/slider/content_pane_bg.gif) repeat-x scroll left bottom;
 }
 
 #slider div.scroll_container div.panel {
@@ -242,7 +242,7 @@
 }
 
 #slider div#shade {
-    background: #E5E5E5 url(../img/shade.jpg) no-repeat 0 0;
+    background: #E5E5E5 url(../img/slider/shade.png) no-repeat 0 0;
     height: 50px;
 }
 
