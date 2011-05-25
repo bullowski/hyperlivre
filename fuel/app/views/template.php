@@ -3,6 +3,9 @@
 <html>
 	<head>
 
+
+
+	
 		<?php //echo Asset::css(array('screen.css')); ?>
 
 
@@ -19,6 +22,14 @@
 				  'grid.js' */
 		));
 		?>
+		
+		
+		<script type="text/javascript"> 
+      		$(document).ready( function() {
+        		$('.message').delay(3000).fadeOut();
+      		});
+    	</script>
+		
 		<script>
 			/*$(function() {
 					// grid with row numbers and inline editing
@@ -115,6 +126,8 @@
 					</ul>
 				</div>
 			<?php endif; ?>
+
+
 
 			<!-- Messages <?php //if (Session::get_flash()):  ?>
 			<!--<div class="messages">-->

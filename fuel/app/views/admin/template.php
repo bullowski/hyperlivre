@@ -3,10 +3,18 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
+		<meta charset="utf-8">
         <title>HyperLivre<?php echo isset($title) ? ' - '.$title : null; ?></title>
+		
 		<?php echo Asset::css(array('screen.css')); ?>
+		<?php echo Asset::js(array('jquery-1.6.1.min.js')); ?>
+		<script type="text/javascript"> 
+      		$(document).ready( function() {
+        		$('.message').delay(3000).fadeOut();
+      		});
+    	</script>
     </head>
+	
     <body <?php echo isset($page_id) ? 'id="'.$page_id.'"' : ''; ?>>
         <div class="header">
             <!-- Menu -->
