@@ -87,3 +87,26 @@
 	</div>
 	<div class="clear"></div>
 <?php endif; ?>
+
+
+<!-- Books slider -->
+<div id="slider">
+
+  <ul class="navigation">
+    <li><a href="#book1">Book1</a></li>
+    <li><a href="#book2">Book2</a></li>
+    <li><a href="#book3">Books3</a></li>
+  </ul>
+
+  <!-- element with overflow applied -->
+  <div class="scroll">
+    <!-- the element that will be scrolled during the effect -->
+    <div class="scroll_container">
+      <!-- our individual book panels -->
+      <div class="panel" id="book1"> ... </div>
+      <div class="panel" id="book2"> ... </div>
+      <div class="panel" id="book3"> ... </div>
+    </div>
+  </div>
+
+</div> <!-- end of slider -->

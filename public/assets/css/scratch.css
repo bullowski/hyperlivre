@@ -175,14 +175,14 @@
 	margin: 0;
 	overflow: hidden;
 	display: inline;
-	
+
 	border-radius: 5px 5px 5px 5px;
 	-moz-border-radius: 5px 5px 5px 5px;
 	-webkit-border-radius: 5px 5px 5px 5px;
-	
+
 	padding: 0px 3px;
 	background: #002C47;
-	
+
 	background-image: -moz-linear-gradient(top, #014164, #002C47);
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #014164),
 		color-stop(1, #002C47) );
@@ -190,8 +190,8 @@
 		'#014164', EndColorStr = '#002C47' );
 	-ms-filter:
 		"progid:DXImageTransform.Microsoft.gradient(startColorStr='#014164', EndColorStr='#002C47')";
-	
-	box-shadow: 1px 1px 3px #888;	
+
+	box-shadow: 1px 1px 3px #888;
 	-moz-box-shadow: 1px 1px 3px #888;
 	-webkit-box-shadow: 1px 1px 3px #888;
 }
@@ -214,4 +214,82 @@
 	-moz-border-radius: 0 5px 5px 0;
 	-webkit-border-radius: 0 5px 5px 0;
 	border-radius: 0 5px 5px 0;
+}
+
+/*-------------------*/
+/*   Slider (books)  */
+/*-------------------*/
+#slider {
+    width: 620px;
+    margin: 0 auto;
+    position: relative;
+}
+
+#slider div.scroll {
+    height: 250px;
+    width: 620px;
+    overflow: auto;
+    overflow-x: hidden;
+    position: relative;
+    clear: left;
+    background: #FFF url(../img/content_pane_gradient.gif) repeat-x scroll left bottom;
+}
+
+#slider div.scroll_container div.panel {
+    padding: 20px;
+    height: 210px;
+    width: 580px;
+}
+
+#slider div#shade {
+    background: #E5E5E5 url(../img/shade.jpg) no-repeat 0 0;
+    height: 50px;
+}
+
+#slider ul.navigation {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-bottom: 9px;
+}
+
+#slider ul.navigation li {
+    display: inline;
+    margin-right: 10px;
+}
+
+#slider ul.navigation a {
+    padding: 10px;
+    color: #000;
+    text-decoration: none;
+}
+
+#slider ul.navigation a:hover {
+    background-color: #f6f6f6;
+}
+
+#slider ul.navigation a.selected {
+    background-color: #fff;
+}
+
+#slider ul.navigation a:focus {
+    outline: none;
+}
+
+#slider .scroll_buttons {
+    position: absolute;
+    top: 150px;
+    cursor: pointer;
+}
+
+#slider .scroll_buttons.left {
+    left: -20px;
+}
+
+#slider .scroll_buttons.right {
+    right: -20px;
+}
+
+.hide {
+    display: none;
 }
