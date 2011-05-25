@@ -19,7 +19,8 @@
 			'jquery-1.6.1.min.js',
 			'jquery.scrollTo-1.4.2-min.js',
 			'jquery.localscroll-1.2.7-min.js',
-			'jquery.serialScroll-1.2.2-min.js'
+			'jquery.serialScroll-1.2.2-min.js',
+			'slider.js'
 				/* 'jquery-ui-1.8.12.custom.min.js',
 				  'blockui.js',
 				  'grid.js' */
