@@ -48,7 +48,8 @@ class Controller_Notes extends Controller_Accessbook
 		$this->data['filter'] = $filter;
 		$this->data['notes'] =  Model_Note::get_filtered_notes_by_author(
 				$this->active_book_id, $author_id, $filter, $exclude_filter,
-				Pagination::$offset, Pagination::$per_page);;
+				Pagination::$offset, Pagination::$per_page);
+		
 		$this->data['user_rights'] = $this->user_rights;
     }
 
