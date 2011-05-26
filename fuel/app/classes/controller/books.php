@@ -33,11 +33,21 @@ class Controller_Books extends Controller_Access
 			'current_page' => $current_page,
         ));
 
+		$books = Model_Book::get_filtered_books(
+				$filter, $exclude_filter, Pagination::$offset, Pagination::$per_page);
+
+		$forms = array();
+		foreach ($books as $id => $book)
+		{
+			$forms[$id] = $this->build_view_form($book);
+		}
+
 		$this->title = 'Books Index';
 		$this->data['filter'] = $filter;
-		$this->data['books'] =  Model_Book::get_filtered_books(
-				$filter, $exclude_filter, Pagination::$offset, Pagination::$per_page);;
+		$this->data['books'] = $books;
 		$this->data['user_rights'] = $this->user_rights;
+		$this->data['forms'] = $forms;
+		$this->data['hidden_books_access'] = $hidden_books_access;
 	}
 
 	public function action_view($id) {
@@ -55,14 +65,23 @@ class Controller_Books extends Controller_Access
 			Request::show_404();
 		}
 
+		$form = $this->build_view_form($book);
+
+		$this->title = 'View Book - '.$book->title;
+		$this->data['book'] = $book;
+		$this->data['form'] = $form;
+	}
+
+	public function build_view_form($book)
+	{
 		$user = Model_User::find($this->user_id);
-		$form = Fieldset::factory('view_book');
+		$form = Fieldset::factory('view_book'.$book->id);
 		Config::load('auth', true);
 
 		$area = 'user';
 		if (Auth::acl()->has_access(array('admin', array('view')), $this->user_group))
 		{
-			if ($id !== $user->active_book_id)
+			if ($book->id !== $user->active_book_id)
 			{
 				$form->add('activate', null,
 						array(	'type' => 'submit',
@@ -86,7 +105,7 @@ class Controller_Books extends Controller_Access
 									'value' => 'Un-subscribe'));
 			}
 
-			if ($id !== $user->active_book_id)
+			if ($book->id !== $user->active_book_id)
 			{
 				$form->add('activate', null,
 						array(	'type' => 'submit',
@@ -109,7 +128,7 @@ class Controller_Books extends Controller_Access
 		}
 		else if (in_array($book, Model_Book::get_filtered_books('archive')))
 		{
-			if ($id !== $user->active_book_id)
+			if ($book->id !== $user->active_book_id)
 			{
 				$form->add('activate', null,
 						array(	'type' => 'submit',
@@ -123,10 +142,10 @@ class Controller_Books extends Controller_Access
 			}
 		}
 
-		$this->title = $book->title;
-		$this->data['book'] = $book;
-		$this->data['form'] = $form->build($area.'/dashboard/assign_book/'.$book->id);
+		return $form->build($area.'/dashboard/assign_book/'.$book->id);
+
 	}
+
 
 	public function action_add()
 	{
