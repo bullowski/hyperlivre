@@ -22,11 +22,13 @@ $(document).ready(function () {
     // collect the scroll object, at the same time apply the hidden overflow
     // to remove the default scrollbars that will appear
     var $scroll = $('#slider .scroll').css('overflow', 'hidden');
-
-    // apply our left + right buttons
-    $scroll
-        .before('<img class="scroll_buttons left" src="../img/slider/scroll_left.png" />')
-        .after('<img class="scroll_buttons right" src="../img/slider/scroll_right.png" />');
+	
+	//show our left + right buttons
+	$('.scroll_buttons').removeClass('hide');
+    
+    //$scroll
+    //    .before('<img class="scroll_buttons left" src="./assets/img/slider/scroll_left.png" />')
+    //    .after('<img class="scroll_buttons right" src="./assets/img/slider/scroll_right.png" />');
 
     // handle nav selection
     function selectNav() {

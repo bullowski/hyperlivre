@@ -27,7 +27,8 @@
 	<?php echo Html::anchor('books/index/archive', 'Archive'); ?>
 </div>
 
-<?php if (count($books) > 0): ?>
+<?php if ($hidden_books_access) : ?>
+<?php if (count($books) > 0) : ?>
 <table class="index">
 <thead>
 	<tr>
@@ -50,7 +51,7 @@
 	foreach ($books as $book): ?>
 	<tr>
         <td><?php echo ($book->creator !== null) ? $book->creator->username : 'anonymous'; ?></td>
-        <td><?php echo Html::anchor('books/view/'.$book->id, $book->title) ?></td>
+        <td><?php echo Html::anchor('books/view/'.$book->id, $book->title); ?></td>
         <td><?php echo Str::truncate($book->description,30); ?></td>
         <td><?php echo Model_Book::status_name($book->status); ?></td>
         <td><?php echo Date::factory($book->created_at); ?></td>
@@ -87,28 +88,74 @@
 	</div>
 	<div class="clear"></div>
 <?php endif; ?>
+<?php endif; ?>
+
+<?php if (!$hidden_books_access): ?>
+<?php if (count($books) > 0): ?>
+
+	<!-- Books slider -->
+	<div id="slider">
+
+	  <ul class="navigation">
+		  <?php foreach ($books as $book): ?>
+			<li>
+				<?php echo Html::anchor(Uri::current().'#book'.$book->id, Str::truncate($book->title, 16)); ?>
+			</li>
+		  <?php endforeach; ?>
+	  </ul>
 
 
-<!-- Books slider -->
-<div id="slider">
+	  <?php
+			if (count($books) > 1)
+			{
+				echo Asset::img(array('slider/scroll_left.png'),
+						array ('class' => 'scroll_buttons left hide'));
+			}
+	  ?>
 
-  <ul class="navigation">
-    <li><a href="#book1">Book1</a></li>
-    <li><a href="#book2">Book2</a></li>
-    <li><a href="#book3">Books3</a></li>
-  </ul>
+	  <!-- element with overflow applied -->
+	  <div class="scroll">
+		<!-- element that will be scrolled during the effect -->
+		<div class="scroll_container">
+		  <!-- individual book panels -->
+		  <?php foreach ($books as $book): ?>
+			<div class="panel" <?php echo 'id="book'.$book->id.'"'; ?>>
+				<h3 class="title"><?php echo $book->title; ?></h3>
+				<div class="book_info">
+					by <em class="author">
+							<?php echo ($book->creator !== null) ? $book->creator->username : 'anonymous'; ?>
+					</em><br/>
+					<?php echo 'Status : '.Model_Book::status_name($book->status); ?><br/>
+					<?php echo 'Created at : '.Date::factory($book->created_at); ?><br/>
+					<?php echo 'Updated at : '.Date::factory($book->updated_at); ?>
+				</div>
+<!--				<div class="clear"></div>-->
+				<p class="description">
+					<?php echo Str::truncate($book->description, 320); ?>
+					<?php echo Html::anchor('books/view/'.$book->id, '[More...]', array('class' => 'more')); ?>
+				</p>
+				<div class="book_options">
+					<?php echo $forms[$book->id]; ?>
+				</div>
+			</div>
+		  <?php endforeach; ?>
+		</div>
+	  </div>
 
-  <!-- element with overflow applied -->
-  <div class="scroll">
-    <!-- the element that will be scrolled during the effect -->
-    <div class="scroll_container">
-      <!-- our individual book panels -->
-      <div class="panel" id="book1"> ... </div>
-      <div class="panel" id="book2"> ... </div>
-      <div class="panel" id="book3"> ... </div>
-    </div>
-  </div>
+	    <?php
+			if (count($books) > 1)
+			{
+				echo Asset::img(array('slider/scroll_right.png'),
+						array ('class' => 'scroll_buttons right hide'));
+			}
+		?>
 
-  <div id="shade"></div>
-  
-</div> <!-- end of slider -->
+	  <div id="shade"></div>
+
+	</div> <!-- end of slider -->
+<?php else: ?>
+	<div>
+		<span>No books to show.</span>
+	</div>
+<?php endif; ?>
+<?php endif; ?>
