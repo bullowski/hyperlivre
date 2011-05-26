@@ -320,7 +320,7 @@ class Controller_Books extends Controller_Access
 		$book->status = Model_Book::$status_values[$status];
 		if ($book->save())
 		{
-			Session::set_flash('success', 'Status '.$status.' was assigned to the book'.
+			Session::set_flash('success', 'Status '.$status.' was assigned to the book '.
 					$book->title.' (#'.$book->id.')');
 			Response::redirect('books');
 		}
