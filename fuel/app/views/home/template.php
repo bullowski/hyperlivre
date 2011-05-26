@@ -9,30 +9,30 @@
     </head>
     <body <?php echo 'id="'.$content->page_id.'"'; ?>>
         <div class="header">
-            <!-- Menu -->            
+            <!-- Menu -->
             <?php if (isset($content->method) && ($content->method == 'index')):?>
             	<div id="login_home">
-					<?php 
+					<?php
 						echo Form::open('home/index');
-						
+
 						echo '<div id="labels">';
-						
+
 						echo Form::label('Username', 'username');
 						echo Form::label('Password', 'password');
-						
+
 						echo '</div><div id="fields">';
-						
-						echo Form::input('username', 
-							isset($content->username)? $content->username: '', 
+
+						echo Form::input('username',
+							isset($content->username)? $content->username: '',
 							$attributes = array('id' => 'username')
-						);						
-						echo Form::password('password', 
-							'', 
+						);
+						echo Form::password('password',
+							'',
 							$attributes = array('id' => 'password')
 						);
-						
+
 						echo '</div>';
-						
+
 						if (count($content->form->validation()->errors()) > 0)
 						{
 							echo '<span>Invalid login!</span>';
@@ -41,12 +41,17 @@
 						{
 							echo '<br />';
 						}
-						
+
 						echo '<div id="commands">';
 						echo Form::submit('submit', 'Login', $attributes = array());
-						echo Form::submit('subscribe', 'Sign up', $attributes = array());
+
+						Config::load('auth');
+						if (Config::get('auth.signup', false))
+						{
+							echo Form::submit('subscribe', 'Sign up', $attributes = array());
+						}
 						echo '</div>';
-						echo Form::close(); 
+						echo Form::close();
 					?>
 				</div>
 			<?php endif;?>
@@ -73,7 +78,7 @@
 <!--				</div>-->
 			<?php //endif; ?>
         </div>
-        
+
 
         <div class="content">
 

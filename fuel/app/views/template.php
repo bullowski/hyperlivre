@@ -3,78 +3,24 @@
 <html>
 	<head>
 
-
-
-	
-		<?php //echo Asset::css(array('screen.css')); ?>
-
-
-
-		<!-- test grid --->
-
-
-		<?php echo Asset::css(array('screen.css', /* 'grid.css' */)); ?>
+		<?php echo Asset::css(array('screen.css')); ?>
 		<?php
 		echo Asset::js(array(
 			'jquery-1.6.1.min.js',
 			'jquery.scrollTo-1.4.2-min.js',
 			'jquery.localscroll-1.2.7-min.js',
 			'jquery.serialScroll-1.2.2-min.js',
-			'slider.js'
-				/* 'jquery-ui-1.8.12.custom.min.js',
-				  'blockui.js',
-				  'grid.js' */
-		));
+			'slider.js'));
 		?>
-		
-		
-		<script type="text/javascript"> 
+
+
+		<script type="text/javascript">
       		$(document).ready( function() {
         		$('.message').delay(3000).fadeOut();
       		});
     	</script>
+
 		
-		<script>
-			/*$(function() {
-					// grid with row numbers and inline editing
-						$(".grid.all").loadGrid({
-							nRowsShowing:10,
-							inlineEditing:true,
-							//stickyRows:false,
-							order_by : "id",
-							sort : "asc",
-							//maxLength:true,
-							//adding:true,
-							//deleting:true,
-							showRowNumbers:true,
-							//confirmDelete:"id",
-							//dateRange:"updated_at",
-							pagerLocation:"bottom",
-							//saveLocation: "both",
-							width:680
-
-							// columnOpts : {
-							//	published : {
-							//		editable : "select"
-							//	}
-							//}
-
-						});
-
-					// editable grid
-					//$(".grid.editable").loadGrid({
-					//	inlineEditing:true,
-					//	order_by : "id",
-					//	sort : "asc"
-					//});
-
-				 });*/
-		</script>
-
-
-
-		<!-- test grid --->
-
 		<meta charset="utf-8">
 		<title>HyperLivre<?php echo isset($title) ? ' - '.$title : null; ?></title>
 
@@ -135,7 +81,7 @@
 
 			<!-- Messages <?php //if (Session::get_flash()):  ?>
 			<!--<div class="messages">-->
-			
+
 			<?php if (Session::get_flash('success')): ?>
 				<div class="message success"><?php echo Session::get_flash('success'); ?></div>
 			<?php elseif (Session::get_flash('notice')): ?>
@@ -152,9 +98,9 @@
 
 		<div class="content">
 
-			<!-- Main content --> 
+			<!-- Main content -->
 			<div id="main">
-				<?php echo $content; ?> 
+				<?php echo $content; ?>
 				<!-- test CKEditor -->
 				<?php
 					$editor = new CKEditor();
