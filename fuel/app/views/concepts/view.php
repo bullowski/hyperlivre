@@ -1,10 +1,14 @@
-<h2><?php echo $title ?></h2>
+<h2 class = "model_title"><?php echo $title ?></h2>
 
-<p><?php echo $concept->title; ?></p>
-<p>
-	<?php echo 'Created at : '.Date::factory($concept->created_at); ?></br>
-	<?php echo 'Updated at : '.Date::factory($concept->updated_at); ?>
-</p>
-<h3>Concept description :</h3>
+<div class = "model_informations">
+	<ul class="dates">
+		<li><?php echo 'Created at : '.Date::factory($concept->created_at); ?></li>
+		<li><?php echo 'Updated at : '.Date::factory($concept->updated_at); ?></li>
+	</ul>
+</div>
 
-<p><?php echo $concept->description; ?></p>
+
+<div class="model_body">
+	<h3>Concept description :</h3>	
+	<p><?php echo $concept->description; ?></p>
+</div>

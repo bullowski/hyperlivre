@@ -123,7 +123,7 @@ class Controller_Books extends Controller_Access
 			}
 		}
 
-		$this->title = 'View Book - '.$book->title;
+		$this->title = $book->title;
 		$this->data['book'] = $book;
 		$this->data['form'] = $form->build($area.'/dashboard/assign_book/'.$book->id);
 	}

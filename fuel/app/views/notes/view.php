@@ -1,15 +1,16 @@
-<h2><?php echo $title ?></h2>
+<h2 class="model_title"><?php echo $title ?></h2>
 
-<h4>by <?php echo $note->creator->username; ?></h4>
-<p>
-	<?php echo 'Status : '.Model_Note::status_name($note->status); ?><br />
-	<span class="timestamps">
-	<?php echo 'Created at : '.Date::factory($note->created_at); ?><br />
-	<?php echo 'Updated at : '.Date::factory($note->updated_at); ?>
-	</span>
-</p>
+<div class = "model_informations">
+	<ul class="dates">
+		<li><?php echo 'Created at : '.Date::factory($note->created_at); ?></li>
+		<li><?php echo 'Updated at : '.Date::factory($note->updated_at); ?></li>
+	</ul><ul class="stats">
+		<li>by <strong><?php echo $note->creator->username; ?></strong></li>
+		<li><?php echo 'Status : <em>'.Model_Note::status_name($note->status).'</em>'; ?></li>
+	</ul>
+</div>
 
-<p><?php echo $note->body; ?></p>
+<div class="model_body"><?php echo $note->body; ?></div>
 
 <?php if (in_array('add_comments', $user_rights)) : ?>
 	<div class="options">
@@ -43,7 +44,7 @@
 				<?php echo 'Updated at : '.Date::factory($comment->updated_at); ?>
 				</span>
 
-				<p><?php echo $comment->comment; ?></p>
+				<div class="comment_body"><?php echo $comment->comment; ?></div>
 
 				<?php
 					if (in_array('edit_comments', $user_rights) || in_array('delete_comments', $user_rights))

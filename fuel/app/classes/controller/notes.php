@@ -73,7 +73,7 @@ class Controller_Notes extends Controller_Accessbook
 			Request::show_404();
 		}
 
-		$this->title = 'View Note - '.$note->title;
+		$this->title = $note->title;
 		$this->data['note'] = $note;
 		$this->data['user_id'] = $this->user_id;
 

@@ -27,7 +27,7 @@ class Controller_Concepts extends Controller_Accessbook
 			Request::show_404();
 		}
 
-		$this->title = 'View Concept - '.$concept->title;
+		$this->title = $concept->title;
 		$this->data['concept'] = $concept;
 	}
 
